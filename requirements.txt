@@ -1,0 +1,7 @@
+flask
+flask-admin
+flask-migrate
+flask-login
+flask-sqlalchemy
+Flask-BabelEx
+Flask-User
