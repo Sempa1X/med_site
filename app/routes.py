@@ -7,3 +7,6 @@ from app import application as main
 @main.route('/', methods=['POST', 'GET'])
 def sing_in():
     return render_template('main/panel.html')
+
+
+    
