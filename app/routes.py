@@ -12,32 +12,32 @@ from .database import User, Doctor, Patient,\
 
 @main.route('/', methods=['POST', 'GET'])
 def sing_in():  
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('panel'))
+    if current_user.is_authenticated:
+        return redirect(url_for('panel'))
 
     if request.method == 'POST':
         login = request.form.get('login')
         password = request.form.get('password')
-        # user = User.query.filter_by(login=login).first()
-        # doc = Doctor.query.filter_by(login=login).first()
+        user = User.query.filter_by(login=login).first()
+        doc = Doctor.query.filter_by(login=login).first()
         
-        # if not user.check_password(password):
-        #     #login_user(user)
-        #     return redirect(url_for('panel'))
+        if not user.check_password(password):
+            #login_user(user)
+            return redirect(url_for('panel'))
 
-        # elif not doc.check_password(password):
-        #     #login_user(doc)
-        #     return redirect(url_for('panel'))
+        elif not doc.check_password(password):
+            #login_user(doc)
+            return redirect(url_for('panel'))
         
-        # # else:    
-        # #     flash('Invalid username or password')
-        # #     return redirect(url_for('sing_in'))
+        # else:    
+        #     flash('Invalid username or password')
+        #     return redirect(url_for('sing_in'))
         
 
-        # next_page = request.args.get('next')
-        # if not next_page or url_parse(next_page).netloc != '':
-        #     next_page = url_for('index')
-        # return redirect(next_page)      
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)      
     return render_template('sing_in.html')
 
 
