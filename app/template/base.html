@@ -5,6 +5,8 @@
         {% include 'links.html' %}
         <title>{% block title %}{% endblock %}</title>
 	</head>
-		{% include 'leftside.html' %}
+	<body id="body-pd">
+		{% block content %} {% endblock %}
 		{% include 'scripts.html' %}
+	</body>
 </html>

@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% include 'style.html' %}
+{% block title %}DEV{% endblock %}
 
-{% block title %}Панель управления{% endblock %}
-
-{% block body %}
+{% block content %}
+{% include 'leftside.html' %}
 	<!--Container Main start-->
     <div class="height-100 bg-light">
-        <h4>Main Components</h4>
+        <h2>Все остальное тут</h4>
     </div>
     <!--Container Main end-->
 {% endblock %}

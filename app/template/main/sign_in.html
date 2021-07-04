@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}DEV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-sm-center">
+
+<div class="text-center">
+    <form>
+        <div class="form-group">
+            <label for="inputLogin">Имя</label>
+            <input name="login" type="login" class="form-control" id="inputLogin" placeholder="shpex">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="inputPassword">Пароль</label>
+            <input type="password" class="form-control" id="inputPassword" placeholder="***">
+        </div>
+        <br>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-outline-dark waves-effect">Войти</button>
+        </div>
+    </form>
+</div>
+</div>
+
+{% endblock %}

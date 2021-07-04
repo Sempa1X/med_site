@@ -1,3 +1,4 @@
+import re
 from flask import redirect, render_template,\
     url_for, flash, request
 from flask_login import login_required, current_user,\
@@ -10,10 +11,9 @@ from .database import User, Doctor, Patient,\
 
 
 @main.route('/', methods=['POST', 'GET'])
-def sing_in():  
+def sign_in():  
     if current_user.is_authenticated:
         return redirect(url_for('panel'))
-
     if request.method == 'POST':
         login = "login"
         password = "password"
@@ -21,11 +21,11 @@ def sing_in():
 
         if user is None or not user.check_password(password):
             flash('Invalid username or password')
-            return redirect(url_for('sing_in'))
+            return redirect(url_for('sign_in'))
         login_user(user)
         return redirect(url_for('panel'))
             
-    return render_template('main/panel.html')
+    return render_template('main/sign_in.html')
 
 
 @main.route('/panel', methods=['POST', 'GET'])
