@@ -8,7 +8,7 @@ from config import Config
 
 
 # init application
-application = Flask(__name__, template_folder='template', static_folder='src')
+application = Flask(__name__, template_folder='template')
 application.config.from_object(Config)
 
 # init database

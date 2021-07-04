@@ -3,11 +3,8 @@
 	<head>
         {% include 'meta.html' %}
         {% include 'links.html' %}
-		{% block add_css %}{% endblock %}
-        {% include 'scripts.html' %}
-		{% block add_script %}{% endblock %}
-        <title>{% block title %}{% endblock %} - Doctorum.Lite</title>
+        <title>{% block title %}{% endblock %}</title>
 	</head>
-	{% include 'leftside.html' %}
-	{% block body %}{% endblock %}
+		{% include 'leftside.html' %}
+		{% include 'scripts.html' %}
 </html>

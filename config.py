@@ -9,6 +9,7 @@ class Config(object):
     FLASK_APP = 'run.py' 
     DEBUG = True 
     SECRET_KEY = "Secrets" 
+    SEND_FILE_MAX_AGE_DEFAULT = 0
     #UPLOAD_FOLDER = base_dir + '\\app\\src\\img\\downloads'
 
     # DataBase settings
