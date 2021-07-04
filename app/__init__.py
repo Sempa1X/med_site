@@ -20,11 +20,5 @@ migrate = Migrate(application, db)
 # auth.login_view('login.login')
 # auth.login_message = "Авторизуйтесь, перед просмотром страницы!"
 
-# BluePrint
-from app.login.login import bp_login
-
-
-application.register_blueprint(bp_login, url_prefix='/')
-
 
 from app import application, db #, auth
