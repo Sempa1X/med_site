@@ -11,6 +11,7 @@ from .database import User
 
 @application.route('/', methods=['POST', 'GET'])
 def sing_in():  
+<<<<<<< HEAD
     if current_user.is_authenticated:
         return redirect(url_for('panel'))
 
@@ -33,6 +34,12 @@ def sing_in():
 
 
 @application.route('/panel', methods=['POST', 'GET'])
+=======
+    return render_template("main/sign_in.html")
+
+
+@main.route('/panel', methods=['POST', 'GET'])
+>>>>>>> 06fc7776d89d77ba25a4f719106c86992043e0dc
 @login_required
 def panel():
     return 'panel'
