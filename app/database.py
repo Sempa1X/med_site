@@ -2,11 +2,12 @@
 from datetime import datetime
 
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_manager, UserMixin
 
 from app import db
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50))
@@ -39,7 +40,7 @@ class User(db.Model):
         return check_password_hash(self.passwd, password)
 
 
-class Doctor(db.Model):
+class Doctor(db.Model, UserMixin):
     __tablename__ = "doctors"
     id = db.Column(db.Integer, primary_key=True)
 
@@ -146,4 +147,5 @@ class Pregnant(db.Model):
     estimated_birthday = db.Column(db.String(255))
     num_fetus = db.Column(db.Integer)
     phone5 = db.Column(db.String(255))
+
 
