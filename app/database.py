@@ -57,3 +57,7 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
+class Doctor(db.Model, User):
+    __tablename__ = "doctors"
+    division = db.Model
