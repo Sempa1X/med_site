@@ -16,9 +16,9 @@ db = SQLAlchemy(application)
 migrate = Migrate(application, db)
 
 # init and setting auth
-# auth = LoginManager(application)
-# auth.login_view('login.login')
-# auth.login_message = "Авторизуйтесь, перед просмотром страницы!"
+login = LoginManager(application)
+login.login_view = 'sing_in'
+login.login_message = "Авторизуйтесь, перед просмотром страницы!"
 
 
 from app import database, routes
