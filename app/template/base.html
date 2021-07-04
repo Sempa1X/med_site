@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+        {% include 'meta.html' %}
+        {% include 'links.html' %}
+		{% block add_css %}{% endblock %}
+        {% include 'scripts.html' %}
+		{% block add_script %}{% endblock %}
+        <title>{% block title %}{% endblock %} - Doctorum.Lite</title>
+	</head>
+	{% block body %}{% endblock %}
+</html>
