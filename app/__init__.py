@@ -8,7 +8,7 @@ from config import Config
 
 
 # init application
-application = Flask(__name__, static_folder='src')
+application = Flask(__name__, template_folder='template', static_folder='src')
 application.config.from_object(Config)
 
 # init database
@@ -21,4 +21,4 @@ migrate = Migrate(application, db)
 # auth.login_message = "Авторизуйтесь, перед просмотром страницы!"
 
 
-from app import application, db #, auth
+from app import database, routes
