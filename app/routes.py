@@ -30,6 +30,7 @@ def before_request():
 
 @application.route('/todo', methods=['GET', 'POST'])
 def todo():
+    print(current_user.role)
     reasons = []
     reasons_get = [
         {
