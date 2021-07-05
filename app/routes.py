@@ -73,7 +73,7 @@ def todo():
 def login():
     # если пользователя авторизован, перенаправить на главную
     if current_user.is_authenticated:
-        return redirect(url_for('login'))
+        return redirect(url_for('todo'))
     # если на отправили форму
     if request.method == 'POST':
         # получаем пользователя
@@ -84,8 +84,8 @@ def login():
             return redirect(url_for('login'))
         # авторизуем пользователя и перенаправляем на главную
         login_user(user)
-        return redirect(url_for('login'))
-    return render_template('login.html', title='Золотые ручки - Авторизация')
+        return redirect(url_for('todo'))
+    return render_template('main/login.html', title='Золотые ручки - Авторизация')
 
 
 # обработка станицы регистрации
