@@ -40,6 +40,7 @@ class User(UserMixin, db.Model):
     isDev =  db.Column(db.Boolean, default=0)
     division = db.Column(db.String(255))
     certificate = db.Column(db.String(255))
+    role = db.Column(db.String(255), default='doctor')
     
     coment = db.Column(db.String(255))
     
@@ -141,6 +142,14 @@ class Pregnant(db.Model):
 class Record(db.Model):
     __tablename__ = 'records'
     id = db.Column(db.Integer, primary_key=True)
+
+    doctor = db.Column(db.String(255))
+    pacient = db.Column(db.String(255))
+    time = db.Column(db.String(255))
+    trust = db.Column(db.String(255))
+    isActive = db.Column(db.Boolean, default=True)
+    reason = db.Column(db.String(255))
+
 
 
 # создаем класс для настройки админ панели

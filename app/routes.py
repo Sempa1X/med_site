@@ -11,6 +11,7 @@ from flask import redirect, url_for,\
 from flask_login import current_user, login_required, \
     login_user, logout_user
 from sqlalchemy import or_, and_
+from werkzeug.urls import url_parse
 
 # импортируем свои файлы
 from app import application, db, login
@@ -64,9 +65,8 @@ def todo():
             i['time'] = time.split(' ')[1] 
             reasons.append(i)
 
-    
+    return render_template('main/doctor_reception.html', reasons=reasons)
 
-    return render_template('todo.html', reasons=reasons)
 
 # обработка станицы авторизации 
 @application.route('/', methods=['GET', 'POST'])
@@ -84,7 +84,10 @@ def login():
             return redirect(url_for('login'))
         # авторизуем пользователя и перенаправляем на главную
         login_user(user)
-        return redirect(url_for('todo'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('main/login.html', title='Золотые ручки - Авторизация')
 
 
