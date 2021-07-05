@@ -14,7 +14,7 @@ from sqlalchemy import or_, and_
 
 # импортируем свои файлы
 from app import application, db, login
-from app.models import User
+from app.models import User, Record
 
 # переменные 
 
@@ -30,44 +30,7 @@ def before_request():
 @application.route('/todo', methods=['GET', 'POST'])
 def todo():
     print(current_user.role)
-    reasons = []
-    reasons_get = [
-        {
-            'doctor': 'Абубакаров Абубакар Абубакович ',
-            'pacient': 'Ебалай Александр Негрович',
-            'time': datetime.now().strftime('%Y.%m.%d %H:%M'),
-            'trust':'Четкий чел',
-            'isActive': True,
-            'reason': 'Хуй в глаз попал',
-        },
-        {
-            'doctor': 'Зубенко Михаил Петрович ',
-            'pacient': 'Ебалай Александр Негрович',
-            'time':datetime.now().strftime('%Y.%m.%d %H:%M'), #'12.12.2012 12:12',
-            'trust':'Не четкий чел',
-            'isActive': True,
-            'reason': 'Хуй в глаз попал',
-        }, 
-        {
-            'doctor': 'Мамонт Ебучий Далдалушелович ',
-            'pacient': 'Ебалай Александр Негрович',
-            'time': datetime.now().strftime('%Y.%m.%d %H:%M'),
-            'trust':'Четкий чел',
-            'isActive': False,
-            'reason': 'Хуй в глаз попал',
-        }
-    ]
-
-    for i in reasons_get:
-        time = str(i['time'])
-        if i['isActive'] and time.split(' ')[0] ==  datetime.now().strftime('%Y.%m.%d'):
-            print(time, time[0], time[1])
-            i['time'] = time.split(' ')[1] 
-            reasons.append(i)
-
-    
-
-    return render_template('todo.html', reasons=reasons)
+    return render_template('todo.html')
 
 # обработка станицы авторизации 
 @application.route('/', methods=['GET', 'POST'])
@@ -139,9 +102,18 @@ def record():
 @application.route("/reception", methods=['GET', 'POST'])
 @login_required
 def reception():
-    aa = [["Трунов Д.И.", "18:00", 0, "разделе 1.10.32"], ["Азанов И.Е.", "19:00", 1, "Here we create a responsive variation, starting with vertically stacked buttons until the md breakpoint, where .d-md-block replaces the .d-grid class, thus nullifying the gap-2 utility. Resize your browser to see them change."]]
-    # aa = ""
-    return render_template("main/doctor_reception.html", receptions=aa)
+    reasons = Record.query.all()
+    if request.method == 'POST':
+        calendar = request.form.get('calendar')
+        radio_false = request.form.get('radio_false')
+        radio_true = request.form.get('radio_true')
+
+        if radio_false == None and radio_true == None:
+            flash('Вы не выбрали пришел пациент или нет!')    
+        
+        print(calendar, radio_false, radio_true)
+
+    return render_template("main/doctor_reception.html", receptions=reasons)
 
 
 

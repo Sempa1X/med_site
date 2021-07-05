@@ -14,6 +14,18 @@ from flask import redirect, url_for
 from app import db, login
 
 
+date = datetime.now().strftime('%d.%m.%Y')
+date_user = datetime.now().strftime('%d.%m.%Y %H:%M')
+time = datetime.now().strftime('%H:%M')
+
+print(date, date_user, time)
+
+date_format = datetime.strptime(date, '%d.%m.%Y')
+date_user_format = datetime.strptime(date_user, '%d.%m.%Y %H:%M')
+time_format = datetime.strptime(time, '%H:%M')
+
+print(date_format, date_user_format, time_format)
+
 # создаем таблицу пользователь
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -34,7 +46,7 @@ class User(UserMixin, db.Model):
     phone2 = db.Column(db.String(50))
     email = db.Column(db.String(50))
     
-    reg_time = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    reg_time = db.Column(db.DateTime, index=True, default=date_user_format)
     isActive = db.Column(db.String(50)) # Работаспособность
     isAdmin = db.Column(db.Boolean, default=0)
     isDev =  db.Column(db.Boolean, default=0)
@@ -145,8 +157,9 @@ class Record(db.Model):
 
     doctor = db.Column(db.String(255))
     pacient = db.Column(db.String(255))
-    time = db.Column(db.String(255))
-    trust = db.Column(db.String(255))
+    date = db.Column(db.DateTime, index=True, default=time_format)
+    time = db.Column(db.DateTime, index=True, default=date_format)
+    trust = db.Column(db.Boolean, default=True)
     isActive = db.Column(db.Boolean, default=True)
     reason = db.Column(db.String(255))
 
