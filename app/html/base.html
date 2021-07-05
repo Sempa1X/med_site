@@ -25,53 +25,6 @@
 </head>
 <body>
 
-<!-- NavBar -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark black scrolling-navbar">
-    <div class="container">
-        <a href="#" class="navbar-brand waves-effect"> <strong class="yellow-text">Золотые</strong> <strong class="red-text">руки</strong></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
-    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigration"> <span class="navbar-toggler-icon"></span> </button>
-    
-    <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link waves-effect">Товары</a></li>
-            <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link waves-effect">О нас</a></li>
-        {% if current_user.isAdmin %}
-        <li class="nav-item"><a href="{{ url_for('admin.index') }}" class="nav-link waves-effect">Админ панель</a></li>
-        <li class="nav-item"><a href="{{ url_for('add_prod') }}" class="nav-link waves-effect">Добавить товар</a></li>
-        {% endif %}
-        </ul>
-
-        <ul class="navbar-nav nav-flex-icons">
-            <li class="nav-item">
-                <a href="{{ url_for('backeted') }}" class="nav-link waves-effect"><span class="badge red z-depth-1 mr-1">{{ g.backet_item_count }}</span>
-                    <i class="fa fa-shopping-cart"></i> <span class="clearfix d-none d-sm-inline-block">В корзине</span> </a>
-            </li>
-
-            {% if current_user.is_anonymous %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login') }}">Авторизация</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('register') }}">Регистрация</a>
-            </li>
-            {% else %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user"></i> {{ current_user.username }}
-                </a>
-                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ url_for('profile', username=current_user.username) }}"><i class="fas fa-id-card"></i> Профиль</a>                    
-                    <a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Выход</a>
-                </div>
-            </li>
-      {% endif %}
-        </ul>
-    </div> <!-- collapse navbar-collapse -->
-
-    </div> <!-- container -->
-</nav>
 
 {% block content %}
 

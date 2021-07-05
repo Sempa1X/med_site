@@ -1,8 +1,8 @@
 # подключаем встроенные библиотеки
 from hashlib import md5
+from datetime import datetime
 
 # подключаем установленные библиотеки
-from sqlalchemy.dialects.sqlite import BLOB
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from flask_admin.contrib.sqla import ModelView
@@ -13,25 +13,35 @@ from flask import redirect, url_for
 # подключаем свои файлы
 from app import db, login
 
-# создаем таблицу продукт
-class Production(db.Model):
-    id = db.Column(db.Integer, primary_key=True, unique=True)
-    name = db.Column(db.String(50))
-    desc = db.Column(db.String(255))
-    count = db.Column(db.Integer)
-    price = db.Column(db.Integer)
-    photo = db.Column(db.String(255))
-    views = db.Column(db.Integer, default=0)
-    buy_count = db.Column(db.Integer, default=0)
-    
 
 # создаем таблицу пользователь
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     email = db.Column(db.String(255), unique=True)
     username = db.Column(db.String(255))
     password_hash = db.Column(db.String(255))
     isAdmin = db.Column(db.Boolean, default=False, nullable=False)
+
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    surname = db.Column(db.String(20))
+
+    sex = db.Column(db.Boolean, default=1)
+    birthday = db.Column(db.String(50))
+    
+    phone = db.Column(db.String(50))
+    phone2 = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+    
+    reg_time = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    isActive = db.Column(db.String(50)) # Работаспособность
+    isAdmin = db.Column(db.Boolean, default=0)
+    isDev =  db.Column(db.Boolean, default=0)
+    division = db.Column(db.String(255))
+    certificate = db.Column(db.String(255))
+    
+    coment = db.Column(db.String(255))
     
     # метод для установки пароля пользователю
     def set_password(self, password):
@@ -47,19 +57,86 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
-# создаем таблицу корзина
-class Backet(db.Model):
-    id = db.Column(db.Integer, primary_key=True, unique=True) 
-    uid = db.Column(db.Integer)
-    pid = db.Column(db.Integer)
+
+class Patient(db.Model):
+    __tablename__ = 'patients'
+    id = db.Column(db.Integer, primary_key=True)
+
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    surname = db.Column(db.String(20))
+
+    birthday = db.Column(db.String(50))
+
+    refer = db.Column(db.String(255))
+    pacient_record = db.Column(db.String(255))
+    
+    lr_f_name = db.Column(db.String(255))
+    lr_l_name = db.Column(db.String(255))
+    lr_surname = db.Column(db.String(255))
+
+    lr_pass_serial = db.Column(db.String(255))
+    lr_pass_num = db.Column(db.String(255))
+    lr_pass_date = db.Column(db.String(255))
+    lr_pass_issued = db.Column(db.String(255))
+    
+    address = db.Column(db.String(255))
+    trust_factor = db.Column(db.Boolean, default=True)
 
 
-    # метод для проверки
-    def check_backet(self, uid, pid):
-        if uid == self.uid and pid == self.pid:
-            return False
-        else:
-            return True
+class Child(db.Model):
+    __tablename__ = 'childs'
+    id = db.Column(db.Integer, primary_key=True)
+
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    surname = db.Column(db.String(20))
+
+    birthday = db.Column(db.String(50))
+    lr_status = db.Column(db.String(255))
+    phone4 = db.Column(db.String(255))
+
+    refer = db.Column(db.String(255))
+    pacient_record = db.Column(db.String(255))
+    
+    lr_f_name = db.Column(db.String(255))
+    lr_l_name = db.Column(db.String(255))
+    lr_surname = db.Column(db.String(255))
+
+    lr_pass_serial = db.Column(db.String(255))
+    lr_pass_num = db.Column(db.String(255))
+    lr_pass_date = db.Column(db.String(255))
+    lr_pass_issued = db.Column(db.String(255))
+    
+    address = db.Column(db.String(255))
+    trust_factor = db.Column(db.Boolean, default=True)
+
+
+
+class Pregnant(db.Model):
+    __tablename__ = 'pregnants'
+    id = db.Column(db.Integer, primary_key=True)
+
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    surname = db.Column(db.String(20))
+
+    refer = db.Column(db.String(255))
+    pacient_record = db.Column(db.String(255))
+
+    lr_pass_serial = db.Column(db.String(255))
+    lr_pass_num = db.Column(db.String(255))
+    lr_pass_date = db.Column(db.String(255))
+    lr_pass_issued = db.Column(db.String(255))
+    
+    address = db.Column(db.String(255))
+    trust_factor = db.Column(db.Boolean, default=True)
+
+    birthday = db.Column(db.String(50))
+    estimated_birthday = db.Column(db.String(255))
+    num_fetus = db.Column(db.Integer)
+    phone5 = db.Column(db.String(255))
+
 
 
 # создаем класс для настройки админ панели

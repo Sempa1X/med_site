@@ -23,13 +23,10 @@ login.login_view = "login"
 login.login_message = "Чтобы попасть на закрытые страницы, сначала авторизируйтесь!"
 
 # Работа с админкой
-from app.models import MyAdminView, MyIndexView,\
-    Production, User, Backet
+from app.models import MyAdminView, MyIndexView, User
 
-admin = Admin(application, name='Золотые руки', template_mode='bootstrap4', url='/', index_view=MyIndexView())
-admin.add_view(MyAdminView(Production, db.session, name="Товары"))
-admin.add_view(MyAdminView(Backet, db.session, name="Корзина"))
-admin.add_view(MyAdminView(User, db.session, name="Пользователи"))
+admin = Admin(application, name='medic', template_mode='bootstrap4', url='/', index_view=MyIndexView())
+admin.add_view(MyAdminView(User, db.session, name="Админы"))
 admin.add_link(MenuLink(name='Назад', url='/'))
 
 

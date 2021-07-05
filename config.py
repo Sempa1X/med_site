@@ -9,10 +9,10 @@ class Config(object):
     FLASK_APP = 'run.py' # устанавлеваем запускной файл
     DEBUG = True # Показывает ошибки
     SECRET_KEY = "Secrets" # устанавливаем секретный ключ
-    UPLOAD_FOLDER = basedir + '\\app\\src\\img\\downloads'
+    
     # DataBase settings
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' +\
-        os.path.join(basedir, 'shop.db') # Устанавливаем где создается база данных
+        os.path.join(basedir, 'medic.db') # Устанавливаем где создается база данных
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
 
