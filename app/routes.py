@@ -11,7 +11,6 @@ from flask import redirect, url_for,\
 from flask_login import current_user, login_required, \
     login_user, logout_user
 from sqlalchemy import or_, and_
-from werkzeug.urls import url_parse
 
 # импортируем свои файлы
 from app import application, db, login
@@ -66,8 +65,9 @@ def todo():
             i['time'] = time.split(' ')[1] 
             reasons.append(i)
 
-    return render_template('main/doctor_reception.html', reasons=reasons)
+    
 
+    return render_template('todo.html', reasons=reasons)
 
 # обработка станицы авторизации 
 @application.route('/', methods=['GET', 'POST'])
@@ -85,10 +85,7 @@ def login():
             return redirect(url_for('login'))
         # авторизуем пользователя и перенаправляем на главную
         login_user(user)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(next_page)
+        return redirect(url_for('todo'))
     return render_template('main/login.html', title='Золотые ручки - Авторизация')
 
 
@@ -120,21 +117,22 @@ def logout():
 
 
 @application.errorhandler(404)
+@login_required
 def error_404(error):
-    return render_template("main/404.html", error=error)
+    return render_template("main/404.html", error=error, user_role="doctor")
 
 
 
 @application.route("/panel", methods=['GET', 'POST'])
 @login_required
 def panel():
-    return render_template("main/panel.html", user_role='doctor')
+    return render_template("main/panel.html",)
 
 
 @application.route("/record", methods=['GET', 'POST'])
 @login_required
 def record():
-    return render_template("main/doctor_record.html", user_role='doctor')
+    return render_template("main/doctor_record.html")
 
 
 
@@ -142,7 +140,8 @@ def record():
 @login_required
 def reception():
     aa = [["Трунов Д.И.", "18:00", 0, "Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, 'consectetur', и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги 'de Finibus Bonorum et Malorum' ('О пределах добра и зла'), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum,, происходит от одной из строк в разделе 1.10.32"], ["Азанов И.Е.", "19:00", 1, "Пизда заместо члена"]]
-    return render_template("main/doctor_reception.html", user_role='doctor', receptions=aa)
+    # aa = ""
+    return render_template("main/doctor_reception.html", receptions=aa)
 
 
 
