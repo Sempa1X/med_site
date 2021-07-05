@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <section class="py-5 text-center container">
+        {% for reason in reasons %}
+            <p>{{ reason['doctor'] }}</p>
+            <p>{{ reason['pacient'] }}</p>
+            <p>{{ reason['time'] }}</p>
+            <p>{{ reason['trust'] }}</p>
+            <p>{{ reason['reason'] }}</p>
+            <hr><br>
+        {% endfor %}
+    </section>
+</div>
+ {% endblock %}

@@ -138,6 +138,10 @@ class Pregnant(db.Model):
     phone5 = db.Column(db.String(255))
 
 
+class Record(db.Model):
+    __tablename__ = 'records'
+    id = db.Column(db.Integer, primary_key=True)
+
 
 # создаем класс для настройки админ панели
 class MyAdminView(ModelView):

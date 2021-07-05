@@ -2,6 +2,7 @@
 Файл для логики путей сайта
 """
 # импортируем стандартные модули
+from datetime import datetime
 import os
 
 # импортируем установленные модули
@@ -26,6 +27,46 @@ def before_request():
     #     return redirect(url_for('login'))    
 
 
+@application.route('/todo', methods=['GET', 'POST'])
+def todo():
+    reasons = []
+    reasons_get = [
+        {
+            'doctor': 'Абубакаров Абубакар Абубакович ',
+            'pacient': 'Ебалай Александр Негрович',
+            'time': datetime.now().strftime('%Y.%m.%d %H:%M'),
+            'trust':'Четкий чел',
+            'isActive': True,
+            'reason': 'Хуй в глаз попал',
+        },
+        {
+            'doctor': 'Зубенко Михаил Петрович ',
+            'pacient': 'Ебалай Александр Негрович',
+            'time':datetime.now().strftime('%Y.%m.%d %H:%M'), #'12.12.2012 12:12',
+            'trust':'Не четкий чел',
+            'isActive': True,
+            'reason': 'Хуй в глаз попал',
+        }, 
+        {
+            'doctor': 'Мамонт Ебучий Далдалушелович ',
+            'pacient': 'Ебалай Александр Негрович',
+            'time': datetime.now().strftime('%Y.%m.%d %H:%M'),
+            'trust':'Четкий чел',
+            'isActive': False,
+            'reason': 'Хуй в глаз попал',
+        }
+    ]
+
+    for i in reasons_get:
+        time = str(i['time'])
+        if i['isActive'] and time.split(' ')[0] ==  datetime.now().strftime('%Y.%m.%d'):
+            print(time, time[0], time[1])
+            i['time'] = time.split(' ')[1] 
+            reasons.append(i)
+
+    
+
+    return render_template('todo.html', reasons=reasons)
 
 # обработка станицы авторизации 
 @application.route('/', methods=['GET', 'POST'])
