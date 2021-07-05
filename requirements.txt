@@ -1,7 +1,9 @@
-flask
+flask 
 flask-admin
-flask-migrate
 flask-login
+flask-migrate
 flask-sqlalchemy
-Flask-BabelEx
-Flask-User
+elasticsearch
+flask_wtf
+email_validator
+cloudipsp

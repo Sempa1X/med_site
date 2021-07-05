@@ -1,0 +1,8 @@
+html,body,header,#intro{
+    height: 100%;
+}
+
+#intro{
+    background: url('/src/img/bg.png') center;
+}
+
