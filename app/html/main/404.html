@@ -1,40 +1,22 @@
-<html lang="en">
-    <head>
-    <title>404</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="low price" />
-    <meta name="keywords" content="dev, telegram, bot, script" />
-    <meta name="author" content="@shpexx" />
-    
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/bootstrap.min.css') }} ">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/open-iconic-bootstrap.min.css') }} ">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/animate.css') }}  ">
-    
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/owl.carousel.min.css') }} ">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/owl.theme.default.min.css') }} ">
+{% extends 'base.html' %}
+{% include 'style.html' %}
+{% block title %}DEV{% endblock %}
 
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/icomoon.css') }} ">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/style.css') }} ">
-
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/ico">
-  </head>
-
-<body class="text-center">
-    <div class="container h-100">
-        <div class="row align-items-center h-100">
-            <div class="col-6 mx-auto">
-                <div class="jumbotron">
-                    <h1>404 Not Found</h1>
-                    <p class="lead">{{error}}</p>
-                    <a href="{{ url_for('index') }}"><button class="btn btn-info">Вернуться назад</button></a>
-                </div>
+{% block content %}
+{% include 'leftside.html' %}
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron">
+                <h1 class="text-center">404 Not Found</h1>
+                <p class="lead" align="justify">{{error}}</p>
+                <a href="{{ url_for('panel') }}">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary">Вернуться назад</button>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
-    
-    
-
-</body>
-</html>
+</div>
+{% endblock %}
