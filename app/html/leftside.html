@@ -7,7 +7,7 @@
         <nav class="nav">
             <div> 
                 <div class="nav_list">
-                    {% if user_role == 'doctor' %}
+                    {% if current_user.role == 'doctor' %}
                     <div class="nav_logo"> 
                         <i class='bx bx-bell-plus nav_logo-icon'></i>
                         <span class="nav_logo-name">Врач</span>
@@ -20,7 +20,7 @@
                         <i class='bx bx-bookmark-plus nav_icon'></i>
                         <span class="nav_name">Запись</span>
                     </a>
-                    {% elif user_role == 'admin' %}
+                    {% elif current_user.role == 'admin' %}
                     <a href="#" class="nav_logo"> 
                         <i class='bx bx-layer nav_logo-icon'></i>
                         <span class="nav_logo-name">Администратор</span>
@@ -29,7 +29,7 @@
                         <i class='bx bx-user nav_icon'></i>
                         <span class="nav_name">Пациенты</span>
                     </a>
-                    {% elif user_role == 'superadmin' %}
+                    {% elif current_user.role == 'superadmin' %}
                     <a href="#" class="nav_logo"> 
                         <i class='bx bx-layer nav_logo-icon'></i>
                         <span class="nav_logo-name">Гл. Администратор</span>
