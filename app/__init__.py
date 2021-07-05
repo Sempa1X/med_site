@@ -14,7 +14,7 @@ from flask_admin.menu import MenuLink
 
 # Устанавливаем значимые переменные которые
 # будут использоватся во всем проекте
-application = Flask(__name__, template_folder='html', static_folder='src')
+application = Flask(__name__, template_folder='html', static_folder='static')
 application.config.from_object(Config)
 db = SQLAlchemy(application)
 migrate = Migrate(application, db)
