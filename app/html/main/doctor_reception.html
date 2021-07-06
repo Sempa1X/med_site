@@ -19,18 +19,11 @@
                                 <input name="calendar" type="date" class="form-control" class="mydate" name="date" placeholder="Дата">
                             </div>
                             <br>
-                            {% for msg in get_flashed_messages() %}
-                                {% if msg == "Пациент пришел" %}
-                                    <div class="alert alert-success alert-dismissible" >
-                                        <strong>{{msg}}!</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% else %}
-                                    <div class="alert alert-primary alert-dismissible" >
-                                        <strong>{{msg}}!</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endif %}
+                            {% for category, msg in get_flashed_messages(with_categories=true) %}
+                                <div class="alert alert-{{ category }} alert-dismissible" >
+                                    <strong>{{ msg }}!</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                             {% endfor %}
                             <br>
                                 {% for i in receptions %}
