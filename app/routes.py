@@ -37,7 +37,7 @@ def todo():
 def login():
     # если пользователя авторизован, перенаправить на главную
     if current_user.is_authenticated:
-        return redirect(url_for('todo'))
+        return redirect(url_for('panel'))
     # если на отправили форму
     if request.method == 'POST':
         # получаем пользователя
@@ -48,7 +48,7 @@ def login():
             return redirect(url_for('login'))
         # авторизуем пользователя и перенаправляем на главную
         login_user(user)
-        return redirect(url_for('todo'))
+        return redirect(url_for('panel'))
     return render_template('main/login.html', title='Золотые ручки - Авторизация')
 
 
@@ -82,7 +82,7 @@ def logout():
 @application.errorhandler(404)
 @login_required
 def error_404(error):
-    return render_template("main/404.html", error=error, user_role="doctor")
+    return render_template("main/404.html", error=error)
 
 
 
@@ -105,13 +105,16 @@ def reception():
     reasons = Record.query.all()
     if request.method == 'POST':
         calendar = request.form.get('calendar')
-        radio_false = request.form.get('radio_false')
-        radio_true = request.form.get('radio_true')
+        radio = request.form.get('radioBTN')
 
-        if radio_false == None and radio_true == None:
-            flash('Вы не выбрали пришел пациент или нет!')    
+        if radio == None:
+            flash('Не выбрано действие')
+        elif radio == "option1":
+            flash('Пациент пришел')
+        elif radio == "option2":
+            flash('Пациент не пришел') 
         
-        print(calendar, radio_false, radio_true)
+        print(calendar, radio)
 
     return render_template("main/doctor_reception.html", receptions=reasons)
 

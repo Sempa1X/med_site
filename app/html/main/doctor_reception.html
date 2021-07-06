@@ -9,7 +9,6 @@
     <div class="container-sm">
         <div class="row">
             <form method="post" action="#">
-                <div class="col-md-12">
                     {% if receptions %}
                         <br>
                         <h2 class="text-center">Лист приема пациентов на сегодня</h4>
@@ -44,11 +43,11 @@
                                             <div class="col-4">
                                                 <div>
                                                     <div class="form-check form-check-inline">
-                                                        <input name="radio_true" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="True">
+                                                        <input name="radioBTN" class="form-check-input" type="radio" id="inlineRadio1" value="option1">
                                                         <label class="form-check-label">Пришел</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input name="radio_false" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="False">
+                                                        <input name="radioBTN" class="form-check-input" type="radio" id="inlineRadio2" value="option2">
                                                         <label class="form-check-label">Не пришел</label>
                                                     </div>
                                                     <button type="" name="btn-close" class="btn btn-dark"><i class='bx bx-message-alt-check nav_icon'></i></button>
@@ -70,18 +69,9 @@
                     {% else %}
                     <h2 class="text-center">На сегодня нет записей!</h2>
                     {% endif %}
-                </div>
             </form>
         </div>
     </div>
     <!--Container Main end-->
 {% endblock %}
 
-
-
-<!-- fds
-
-
-
-    fd
- -->
