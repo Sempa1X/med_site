@@ -20,7 +20,7 @@
                             </div>
                             <br>
                             {% for category, msg in get_flashed_messages(with_categories=true) %}
-                                <div class="alert alert-{{ category }} alert-dismissible" >
+                                <div class="alert alert-{{ category }} alert-dismissible">
                                     <strong>{{ msg }}!</strong>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
