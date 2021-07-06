@@ -20,10 +20,17 @@
                             </div>
                             <br>
                             {% for msg in get_flashed_messages() %}
-                                <div class="alert alert-warning alert-dismissible" >
-                                    <strong>{{msg}}!</strong> 
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
+                                {% if msg == "Пациент пришел" %}
+                                    <div class="alert alert-success alert-dismissible" >
+                                        <strong>{{msg}}!</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-primary alert-dismissible" >
+                                        <strong>{{msg}}!</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                             <br>
                                 {% for i in receptions %}

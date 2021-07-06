@@ -108,11 +108,11 @@ def reception():
         radio = request.form.get('radioBTN')
 
         if radio == None:
-            flash('Не выбрано действие')
+            flash('Не выбрано действие', "error")
         elif radio == "option1":
-            flash('Пациент пришел')
+            flash('Пациент пришел', "message")
         elif radio == "option2":
-            flash('Пациент не пришел') 
+            flash('Пациент не пришел', "message") 
         
         print(calendar, radio)
 
