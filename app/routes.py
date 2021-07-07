@@ -38,6 +38,8 @@ def record():
 @application.route("/reception", methods=['GET', 'POST'])
 @login_required
 def reception():
+    now = datetime.now()
+    current_date = now.strftime('%Y-%m-%d')
     reasons = Record.query.all()
     doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
     doc_id = []
@@ -46,14 +48,10 @@ def reception():
         doc_id.append(i.id)
     
     if request.method == 'POST' and "btn-select" in request.form:
-
-    #datetime.now().strftime('%d.%m.%Y'))
-    #datetime.now().strftime('%H:%M'))
         calendar = request.form.get('calendar')
         select_doc = request.form.get('select_doc')
         access_date = []
-        global access_recept
-        global access_recept2
+        time_ = []
 
         for i in doc_id:
             if select_doc == 'doctor_all':
@@ -62,9 +60,14 @@ def reception():
                     date_split = str(i.date)
                     if date_split.split(' ')[0] == calendar:
                         access_date.append(i.id)
-                for i in access_date:
-                    access_recept = Record.query.filter_by(id = i)
-                return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors)
+                        for o in access_date:
+                            access_recept = Record.query.filter_by(id = o)
+                            for e in access_recept:
+                                date_obj = str(e.time).split(' ')[1].rsplit(':', maxsplit=1)[0]
+                                print(date_obj)
+                                time_.append(date_obj)
+
+                return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors, time=time_, current_date=current_date)
 
             elif select_doc == f'doctor_{i}':
                 doctor = User.query.get(i)
@@ -73,9 +76,15 @@ def reception():
                     date_split = str(i.date)
                     if date_split.split(' ')[0] == calendar:
                         access_date.append(i.id)
-                for i in access_date:
-                    access_recept2 = Record.query.filter_by(id = i)
-                return render_template("main/doctor_reception.html", receptions=access_recept2, doctor=doctor, doctors=doctors)
+                        for o in access_date:
+                            access_recept2 = Record.query.filter_by(id = o)
+                            for e in access_recept2:
+                                date_obj = str(e.time).split(' ')[1].rsplit(':', maxsplit=1)[0]
+                                print(date_obj)
+                                time_.append(date_obj)
+
+                            
+                return render_template("main/doctor_reception.html", receptions=access_recept2, doctor=doctor, doctors=doctors, time=time_, current_date=current_date)
 
     if request.method == 'POST' and "btn-close" in request.form:
         radio = request.form.get('radioBTN')
@@ -87,16 +96,7 @@ def reception():
         elif radio == "option2":
             flash('Пациент не пришел', "primary") 
         
-
-
-    return render_template("main/doctor_reception.html", receptions=reasons, doctors=doctors)
-
-
-@application.route("/reception_post", methods=['POST'])
-@login_required
-def reception_post():
-    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
-    
+    return render_template("main/doctor_reception.html", receptions=reasons, doctors=doctors, current_date=current_date)
 
 
 # обработка станицы авторизации 
