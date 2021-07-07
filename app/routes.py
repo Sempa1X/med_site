@@ -27,17 +27,84 @@ def before_request():
     #     return redirect(url_for('login'))    
 
 
-@application.route('/todo', methods=['GET', 'POST'])
-def todo():
-    print(current_user.role)
-    return render_template('todo.html')
+
+@application.route("/record", methods=['GET', 'POST'])
+@login_required
+def record():
+    return render_template("main/doctor_record.html")
+
+
+
+@application.route("/reception", methods=['GET', 'POST'])
+@login_required
+def reception():
+    reasons = Record.query.all()
+    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
+    doc_id = []
+
+    for i in doctors:
+        doc_id.append(i.id)
+    
+    if request.method == 'POST' and "btn-select" in request.form:
+
+    #datetime.now().strftime('%d.%m.%Y'))
+    #datetime.now().strftime('%H:%M'))
+        calendar = request.form.get('calendar')
+        select_doc = request.form.get('select_doc')
+        access_date = []
+        global access_recept
+        global access_recept2
+
+        for i in doc_id:
+            if select_doc == 'doctor_all':
+                receptions = Record.query.all()
+                for i in receptions:
+                    date_split = str(i.date)
+                    if date_split.split(' ')[0] == calendar:
+                        access_date.append(i.id)
+                for i in access_date:
+                    access_recept = Record.query.filter_by(id = i)
+                return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors)
+
+            elif select_doc == f'doctor_{i}':
+                doctor = User.query.get(i)
+                receptions = Record.query.filter_by(doctor_id = i)
+                for i in receptions:
+                    date_split = str(i.date)
+                    if date_split.split(' ')[0] == calendar:
+                        access_date.append(i.id)
+                for i in access_date:
+                    access_recept2 = Record.query.filter_by(id = i)
+                return render_template("main/doctor_reception.html", receptions=access_recept2, doctor=doctor, doctors=doctors)
+
+    if request.method == 'POST' and "btn-close" in request.form:
+        radio = request.form.get('radioBTN')
+           
+        if radio == None:
+            flash('Не выбрано действие', "primary")
+        elif radio == "option1":
+            flash('Пациент пришел', "success")
+        elif radio == "option2":
+            flash('Пациент не пришел', "primary") 
+        
+
+
+    return render_template("main/doctor_reception.html", receptions=reasons, doctors=doctors)
+
+
+@application.route("/reception_post", methods=['POST'])
+@login_required
+def reception_post():
+    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
+    
+
 
 # обработка станицы авторизации 
 @application.route('/', methods=['GET', 'POST'])
 def login():
     # если пользователя авторизован, перенаправить на главную
     if current_user.is_authenticated:
-        return redirect(url_for('panel'))
+        return redirect(url_for('reception'))
     # если на отправили форму
     if request.method == 'POST':
         # получаем пользователя
@@ -48,7 +115,7 @@ def login():
             return redirect(url_for('login'))
         # авторизуем пользователя и перенаправляем на главную
         login_user(user)
-        return redirect(url_for('panel'))
+        return redirect(url_for('reception'))
     return render_template('main/login.html', title='Золотые ручки - Авторизация')
 
 
@@ -85,38 +152,6 @@ def error_404(error):
     return render_template("main/404.html", error=error)
 
 
-
-@application.route("/panel", methods=['GET', 'POST'])
-@login_required
-def panel():
-    return render_template("main/panel.html",)
-
-
-@application.route("/record", methods=['GET', 'POST'])
-@login_required
-def record():
-    return render_template("main/doctor_record.html")
-
-
-
-@application.route("/reception", methods=['GET', 'POST'])
-@login_required
-def reception():
-    reasons = Record.query.all()
-    if request.method == 'POST':
-        calendar = request.form.get('calendar')
-        radio = request.form.get('radioBTN')
-
-        if radio == None:
-            flash('Не выбрано действие', "primary")
-        elif radio == "option1":
-            flash('Пациент пришел', "success")
-        elif radio == "option2":
-            flash('Пациент не пришел', "primary") 
-        
-        print(calendar, radio)
-
-    return render_template("main/doctor_reception.html", receptions=reasons)
 
 
 
