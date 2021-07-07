@@ -14,7 +14,7 @@ from sqlalchemy import or_, and_
 
 # импортируем свои файлы
 from app import application, db, login
-from app.models import User, Record
+from app.models import User, Record, Patient
 
 # переменные 
 
@@ -31,7 +31,23 @@ def before_request():
 @application.route("/record", methods=['GET', 'POST'])
 @login_required
 def record():
-    return render_template("main/doctor_record.html")
+    isActive_form_choice = True
+    if request.method == 'POST' and 'btn_pacient_choice' in request.form:
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        surname = request.form.get('surname')
+        pacient_choice = request.form.get('pacient_choice')
+        birthday = request.form.get('date_birth')
+        how_thing = request.form.get('how_thing')
+        address = request.form.get('address')
+        isActive_form_choice = False
+
+        if pacient_choice == 'Ребенок':
+            return render_template("main/doctor_record.html", pacient_choice=pacient_choice, isActive_form_choice=isActive_form_choice)
+
+
+        print(first_name, last_name, surname, pacient_choice)
+    return render_template("main/doctor_record.html", isActive_form_choice=isActive_form_choice)
 
 
 
@@ -93,6 +109,7 @@ def reception():
             flash('Не выбрано действие', "primary")
         elif radio == "option1":
             flash('Пациент пришел', "success")
+
         elif radio == "option2":
             flash('Пациент не пришел', "primary") 
         
@@ -145,7 +162,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-
+# обработка станицы 404
 @application.errorhandler(404)
 @login_required
 def error_404(error):
