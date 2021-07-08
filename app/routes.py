@@ -83,7 +83,7 @@ def reception():
                                 print(date_obj)
                                 time_.append(date_obj)
 
-                return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors, time=time_, current_date=current_date)
+                return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors, time=time_, current_date=calendar)
 
             elif select_doc == f'doctor_{i}':
                 doctor = User.query.get(i)
@@ -93,14 +93,14 @@ def reception():
                     if date_split.split(' ')[0] == calendar:
                         access_date.append(i.id)
                         for o in access_date:
-                            access_recept2 = Record.query.filter_by(id = o)
-                            for e in access_recept2:
+                            access_recept = Record.query.filter_by(id = o)
+                            for e in access_recept:
                                 date_obj = str(e.time).split(' ')[1].rsplit(':', maxsplit=1)[0]
                                 print(date_obj)
                                 time_.append(date_obj)
 
                             
-                return render_template("main/doctor_reception.html", receptions=access_recept2, doctor=doctor, doctors=doctors, time=time_, current_date=current_date)
+                return render_template("main/doctor_reception.html", receptions=access_recept, doctor=doctor, doctors=doctors, time=time_, current_date=calendar)
 
     if request.method == 'POST' and "btn-close" in request.form:
         radio = request.form.get('radioBTN')
