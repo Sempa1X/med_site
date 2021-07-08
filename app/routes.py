@@ -16,10 +16,10 @@ from sqlalchemy import or_, and_
 from app import application, db, login
 from app.models import User, Record, Patient
 
-# переменные 
 
-# получение количества товара в корзине
-# каждого пользователя и испоьзуем в base.html
+
+
+
 @application.before_request
 def before_request():
     pass
@@ -83,7 +83,7 @@ def reception():
                                 print(date_obj)
                                 time_.append(date_obj)
 
-                return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors, time=time_, current_date=calendar)
+                        return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors, time=time_, current_date=calendar)
 
             elif select_doc == f'doctor_{i}':
                 doctor = User.query.get(i)

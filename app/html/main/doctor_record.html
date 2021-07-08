@@ -91,7 +91,56 @@
 
             {% if pacient_choice == 'Ребенок' %}
             <form action="" method="post">
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Имя опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
+                        
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Фамилия опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
 
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Отчество опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
+
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Статус опекуна</span>
+                    <input name="first_name" type="text"  list="data_status" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                        <datalist id="data_last">
+                            <option value="Мать" selected>
+                            <option value="Отец">
+                            <option value="Бабушка">
+                            <option value="Дедушка">
+
+                            </datalist>
+                </div>
+
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Серия паспорта опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
+
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Номер паспорта опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
+
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Дата выдачи паспорта опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
+
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Кем выдан паспорт опекуна</span>
+                    <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button name="btn_child" class="btn btn-primary" type="submit">Далее</button>
+                </div>
             </form>
                 
             {% elif pacient_choice == 'Обычный' %}

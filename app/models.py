@@ -86,6 +86,7 @@ class Patient(db.Model):
     
     address = db.Column(db.String(255))
     trust_factor = db.Column(db.Boolean, default=True)
+    pacient_role = db.Column(db.String(255))
 
 
 class Record(db.Model):
