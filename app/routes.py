@@ -76,6 +76,22 @@ def record(pacient_choice):
             pass_num_d = request.form.get('pass_num')
             pass_date_d = request.form.get('pass_date')
             pass_issued_d = request.form.get('pass_issued')
+            
+            pacient = Patient(
+                first_name=first_name,
+                last_name=last_name,
+                surname=surname,
+                birthday=birthday,
+                refer=how_thing,
+                address=address,
+                pass_serial_d = pass_serial_d,
+                pass_num_d = pass_num_d,
+                pass_date_d = pass_date_d,
+                pass_issued_d = pass_issued_d
+            )
+    
+            db.session.add(pacient)
+            db.session.commit()
 
         elif pacient_choice == 'Беременная':
             pass_serial = request.form.get('pass_serial')
@@ -85,112 +101,34 @@ def record(pacient_choice):
             count_embr = request.form.get('count_embr')
             estimated_birthday = request.form.get('estimated_birthday')
 
-        reception = Record(
-            doctor=doctor,
-            doctor_id=str(doc_id),
-            pacient=f'{last_name} {first_name} {surname}',
-            date=calendar,
-            time=time,
-            reason=reason
-        )
-        db.session.add(reception)
-        db.session.commit()
+            pacient = Patient(
+                first_name=first_name,
+                last_name=last_name,
+                surname=surname,
+                birthday=birthday,
+                refer=how_thing,
+                address=address,
+                pass_serial = pass_serial,
+                pass_num = pass_num,
+                pass_date = pass_date,
+                pass_issued = pass_issued,
+                count_embr=count_embr,
+                estimated_birthday=estimated_birthday
+            )
 
-        return render_template("main/doctor_record.html", pacient_choice=pacient_choice, doctors=doctors)
+            reception = Record(
+                doctor=doctor,
+                doctor_id=str(doc_id),
+                pacient=f'{last_name} {first_name} {surname}',
+                date=calendar,
+                time=time,
+                reason=reason
+            )
+            db.session.add(reception)
+            db.session.commit()
 
-
-
-    #     if pacient_choice == 'Ребенок':
-    #         pacient = Patient(first_name=first_name, last_name=last_name, surname=surname, birthday=birthday, refer=how_thing, address=address, lr_f_name=lr_f_name, lr_l_name=lr_l_name, lr_surname=lr_surname, lr_status=lr_status, lr_pass_serial=lr_pass_serial, lr_pass_num=lr_pass_num, lr_pass_date=lr_pass_date, lr_pass_issued=lr_pass_issued)
-    #         print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
-    #         db.session.add(pacient)
-    #         db.session.commit()
-
-    #         reception = Record(doctor=doctor, doctor_id=int(doctor_id), pacient=f'{last_name} {first_name} {surname}', date=calendar, time=time, reason=reason)
-    #         db.session.add(reception)
-    #         db.session.commit()
-
-        
-
-    # if request.method == 'POST' and 'btn_default' in request.form:
-    #     pass_serial_d = request.form.get('pass_serial')
-    #     pass_num_d = request.form.get('pass_num')
-    #     pass_date_d = request.form.get('pass_date')
-    #     pass_issued_d = request.form.get('pass_issued')
-
-    #     pacient = Patient(
-    #         first_name=first_name,
-    #         last_name=last_name,
-    #         surname=surname,
-    #         birthday=birthday,
-    #         refer=how_thing,
-    #         address=address,
-    #         pass_serial_d = pass_serial_d,
-    #         pass_num_d = pass_num_d,
-    #         pass_date_d = pass_date_d,
-    #         pass_issued_d = pass_issued_d
-    #     )
-    #     print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
-        
-    #     db.session.add(pacient)
-    #     db.session.commit()
-
-    #     reception = Record(
-    #         doctor=doctor,
-    #         doctor_id=int(doctor_id),
-    #         pacient=f'{last_name} {first_name} {surname}',
-    #         date=calendar,
-    #         time=time,
-    #         reason=reason
-    #     )
-    #     db.session.add(reception)
-    #     db.session.commit()
-    #     isActive_form_choice = False
-
-    # if request.method == 'POST' and 'btn_pregnant' in request.form:
-    #     pass_serial = request.form.get('pass_serial')
-    #     pass_num = request.form.get('pass_num')
-    #     pass_date = request.form.get('pass_date')
-    #     pass_issued = request.form.get('pass_issued')
-    #     count_embr = request.form.get('count_embr')
-    #     estimated_birthday = request.form.get('estimated_birthday')
-    #     isActive_form_choice = False 
-
-    #     pacient = Patient(
-    #             first_name=first_name,
-    #             last_name=last_name,
-    #             surname=surname,
-    #             birthday=birthday,
-    #             refer=how_thing,
-    #             address=address,
-    #             pass_serial = pass_serial,
-    #             pass_num = pass_num,
-    #             pass_date = pass_date,
-    #             pass_issued = pass_issued,
-    #             count_embr=count_embr,
-    #             estimated_birthday=estimated_birthday
-    #         )
-    #     print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
-        
-    #     db.session.add(pacient)
-    #     db.session.commit()
-
-    #     reception = Record(
-    #         doctor=doctor,
-    #         doctor_id=int(doctor_id),
-    #         pacient=f'{last_name} {first_name} {surname}',
-    #         date=calendar,
-    #         time=time,
-    #         reason=reason
-    #     )
-    #     db.session.add(reception)
-    #     db.session.commit()
-    #     flash('Запись ')
-
-
-
-    
-    return render_template("main/doctor_record.html", pacient_choice=pacient_choice)
+        return render_template("main/doctor_record.html", pacient_choice=pacient_choice, doctors=doctors) 
+    return render_template("main/doctor_record.html", pacient_choice=pacient_choice, doctors=doctors)
 
 
 
@@ -222,7 +160,7 @@ def reception():
                         for o in access_date:
                             access_recept = Record.query.filter_by(id = o)
                             for e in access_recept:
-                                date_obj = str(e.time).split(' ')[1].rsplit(':', maxsplit=1)[0]
+                                date_obj = str(e.time) #.split(' ')[1] #.rsplit(':', maxsplit=1)[0]
                                 print(date_obj)
                                 time_.append(date_obj)
 
