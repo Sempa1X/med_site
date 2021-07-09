@@ -27,7 +27,7 @@
                         <input name="doctor" type="text"  list="data_doc" class="form-control" placeholder="Фамилия" style="width: 33%">
                             <datalist id="data_doc">
                                 {% for doctor in doctors %}
-                                    <option value="{{ doctor.id }}: {{ doctor.last_name }} {{ doctor.first_name }} {{ doctor.surname }}">
+                                    <option value="{{ doctor.id }}: {{ doctor.first_name }} {{ doctor.last_name }} {{ doctor.surname }}">
                                 {% endfor %}        
                             </datalist>
                     </div>
@@ -224,7 +224,7 @@
 
             {% endif %}
             <div class="d-grid gap-2">
-                <button name="btn_pregnant" class="btn btn-primary" type="submit">Далее</button>
+                <button name="btn_pregnant" class="btn btn-primary" type="submit">Отправить</button>
             </div>
         </div>
     </form>

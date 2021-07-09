@@ -73,6 +73,7 @@ class Patient(db.Model):
     num_fetus = db.Column(db.Integer)
 
     refer = db.Column(db.String(255))
+    reception = db.Column(db.Boolean, default=True)
     
     lr_f_name = db.Column(db.String(255))
     lr_l_name = db.Column(db.String(255))

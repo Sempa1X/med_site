@@ -70,6 +70,16 @@ def record(pacient_choice):
             db.session.add(pacient)
             db.session.commit()
 
+            reception = Record(
+                doctor=doctor,
+                doctor_id=str(doc_id),
+                pacient=f'{last_name} {first_name} {surname}',
+                date=calendar,
+                time=time,
+                reason=reason
+            )
+            db.session.add(reception)
+            db.session.commit()
         
         elif pacient_choice == 'Обычный':
             pass_serial_d = request.form.get('pass_serial')
@@ -84,13 +94,24 @@ def record(pacient_choice):
                 birthday=birthday,
                 refer=how_thing,
                 address=address,
-                pass_serial_d = pass_serial_d,
-                pass_num_d = pass_num_d,
-                pass_date_d = pass_date_d,
-                pass_issued_d = pass_issued_d
+                lr_pass_serial = pass_serial_d,
+                lr_pass_num = pass_num_d,
+                lr_pass_date = pass_date_d,
+                lr_pass_issued = pass_issued_d
             )
     
             db.session.add(pacient)
+            db.session.commit()
+
+            reception = Record(
+                doctor=doctor,
+                doctor_id=str(doc_id),
+                pacient=f'{last_name} {first_name} {surname}',
+                date=calendar,
+                time=time,
+                reason=reason
+            )
+            db.session.add(reception)
             db.session.commit()
 
         elif pacient_choice == 'Беременная':
@@ -138,12 +159,18 @@ def reception():
     now = datetime.now()
     current_date = now.strftime('%Y-%m-%d')
     reasons = Record.query.all()
+
+    pacient = Patient.query.all()
+    pacient_id = []
+    rec_id = []
     doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
     doc_id = []
 
     for i in doctors:
         doc_id.append(i.id)
-    
+    for i in pacient:
+        pacient_id.append(i.id)
+
     if request.method == 'POST' and "btn-select" in request.form:
         calendar = request.form.get('calendar')
         select_doc = request.form.get('select_doc')
@@ -161,10 +188,10 @@ def reception():
                             access_recept = Record.query.filter_by(id = o)
                             for e in access_recept:
                                 date_obj = str(e.time) #.split(' ')[1] #.rsplit(':', maxsplit=1)[0]
-                                print(date_obj)
+                                rec_id.append(e.id)
                                 time_.append(date_obj)
 
-                        return render_template("main/doctor_reception.html", receptions=access_recept, doctors=doctors, time=time_, current_date=calendar)
+                        return render_template("main/doctor_reception.html",pac_id=pacient_id, receptions=access_recept, doctors=doctors, time=time_, current_date=calendar)
 
             elif select_doc == f'doctor_{i}':
                 doctor = User.query.get(i)
@@ -177,24 +204,42 @@ def reception():
                             access_recept = Record.query.filter_by(id = o)
                             for e in access_recept:
                                 date_obj = str(e.time).split(' ')[1].rsplit(':', maxsplit=1)[0]
-                                print(date_obj)
+                                rec_id.append(e.id)
                                 time_.append(date_obj)
 
                             
-                return render_template("main/doctor_reception.html", receptions=access_recept, doctor=doctor, doctors=doctors, time=time_, current_date=calendar)
+                return render_template("main/doctor_reception.html",pac_id=pacient_id, receptions=access_recept, doctor=doctor, doctors=doctors, time=time_, current_date=calendar)
 
-    if request.method == 'POST' and "btn-close" in request.form:
+    if request.method == 'POST':
         radio = request.form.get('radioBTN')
            
-        if radio == None:
-            flash('Не выбрано действие', "primary")
-        elif radio == "option1":
-            flash('Пациент пришел', "success")
+        for i in pacient_id:
+            for o in rec_id:
+                if radio == None:
+                    flash('Не выбрано действие', "primary")
+                
+                elif radio == f"option_true_{i}":
+                    flash('Пациент пришел', "success")
+                    rec = Record.query.get(o)
+                    pacient = Patient.query.get(i)
+                    pacient.reception = False
+                    rec.trust = False
+                    rec.isActive = False
+                    db.session.commit()
+                    
 
-        elif radio == "option2":
-            flash('Пациент не пришел', "primary") 
+                elif radio == f"option_false_{i}":
+                    flash('Пациент не пришел', "primary") 
+                    rec = Record.query.get(o)
+                    pacient = Patient.query.get(i)
+                    pacient.trust = False
+                    pacient.reception = False
+                    rec.trust = False
+                    rec.isActive = False
+                    db.session.commit()
+                    
         
-    return render_template("main/doctor_reception.html", receptions=reasons, doctors=doctors, current_date=current_date)
+    return render_template("main/doctor_reception.html", pac_id=pacient_id, receptions=reasons, doctors=doctors, current_date=current_date, doc_id=doc_id)
 
 
 # обработка станицы авторизации 
