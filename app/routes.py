@@ -27,145 +27,170 @@ def before_request():
     #     return redirect(url_for('login'))    
 
 
-
-@application.route("/record", methods=['GET', 'POST'])
+@application.route('/record_post', methods=['GET', 'POST'])
 @login_required
-def record():
-    isActive_form_choice = True
+def record_post():
+    if request.method == 'POST':
+        pacient_choice = request.form.get('pacient_choice')
+        return redirect(url_for('record', pacient_choice=pacient_choice))
+    return render_template('main/pacient_choice.html')
+
+
+@application.route("/record/<pacient_choice>", methods=['GET', 'POST'])
+@login_required
+def record(pacient_choice):
     doctors = User.query.all() # filter(and_(User.isActive=='True', User.role=="doctor"))
 
-    if request.method == 'POST' and 'btn_pacient_choice' in request.form:
+    if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         surname = request.form.get('surname')
-        pacient_choice = request.form.get('pacient_choice')
         birthday = request.form.get('date_birth')
         how_thing = request.form.get('how_thing')
         address = request.form.get('address')
         calendar = request.form.get('calendar')
         time = request.form.get('time')
         doctor = request.form.get('doctor')
-        doctor_id = request.form.get('doctor').split(':')[0]
+        doctor_id = request.form.get('doctor')
+        doc_id = str(doctor_id).split(':')[0]
         reason = request.form.get('reason')
-        isActive_form_choice = False
-        print(request.form.get('doctor'))
-        if pacient_choice:
-            return render_template("main/doctor_record.html", pacient_choice=pacient_choice, isActive_form_choice=isActive_form_choice, doctors=doctors)
 
-    if request.method == 'POST' and 'btn_child' in request.form:
-        lr_f_name = request.form.get('lr_f_name')
-        lr_l_name = request.form.get('lr_l_name')
-        lr_surname = request.form.get('lr_surname')
-        lr_status = request.form.get('lr_status')
-        lr_pass_serial = request.form.get('lr_pass_serial')
-        lr_pass_num = request.form.get('lr_pass_num')
-        lr_pass_date = request.form.get('lr_pass_date')
-        lr_pass_issued = request.form.get('lr_pass_issued')
-        isActive_form_choice = False
+        if pacient_choice == 'Ребенок':
+            lr_f_name = request.form.get('lr_f_name')
+            lr_l_name = request.form.get('lr_l_name')
+            lr_surname = request.form.get('lr_surname')
+            lr_status = request.form.get('lr_status')
+            lr_pass_serial = request.form.get('lr_pass_serial')
+            lr_pass_num = request.form.get('lr_pass_num')
+            lr_pass_date = request.form.get('lr_pass_date')
+            lr_pass_issued = request.form.get('lr_pass_issued')
 
-        pacient = Patient(
-            first_name=first_name,
-            last_name=last_name,
-            surname=surname,
-            birthday=birthday,
-            refer=how_thing,
-            address=address,
-            lr_f_name=lr_f_name,
-            lr_l_name=lr_l_name,
-            lr_surname=lr_surname,
-            lr_status=lr_status,
-            lr_pass_serial=lr_pass_serial,
-            lr_pass_num=lr_pass_num,
-            lr_pass_date=lr_pass_date,
-            lr_pass_issued=lr_pass_issued
-        )
-        db.session.add(pacient)
-        db.session.commit()
+            pacient = Patient(first_name=first_name, last_name=last_name, surname=surname, birthday=birthday, refer=how_thing, address=address, lr_f_name=lr_f_name, lr_l_name=lr_l_name, lr_surname=lr_surname, lr_status=lr_status, lr_pass_serial=lr_pass_serial, lr_pass_num=lr_pass_num, lr_pass_date=lr_pass_date, lr_pass_issued=lr_pass_issued)
+            print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
+            db.session.add(pacient)
+            db.session.commit()
 
-        reception = Record(
-            doctor=doctor,
-            doctor_id=int(doctor_id),
-            pacient=f'{last_name} {first_name} {surname}',
-            date=calendar,
-            time=time,
-            reason=reason
-        )
-        db.session.add(reception)
-        db.session.commit()
-        flash('Запись добавлена')
+        
+        elif pacient_choice == 'Обычный':
+            pass_serial_d = request.form.get('pass_serial')
+            pass_num_d = request.form.get('pass_num')
+            pass_date_d = request.form.get('pass_date')
+            pass_issued_d = request.form.get('pass_issued')
 
-    if request.method == 'POST' and 'btn_default' in request.form:
-        pass_serial_d = request.form.get('pass_serial')
-        pass_num_d = request.form.get('pass_num')
-        pass_date_d = request.form.get('pass_date')
-        pass_issued_d = request.form.get('pass_issued')
-
-        pacient = Patient(
-            first_name=first_name,
-            last_name=last_name,
-            surname=surname,
-            birthday=birthday,
-            refer=how_thing,
-            address=address,
-            pass_serial_d = pass_serial_d,
-            pass_num_d = pass_num_d,
-            pass_date_d = pass_date_d,
-            pass_issued_d = pass_issued_d
-        )
-        db.session.add(pacient)
-        db.session.commit()
-
-        reception = Record(
-            doctor=doctor,
-            doctor_id=int(doctor_id),
-            pacient=f'{last_name} {first_name} {surname}',
-            date=calendar,
-            time=time,
-            reason=reason
-        )
-        db.session.add(reception)
-        db.session.commit()
-        flash('Запись добавлена')
-        isActive_form_choice = False
-
-    if request.method == 'POST' and 'btn_pregnant' in request.form:
+        elif pacient_choice == 'Беременная':
             pass_serial = request.form.get('pass_serial')
             pass_num = request.form.get('pass_num')
             pass_date = request.form.get('pass_date')
             pass_issued = request.form.get('pass_issued')
             count_embr = request.form.get('count_embr')
             estimated_birthday = request.form.get('estimated_birthday')
-            isActive_form_choice = False 
 
-            pacient = Patient(
-                    first_name=first_name,
-                    last_name=last_name,
-                    surname=surname,
-                    birthday=birthday,
-                    refer=how_thing,
-                    address=address,
-                    pass_serial = pass_serial,
-                    pass_num = pass_num,
-                    pass_date = pass_date,
-                    pass_issued = pass_issued,
-                    count_embr=count_embr,
-                    estimated_birthday=estimated_birthday
-                )
-            db.session.add(pacient)
-            db.session.commit()
+        reception = Record(
+            doctor=doctor,
+            doctor_id=str(doc_id),
+            pacient=f'{last_name} {first_name} {surname}',
+            date=calendar,
+            time=time,
+            reason=reason
+        )
+        db.session.add(reception)
+        db.session.commit()
 
-            reception = Record(
-                doctor=doctor,
-                doctor_id=int(doctor_id),
-                pacient=f'{last_name} {first_name} {surname}',
-                date=calendar,
-                time=time,
-                reason=reason
-            )
-            db.session.add(reception)
-            db.session.commit()
-            flash('Запись добавлена')
-    return render_template("main/doctor_record.html", isActive_form_choice=isActive_form_choice)
+        return render_template("main/doctor_record.html", pacient_choice=pacient_choice, doctors=doctors)
+
+
+
+    #     if pacient_choice == 'Ребенок':
+    #         pacient = Patient(first_name=first_name, last_name=last_name, surname=surname, birthday=birthday, refer=how_thing, address=address, lr_f_name=lr_f_name, lr_l_name=lr_l_name, lr_surname=lr_surname, lr_status=lr_status, lr_pass_serial=lr_pass_serial, lr_pass_num=lr_pass_num, lr_pass_date=lr_pass_date, lr_pass_issued=lr_pass_issued)
+    #         print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
+    #         db.session.add(pacient)
+    #         db.session.commit()
+
+    #         reception = Record(doctor=doctor, doctor_id=int(doctor_id), pacient=f'{last_name} {first_name} {surname}', date=calendar, time=time, reason=reason)
+    #         db.session.add(reception)
+    #         db.session.commit()
+
+        
+
+    # if request.method == 'POST' and 'btn_default' in request.form:
+    #     pass_serial_d = request.form.get('pass_serial')
+    #     pass_num_d = request.form.get('pass_num')
+    #     pass_date_d = request.form.get('pass_date')
+    #     pass_issued_d = request.form.get('pass_issued')
+
+    #     pacient = Patient(
+    #         first_name=first_name,
+    #         last_name=last_name,
+    #         surname=surname,
+    #         birthday=birthday,
+    #         refer=how_thing,
+    #         address=address,
+    #         pass_serial_d = pass_serial_d,
+    #         pass_num_d = pass_num_d,
+    #         pass_date_d = pass_date_d,
+    #         pass_issued_d = pass_issued_d
+    #     )
+    #     print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
+        
+    #     db.session.add(pacient)
+    #     db.session.commit()
+
+    #     reception = Record(
+    #         doctor=doctor,
+    #         doctor_id=int(doctor_id),
+    #         pacient=f'{last_name} {first_name} {surname}',
+    #         date=calendar,
+    #         time=time,
+    #         reason=reason
+    #     )
+    #     db.session.add(reception)
+    #     db.session.commit()
+    #     isActive_form_choice = False
+
+    # if request.method == 'POST' and 'btn_pregnant' in request.form:
+    #     pass_serial = request.form.get('pass_serial')
+    #     pass_num = request.form.get('pass_num')
+    #     pass_date = request.form.get('pass_date')
+    #     pass_issued = request.form.get('pass_issued')
+    #     count_embr = request.form.get('count_embr')
+    #     estimated_birthday = request.form.get('estimated_birthday')
+    #     isActive_form_choice = False 
+
+    #     pacient = Patient(
+    #             first_name=first_name,
+    #             last_name=last_name,
+    #             surname=surname,
+    #             birthday=birthday,
+    #             refer=how_thing,
+    #             address=address,
+    #             pass_serial = pass_serial,
+    #             pass_num = pass_num,
+    #             pass_date = pass_date,
+    #             pass_issued = pass_issued,
+    #             count_embr=count_embr,
+    #             estimated_birthday=estimated_birthday
+    #         )
+    #     print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
+        
+    #     db.session.add(pacient)
+    #     db.session.commit()
+
+    #     reception = Record(
+    #         doctor=doctor,
+    #         doctor_id=int(doctor_id),
+    #         pacient=f'{last_name} {first_name} {surname}',
+    #         date=calendar,
+    #         time=time,
+    #         reason=reason
+    #     )
+    #     db.session.add(reception)
+    #     db.session.commit()
+    #     flash('Запись ')
+
+
+
+    
+    return render_template("main/doctor_record.html", pacient_choice=pacient_choice)
 
 
 

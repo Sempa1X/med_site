@@ -20,8 +20,7 @@
             {% endif %}
             {% endwith %}
             
-            {% if isActive_form_choice %}
-                <form action="" method="post">
+                <form name="test" action="" method="post">
 <!--  -->
                     <div class="input-group">
                         <span class="input-group-text " style="width: 10%">Доктор</span>
@@ -118,15 +117,10 @@
                             <label for="exampleDataList" class="form-label">Причина</label>
                             <input name="reason" class="form-control" type="text" placeholder="причина" aria-label="пример ввода по умолчанию">
 
-                        <div class="d-grid gap-2">
-                            <button name="btn_pacient_choice" class="btn btn-primary" type="submit">Далее</button>
-                        </div>
-                </form>
-            {% endif %}
+                
             
 
             {% if pacient_choice == 'Ребенок' %}
-            <form action="" method="post">
                 <div class="input-group text-center">
                     <span class="input-group-text ">Имя опекуна</span>
                     <input name="lr_f_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
@@ -173,14 +167,8 @@
                     <span class="input-group-text ">Кем выдан паспорт опекуна</span>
                     <input name="lr_pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
                 </div>
-
-                <div class="d-grid gap-2">
-                    <button name="btn_child" class="btn btn-primary" type="submit">Далее</button>
-                </div>
-            </form>
                 
             {% elif pacient_choice == 'Обычный' %}
-            <form action="" method="post">
 
                 <div class="input-group text-center">
                     <span class="input-group-text ">Серия паспорта</span>
@@ -202,13 +190,8 @@
                     <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button name="btn_default" class="btn btn-primary" type="submit">Далее</button>
-                </div>
-            </form>
-
             {% elif pacient_choice == 'Беременная' %}
-            <form action="" method="post">
+
             <div class="input-group text-center">
                 <span class="input-group-text ">Серия паспорта</span>
                 <input name="pass_serial" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
@@ -239,13 +222,12 @@
                 <input name="estimated_birthday" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
             </div>
 
+            {% endif %}
             <div class="d-grid gap-2">
                 <button name="btn_pregnant" class="btn btn-primary" type="submit">Далее</button>
             </div>
-            </form>
-            {% endif %}
-
         </div>
+    </form>
 
 
     <!-- End Test -->
@@ -253,4 +235,5 @@
 
 
     <!--Container Main end-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
 {% endblock %}

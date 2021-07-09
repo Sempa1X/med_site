@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% include 'style.html' %}
+{% block title %}DEV{% endblock %}
+
+{% block content %}
+{% include 'leftside.html' %}
+	<!--Container Main start-->
+    <div class="height-100 bg-light">
+        <h2>Запись на прием</h2>
+
+        <form method="post">
+            <label for="exampleDataList" class="form-label">Тип пациента</label>
+            <input name="pacient_choice" class="form-control" list="data_pacient" id="exampleDataList" placeholder="">
+                <datalist id="data_pacient">
+                    <option value="Обычный" selected>
+                    <option value="Ребенок">
+                    <option value="Беременная">
+                </datalist>
+                <button type="submit" class="btn btn-primary" > Отправить</button>
+        </form>
+    </div>
+
+    
+{% endblock %}
