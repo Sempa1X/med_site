@@ -96,9 +96,10 @@ class Record(db.Model):
 
     doctor = db.Column(db.String(255))
     doctor_id = db.Column(db.Integer)
+    patient_id = db.Column(db.Integer)
     pacient = db.Column(db.String(255))
-    date = db.Column(db.String(255), index=True, default=datetime.utcnow())
-    time = db.Column(db.String(255), index=True, default=datetime.utcnow())
+    date = db.Column(db.String(255), index=True)
+    time = db.Column(db.String(255), index=True)
     trust = db.Column(db.Boolean, default=True)
     isActive = db.Column(db.Boolean, default=True)
     reason = db.Column(db.String(255))
