@@ -33,7 +33,7 @@ def schedule():
     doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
     if request.method == 'POST':
         doctor = request.form.get('doctor')
-        return redirect(url_for('schedule', doc_id=doctor))
+        return redirect(url_for('schedule_doc', doc_id=doctor))
 
     return render_template('main/schedule.html', doctors=doctors)
 
@@ -43,7 +43,10 @@ def schedule():
 def schedule_doc(doc_id):
     schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.isActive==True))
     if request.method == 'POST':
-        pass
+        value_all = request.form.get('value_all')
+        for i in range(value_all):
+            print(i)
+        print(value_all)
     return render_template('main/schedule_doc.html')
 
 

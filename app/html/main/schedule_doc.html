@@ -4,6 +4,17 @@
 
 {% block content %}
 {% include 'leftside.html' %}
+
+<style>
+    .no_viseble{
+        color: aliceblue;
+        background-color: aliceblue;
+    }
+    .no_viseble {
+        visibility: hidden;
+        }
+   
+</style>
 	<!--Container Main start-->
     <div class="height-100 bg-light">
         <h2>Расписание доктора</h2>
@@ -48,7 +59,11 @@
               result.push(_start.format('HH:mm'));
               _start.add(obj.value, 'minutes');
             }
-            alert(result)
+            var nodes = document.querySelectorAll('.amount');
+            for (var i = 0; i < nodes.length; i++)
+            nodes[i].parentNode.removeChild(nodes[i]);
+
+
             var $add = document.getElementsByClassName('add')[0];
             var $form = document.getElementsByClassName('form')[0];
     
@@ -73,21 +88,35 @@
               result.push(_start.format('HH:mm'));
               _start.add(obj.value, 'minutes');
             }
-            alert(result)
+            var nodes = document.querySelectorAll('.amount');
+            for (var i = 0; i < nodes.length; i++)
+            nodes[i].parentNode.removeChild(nodes[i]);
+            
+            
             var $add = document.getElementsByClassName('add')[0];
             var $form = document.getElementsByClassName('form')[0];
     
             for (let i = 0; i < result.length; i++){
             var $input = document.createElement('input');
             $input.type = 'text';
-            $input.placeholder = result[i];
+            $input.value = result[i];
             $input.classList.add('amount');
             $form.insertBefore($input, $add);
             }
         }
-      
+        var $add = document.getElementsByClassName('add')[0];
+        var $form = document.getElementsByClassName('form')[0];
+
+        var $input = document.createElement('input');
+        $input.type = 'text';
+        $input.name = 'value_all';
+        $input.value = result.length;
+        $input.classList.add('');
+        $form.insertBefore($input, $add);
     }
     </script>     
+
+
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
 {% endblock %}
