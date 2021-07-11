@@ -6,18 +6,25 @@
 {% include 'leftside.html' %}
 	<!--Container Main start-->
     <div class="height-100 bg-light">
-        <h2>Запись на прием</h2>
+        <div class="row align-items-center h-100">
+            <div class="col-6 mx-auto">
+                <h2 class="text-center">Запись на прием</h2>
 
-        <form method="post">
-            <label for="exampleDataList" class="form-label">Тип пациента</label>
-            <input name="pacient_choice" class="form-control" list="data_pacient" id="exampleDataList" placeholder="">
-                <datalist id="data_pacient">
-                    <option value="Обычный" selected>
-                    <option value="Ребенок">
-                    <option value="Беременная">
-                </datalist>
-                <button type="submit" class="btn btn-primary" > Отправить</button>
-        </form>
+                <form method="post">
+                    <label for="exampleDataList" class="form-label">Тип пациента</label>
+                    <input name="pacient_choice" class="form-control" list="data_pacient" id="exampleDataList" placeholder="">
+                        <datalist id="data_pacient">
+                            <option value="Обычный" selected>
+                            <option value="Ребенок">
+                            <option value="Беременная">
+                        </datalist>
+                        <br>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark" > Отправить</button>
+                        </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     

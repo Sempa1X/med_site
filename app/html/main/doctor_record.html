@@ -6,7 +6,8 @@
 {% include 'leftside.html' %}
 	<!--Container Main start-->
     <div class="height-100 bg-light">
-        <h2>Запись на прием</h2>
+        <h2 class="text-center">Запись на прием</h2>
+        <br>
             
     <!-- Test for Sempa1X Form-->
         <div class="container-xxl">
@@ -23,7 +24,7 @@
                 <form name="test" action="" method="post">
 <!--  -->
                     <div class="input-group">
-                        <span class="input-group-text " style="width: 10%">Доктор</span>
+                        <span class="input-group-text" style="width: 10%">Доктор</span>
                         <input name="doctor" type="text"  list="data_doc" class="form-control" placeholder="Фамилия" style="width: 33%">
                             <datalist id="data_doc">
                                 {% for doctor in doctors %}
@@ -31,7 +32,7 @@
                                 {% endfor %}        
                             </datalist>
                     </div>
-
+                    <br>
                     <div class="input-group">
                         <input name="calendar" type="date" class="form-control" name="date" value="{{ current_date }}" placeholder="Дата">
 
@@ -43,7 +44,7 @@
                             <option value="11:00">
                             </datalist>
                     </div>
-
+                    <br>
                                                     <!-- ФИО -->
                     <div class="input-group text-center">
                         <span class="input-group-text " style="width: 10%">Фамилия</span>
@@ -54,7 +55,7 @@
                             <option value="Азонов">
                             </datalist>
                     </div>
-
+                    <br>
                     <div class="input-group">
                         <span class="input-group-text " style="width: 10%">Имя</span>
                         <input name="first_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">
@@ -64,7 +65,7 @@
                             <option value="Анна">
                             </datalist>
                     </div>
-
+                    <br>
                     <div class="input-group">
                         <span class="input-group-text " style="width: 10%">Отчество</span>
                         <input name="surname" type="text"  list="data_sur" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Отчество" style="width: 33%">
@@ -74,25 +75,14 @@
                             <option value="Анатольевич">
                             </datalist>
                     </div>
-
+                    <br>
                                                     <!-- end ФИО -->
-
-                                                <!-- Запись + выбор -->
-                    <label for="exampleDataList" class="form-label">Тип пациента</label>
-                        <input name="pacient_choice" class="form-control" list="data_pacient" id="exampleDataList" placeholder="">
-                        <datalist id="data_pacient">
-                        <option value="Обычный" selected>
-                        <option value="Ребенок">
-                        <option value="Беременная">
-
-                        </datalist>
-                                                    <!--end Запись + выбор -->
 
                                                     <!-- День рождения -->
                         <label for="exampleDataList" class="form-label">Дата рождения</label>
                         <input name="date_birth" class="form-control" type="text" placeholder="дд-мм-гггг" aria-label="пример ввода по умолчанию">
                                                     <!--end День рождения -->
-
+                        <br>
                                                         <!-- Как узнал -->
                         <label for="exampleDataList" class="form-label">Как узнал</label>
                         <input name="how_think" list="data_how" class="form-control" type="text" placeholder="Как узнал" aria-label="пример ввода по умолчанию">
@@ -103,7 +93,7 @@
                             </datalist>
                         
                                                         <!--end как узнал -->
-
+                            <br>
 
                                                         <!-- адрес (нужно найти api для дополнения адресов) -->
                             <label for="exampleDataList" class="form-label">Адрес</label>
@@ -113,7 +103,7 @@
                                 <option value="Другой...">
                                 </datalist>   
                                                         <!--end адрес -->
-
+                            <br>
                             <label for="exampleDataList" class="form-label">Причина</label>
                             <input name="reason" class="form-control" type="text" placeholder="причина" aria-label="пример ввода по умолчанию">
 
@@ -121,24 +111,25 @@
             
 
             {% if pacient_choice == 'Ребенок' %}
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Имя опекуна</span>
-                    <input name="lr_f_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_f_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Иван" style="width: 33%">  
                 </div>
-                        
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Фамилия опекуна</span>
-                    <input name="lr_l_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_l_name" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Иванов" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Отчество опекуна</span>
-                    <input name="lr_surname" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_surname" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Иванович" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Статус опекуна</span>
-                    <input name="lr_status" type="text"  list="data_status" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_status" type="text"  list="data_status" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Опекун" style="width: 33%">  
                         <datalist id="data_last">
                             <option value="Мать" selected>
                             <option value="Отец">
@@ -147,84 +138,85 @@
 
                             </datalist>
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Серия паспорта опекуна</span>
-                    <input name="lr_pass_serial" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_pass_serial" type="number" maxlength="4"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Номер паспорта опекуна</span>
-                    <input name="lr_pass_num" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_pass_num" type="number" maxlength="6"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Дата выдачи паспорта опекуна</span>
-                    <input name="lr_pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Кем выдан паспорт опекуна</span>
-                    <input name="lr_pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="lr_pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
                 </div>
                 
             {% elif pacient_choice == 'Обычный' %}
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Серия паспорта</span>
-                    <input name="pass_serial" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="pass_serial" type="number" maxlength="4"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Номер паспорта</span>
-                    <input name="pass_num" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="pass_num" type="number" maxlength="6"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Дата выдачи паспорта</span>
-                    <input name="pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
                 </div>
-
+                <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Кем выдан паспорт</span>
-                    <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
+                    <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
                 </div>
 
             {% elif pacient_choice == 'Беременная' %}
-
-            <div class="input-group text-center">
-                <span class="input-group-text ">Серия паспорта</span>
-                <input name="pass_serial" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
-            </div>
-
-            <div class="input-group text-center">
-                <span class="input-group-text ">Номер паспорта</span>
-                <input name="pass_num" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
-            </div>
-
-            <div class="input-group text-center">
-                <span class="input-group-text ">Дата выдачи паспорта</span>
-                <input name="pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
-            </div>
-
-            <div class="input-group text-center">
-                <span class="input-group-text ">Кем выдан паспорт</span>
-                <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
-            </div>
-
-            <div class="input-group text-center">
-                <span class="input-group-text ">Количество эмбрионов</span>
-                <input name="count_embr" value="1" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
-            </div>
-
-            <div class="input-group text-center">
-                <span class="input-group-text ">Примерная дата рождения плода</span>
-                <input name="estimated_birthday" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">  
-            </div>
+                <br>
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Серия паспорта</span>
+                    <input name="pass_serial" type="number" maxlength="4" list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
+                </div>
+                <br>
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Номер паспорта</span>
+                    <input name="pass_num" type="number" maxlength="6" list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
+                </div>
+                <br>
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Дата выдачи паспорта</span>
+                    <input name="pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
+                </div>
+                <br>
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Кем выдан паспорт</span>
+                    <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
+                </div>
+                <br>
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Количество эмбрионов</span>
+                    <input name="count_embr" value="1" type="number"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" value="1" placeholder="1" style="width: 33%">  
+                </div>
+                <br>
+                <div class="input-group text-center">
+                    <span class="input-group-text ">Примерная дата рождения плода</span>
+                    <input name="estimated_birthday" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="20.10.2021" style="width: 33%">  
+                </div>
 
             {% endif %}
             <div class="d-grid gap-2">
-                <button name="btn_pregnant" class="btn btn-primary" type="submit">Отправить</button>
+                <br>
+                <button name="btn_pregnant" class="btn btn-dark" type="submit">Отправить</button>
             </div>
         </div>
     </form>
