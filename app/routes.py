@@ -235,6 +235,7 @@ def reception():
         
     return render_template("main/doctor_reception.html", doctors=doctors, current_date=current_date) #, pac_id=pacient_id, receptions=reasons, doctors=doctors, current_date=current_date, doc_id=doc_id)
 
+
 @application.route("/test", methods=['GET', 'POST'])
 @login_required
 def test():

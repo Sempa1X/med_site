@@ -13,7 +13,7 @@ function changeHandler(event) {
   const step = event.target.step;
 
     // здесь я получаю оба значения одной строкой, нужно одно
-    if (step === '15') {
+    if (step) {
         alert(step)
         }
     // здесь я получаю оба значения одной строкой, нужно одно
