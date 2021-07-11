@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% include 'style.html' %}
+{% block title %}DEV{% endblock %}
+
+{% block content %}
+{% include 'leftside.html' %}
+	<!--Container Main start-->
+    <div class="height-100 bg-light">
+        <h2>Расписание доктора</h2>
+        <div class="container-sm">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <form method="post">
+                        <div class="form">
+                            <select onchange={changeHandler} name="step" class="form-select" aria-label="Пример выбора по умолчанию">
+                                <option value="15">15 мин</option>
+                                <option value="30">30 мин</option>
+                                <option value="45">45 мин</option>   
+                                <option value="60">60 мин</option>
+                            </select>
+
+                            <input type="text" class="amount" placeholder="Кол-во">
+                            <div class="add">+</div>
+                            <button class="sub-btn">Купить</button>
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+var $add = document.getElementsByClassName('add')[0];
+var $form = document.getElementsByClassName('form')[0];
+$add.addEventListener('click', function(event) {
+  var $input = document.createElement('input');
+  $input.type = 'text';
+  $input.placeholder = 'Кол-во';
+  $input.classList.add('amount');
+  $form.insertBefore($input, $add);
+});
+
+function changeHandler(event) {
+    const step = event.target.step;
+  
+      // здесь я получаю оба значения одной строкой, нужно одно
+      if (step === '15') {
+          alert(step)
+          }
+      // здесь я получаю оба значения одной строкой, нужно одно
+      if (step === 'accountSelect') {
+          this.accountId = event.target.value;
+          }    
+}
+
+      
+</script>
+{% endblock %}

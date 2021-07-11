@@ -14,7 +14,7 @@ from sqlalchemy import or_, and_
 
 # импортируем свои файлы
 from app import application, db, login
-from app.models import User, Record, Patient
+from app.models import Schedule, User, Record, Patient
 
 
 
@@ -30,20 +30,24 @@ def before_request():
 @application.route('/schedule', methods=['GET', 'POST'])
 @login_required
 def schedule():
+    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
     if request.method == 'POST':
-        pass
-    return render_template('main/schedule.html')
+        doctor = request.form.get('doctor')
+        return redirect(url_for('schedule', doc_id=doctor))
+
+    return render_template('main/schedule.html', doctors=doctors)
 
 
 @application.route('/schedule/<doc_id>', methods=['GET', 'POST'])
 @login_required
-def schedule_doc():
+def schedule_doc(doc_id):
+    schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.isActive==True))
     if request.method == 'POST':
         pass
     return render_template('main/schedule_doc.html')
 
 
-@application.route('/record_post', methods=['GET', 'POST'])
+@application.route('/record', methods=['GET', 'POST'])
 @login_required
 def record_post():
     if request.method == 'POST':

@@ -23,6 +23,7 @@ class Schedule(db.Model):
     step_time = db.Column(db.Integer)
     date = db.Column(db.String(255))
     time = db.Column(db.String(255))
+    office = db.Column(db.Integer)
     isActive = db.Column(db.String(255))
 
 # создаем таблицу пользователь
