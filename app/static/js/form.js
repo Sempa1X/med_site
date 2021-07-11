@@ -22,4 +22,4 @@ function changeHandler(event) {
         }    
     }
 
-var a=document.getElementById('s1').value;
+var a=document.getElementById('step').value;

@@ -41,10 +41,11 @@ $add.addEventListener('click', function(event) {
   $input.placeholder = 'Кол-во';
   $input.classList.add('amount');
   $form.insertBefore($input, $add);
+  
 });
 
 function changeHandler(event) {
-    const step = event.target.step;
+    const step = document.getElementById('step').value;
   
       // здесь я получаю оба значения одной строкой, нужно одно
       if (step === '15') {

@@ -216,7 +216,7 @@ def reception():
             
             elif radio == f"option_true_{i.patient_id}":
                 flash('Пациент пришел', "success")
-                pacient = Patient.query.get(i)
+                pacient = Patient.query.get(i.patient_id)
                 pacient.reception = False
                 i.trust = False
                 i.isActive = False
