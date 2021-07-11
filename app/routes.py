@@ -189,7 +189,6 @@ def reception():
                 if select_doc == 'doctor_all':
                     records = Record.query.filter(and_(Record.date == calendar), (Record.isActive == True))
                     return render_template("main/doctor_reception.html", doctors=doctors, receptions=records, current_date=calendar) 
-                
                 elif select_doc == f'doctor_{ids}':
                     records_doctor = Record.query.filter(and_(Record.date == calendar), (Record.doctor_id == ids), (Record.isActive == True))                 
                     return render_template("main/doctor_reception.html", doctors=doctors, receptions=records_doctor, current_date=calendar) 
@@ -222,6 +221,12 @@ def reception():
                     
         
     return render_template("main/doctor_reception.html", doctors=doctors, current_date=current_date) #, pac_id=pacient_id, receptions=reasons, doctors=doctors, current_date=current_date, doc_id=doc_id)
+
+@application.route("/test", methods=['GET', 'POST'])
+@login_required
+def test():
+        
+    return render_template("main/timetable.html")
 
 
 # обработка станицы авторизации 
