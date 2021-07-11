@@ -27,11 +27,20 @@ def before_request():
     #     return redirect(url_for('login'))    
 
 
-@application.route('/alert_list', methods=['GET', 'POST'])
+@application.route('/schedule', methods=['GET', 'POST'])
 @login_required
-def alert_list():
-    lists = []
-    return render_template('main/alert_list.html', list=lists)
+def schedule():
+    if request.method == 'POST':
+        pass
+    return render_template('main/schedule.html')
+
+
+@application.route('/schedule/<doc_id>', methods=['GET', 'POST'])
+@login_required
+def schedule_doc():
+    if request.method == 'POST':
+        pass
+    return render_template('main/schedule_doc.html')
 
 
 @application.route('/record_post', methods=['GET', 'POST'])
