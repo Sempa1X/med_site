@@ -15,6 +15,16 @@ from flask import redirect, url_for
 from app import db, login
 
 
+class Schedule(db.Model):
+    __tablename__ = 'schedules'
+    id = db.Column(db.Integer, primary_key=True)
+
+    doctor_id = db.Column(db.Integer)
+    step_time = db.Column(db.Integer)
+    date = db.Column(db.String(255))
+    time = db.Column(db.String(255))
+    isActive = db.Column(db.String(255))
+
 # создаем таблицу пользователь
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -88,6 +98,7 @@ class Patient(db.Model):
     address = db.Column(db.String(255))
     trust_factor = db.Column(db.Boolean, default=True)
     pacient_role = db.Column(db.String(255))
+    speed = db.Column(db.Boolean, default=False)
 
 
 class Record(db.Model):
@@ -103,6 +114,15 @@ class Record(db.Model):
     trust = db.Column(db.Boolean, default=True)
     isActive = db.Column(db.Boolean, default=True)
     reason = db.Column(db.String(255))
+
+
+class alert_list(db.Model):
+    __tablename__ = 'alert_list'
+    id = db.Column(db.Integer, primary_key=True)
+
+    doctor_id = db.Column(db.Integer)
+    pacient_id = db.Column(db.Integer)
+
 
 
 
