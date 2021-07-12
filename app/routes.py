@@ -27,26 +27,46 @@ def before_request():
     #     return redirect(url_for('login'))    
 
 
-@application.route('/schedule', methods=['GET', 'POST'])
+@application.route('/schedule', methods=['GET', 'POST', 'ajax'])
 @login_required
 def schedule():
     doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor"))
     if request.method == 'POST':
         doctor = request.form.get('doctor')
-        return redirect(url_for('schedule_doc', doc_id=doctor))
+        choice = request.form.get('choice')
 
+        if choice == 'add':
+            return redirect(url_for('schedule_doc', doc_id=doctor))
+        elif choice == 'input':
+            return redirect(url_for('schedule_input', doc_id=doctor))
+        else:
+            return redirect(url_for('schedule'))
     return render_template('main/schedule.html', doctors=doctors)
+
+
+@application.route('/schedule_input/<doc_id>', methods=['GET', 'POST', 'ajax'])
+@login_required
+def schedule_input(doc_id):
+    schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.isActive=='True'))
+    if request.method == 'POST':
+        pass    
+
+    return render_template('main/schedule_input.html', schedules=schedules)
 
 
 @application.route('/schedule/<doc_id>', methods=['GET', 'POST'])
 @login_required
 def schedule_doc(doc_id):
-    schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.isActive==True))
     if request.method == 'POST':
-        value_all = request.form.get('value_all')
-        for i in range(value_all):
-            print(i)
-        print(value_all)
+        value_res = request.form.get('value_res')
+        date = request.form.get('calendar')
+        office = request.form.get('office')
+
+        for i in value_res.split(','):
+            schedule = Schedule(doctor_id=doc_id, date=date, office=office, time=i)
+            db.session.add(schedule)
+            db.session.commit()
+
     return render_template('main/schedule_doc.html')
 
 

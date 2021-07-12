@@ -16,6 +16,11 @@
                                 <option value="{{ doctor.id }}">{{ doctor.first_name }} {{ doctor.last_name }} {{ doctor.surname }}</option>
                             {% endfor %}
                           </select>
+
+                          <select name="choice" class="form-select" aria-label="Пример выбора по умолчанию">
+                                <option value="input">Вывести</option>
+                                <option value="add">Добавить</option>
+                          </select>
                         <button type="submit" class="btn btn-primary">Отправить</button>
                     </form>
                 </div>

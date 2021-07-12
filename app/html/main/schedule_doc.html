@@ -24,6 +24,8 @@
                     <form method="post">
                         <div class="form">
                             <div class="input-group">
+                                <input name="office" type="text" aria-label="First name" class="form-control ">
+                                <input name="calendar" type="date" class="form-control" name="date" value="{{ current_date }}" placeholder="Дата">
                                 <span class="input-group-text">Время с : до</span>
                                 <input id="after" type="text" aria-label="First name" class="form-control after">
                                 <input id="before" type="text" aria-label="Last name" class="form-control before">
@@ -75,6 +77,23 @@
             $input.classList.add('amount');
             $form.insertBefore($input, $add);
             }
+
+            var $add = document.getElementsByClassName('add')[0];
+            var $form = document.getElementsByClassName('form')[0];
+
+            var $input = document.createElement('input');
+            $input.type = 'text';
+            $input.name = 'value_all';
+            $input.value = result.length;
+            $input.classList.add('no_viseble');
+            $form.insertBefore($input, $add);
+
+            var $input = document.createElement('input');
+            $input.type = 'text';
+            $input.name = 'value_res';
+            $input.value = result;
+            $input.classList.add('no_viseble');
+            $form.insertBefore($input, $add);
         }
         else{
             let start = '12:00';
@@ -82,7 +101,7 @@
             let _start = moment(start, 'HH:mm');
             let _end = moment(end, 'HH:mm');
             
-            let result = [];
+            var result = [];
             
             while (_start <= _end) {
               result.push(_start.format('HH:mm'));
@@ -103,18 +122,27 @@
             $input.classList.add('amount');
             $form.insertBefore($input, $add);
             }
-        }
-        var $add = document.getElementsByClassName('add')[0];
-        var $form = document.getElementsByClassName('form')[0];
 
-        var $input = document.createElement('input');
-        $input.type = 'text';
-        $input.name = 'value_all';
-        $input.value = result.length;
-        $input.classList.add('');
-        $form.insertBefore($input, $add);
+            var $add = document.getElementsByClassName('add')[0];
+            var $form = document.getElementsByClassName('form')[0];
+
+            var $input = document.createElement('input');
+            $input.type = 'text';
+            $input.name = 'value_all';
+            $input.value = result.length;
+            $input.classList.add('no_viseble');
+            $form.insertBefore($input, $add);
+
+            var $input = document.createElement('input');
+            $input.type = 'text';
+            $input.name = 'value_res';
+            $input.value = result;
+            $input.classList.add('no_viseble');
+            $form.insertBefore($input, $add);
+        }
+       
     }
-    </script>     
+</script>     
 
 
 

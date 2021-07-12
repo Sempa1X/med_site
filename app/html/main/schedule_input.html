@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% include 'style.html' %}
+{% block title %}DEV{% endblock %}
+
+{% block content %}
+{% include 'leftside.html' %}
+	<!--Container Main start-->
+    <div class="height-100 bg-light">
+        <h2>Расписание докторов</h2>
+        <div class="container-sm">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <form method="post">
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+
+                        {% for i in schedules %}
+                            {{ i.doctor_id }}
+                            {{ i.date }}
+                            {{ i.time }}
+                            {{ i.isActive }}
+                            {{ i.office }}
+                        {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
