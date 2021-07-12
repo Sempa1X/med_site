@@ -2,7 +2,8 @@
 Файл для логики путей сайта
 """
 # импортируем стандартные модули
-from datetime import datetime
+from datetime import date, datetime
+from time import sleep
 import os
 
 # импортируем установленные модули
@@ -73,129 +74,153 @@ def schedule_doc(doc_id):
 @application.route('/record', methods=['GET', 'POST'])
 @login_required
 def record_post():
+    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor")) 
+    full_name = request.form.get('full_name')
     if request.method == 'POST':
         pacient_choice = request.form.get('pacient_choice')
-        return redirect(url_for('record', pacient_choice=pacient_choice))
-    return render_template('main/pacient_choice.html')
+        doctor = request.form.get('doctor')
+        doctor_id = request.form.get('doctor')
+        doc_id = str(doctor_id).split(':')[0]
+
+        return redirect(url_for('record', doc_id=int(doc_id), doctor=doctor, pacient_choice=pacient_choice))
+    return render_template('main/pacient_choice.html', doctors=doctors)
 
 
-@application.route("/record/<pacient_choice>", methods=['GET', 'POST'])
+@application.route("/record/<pacient_choice>/<doc_id>/<doctor>", methods=['GET', 'POST'])
 @login_required
-def record(pacient_choice):
-    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor")) # filter(and_(User.isActive=='True', User.role=="doctor"))
+def record(pacient_choice, doc_id, doctor):
+    now = datetime.now()
+    current_date = now.strftime('%Y-%m-%d')
+    
+
+    doctors = User.query.filter(and_(User.isActive=='True', User.role=="doctor")) 
+    doc_sch = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.date==str(current_date), Schedule.isActive == 1))
 
     if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         surname = request.form.get('surname')
         birthday = request.form.get('date_birth')
-        how_thing = request.form.get('how_thing')
+        how_think = request.form.get('how_think')
         address = request.form.get('address')
         calendar = request.form.get('calendar')
         time = request.form.get('time')
-        doctor = request.form.get('doctor')
-        doctor_id = request.form.get('doctor')
-        doc_id = str(doctor_id).split(':')[0]
         reason = request.form.get('reason')
 
-        if pacient_choice == 'Ребенок':
-            lr_f_name = request.form.get('lr_f_name')
-            lr_l_name = request.form.get('lr_l_name')
-            lr_surname = request.form.get('lr_surname')
-            lr_status = request.form.get('lr_status')
-            lr_pass_serial = request.form.get('lr_pass_serial')
-            lr_pass_num = request.form.get('lr_pass_num')
-            lr_pass_date = request.form.get('lr_pass_date')
-            lr_pass_issued = request.form.get('lr_pass_issued')
+        schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.date==calendar, Schedule.time == time, Schedule.isActive == 1)) 
+        for schedule in schedules:
+            if str(schedule.date) == str(calendar) and str(schedule.time) == str(time) and schedule.isActive == 1:
+                if pacient_choice == 'Ребенок':
+                    lr_f_name = request.form.get('lr_f_name')
+                    lr_l_name = request.form.get('lr_l_name')
+                    lr_surname = request.form.get('lr_surname')
+                    lr_status = request.form.get('lr_status')
+                    lr_pass_serial = request.form.get('lr_pass_serial')
+                    lr_pass_num = request.form.get('lr_pass_num')
+                    lr_pass_date = request.form.get('lr_pass_date')
+                    lr_pass_issued = request.form.get('lr_pass_issued')
 
-            pacient = Patient(first_name=first_name, last_name=last_name, surname=surname, birthday=birthday, refer=how_thing, address=address, lr_f_name=lr_f_name, lr_l_name=lr_l_name, lr_surname=lr_surname, lr_status=lr_status, lr_pass_serial=lr_pass_serial, lr_pass_num=lr_pass_num, lr_pass_date=lr_pass_date, lr_pass_issued=lr_pass_issued)
-            print(first_name, last_name, surname, birthday, how_thing, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
-            db.session.add(pacient)
-            db.session.commit()
+                    pacient = Patient(pacient_role=pacient_choice, first_name=first_name, last_name=last_name, surname=surname, birthday=birthday, refer=how_thing, address=address, lr_f_name=lr_f_name, lr_l_name=lr_l_name, lr_surname=lr_surname, lr_status=lr_status, lr_pass_serial=lr_pass_serial, lr_pass_num=lr_pass_num, lr_pass_date=lr_pass_date, lr_pass_issued=lr_pass_issued)
+                    schedule.isActive = 0
+                    print(first_name, last_name, surname, birthday, how_think, address, lr_f_name, lr_l_name, lr_surname, lr_status, lr_pass_serial, lr_pass_num, lr_pass_date,  lr_pass_issued)
+                    db.session.add(pacient)
+                    db.session.commit()
 
-            reception = Record(
-                doctor=doctor,
-                doctor_id=str(doc_id),
-                patient_id=str(pacient.id),
-                pacient=f'{last_name} {first_name} {surname}',
-                date=calendar,
-                time=time,
-                reason=reason
-            )
-            db.session.add(reception)
-            db.session.commit()
-        
-        elif pacient_choice == 'Обычный':
-            pass_serial_d = request.form.get('pass_serial')
-            pass_num_d = request.form.get('pass_num')
-            pass_date_d = request.form.get('pass_date')
-            pass_issued_d = request.form.get('pass_issued')
-            
-            pacient = Patient(
-                first_name=first_name,
-                last_name=last_name,
-                surname=surname,
-                birthday=birthday,
-                refer=how_thing,
-                address=address,
-                lr_pass_serial = pass_serial_d,
-                lr_pass_num = pass_num_d,
-                lr_pass_date = pass_date_d,
-                lr_pass_issued = pass_issued_d
-            )
-    
-            db.session.add(pacient)
-            db.session.commit()
+                    reception = Record(
+                        doctor=doctor,
+                        doctor_id=str(doc_id),
+                        patient_id=str(pacient.id),
+                        pacient=f'{last_name} {first_name} {surname}',
+                        date=calendar,
+                        time=time,
+                        reason=reason
+                    )
+                    db.session.add(reception)
+                    db.session.commit()
+                
+                elif pacient_choice == 'Обычный':
+                    pass_serial_d = request.form.get('pass_serial')
+                    pass_num_d = request.form.get('pass_num')
+                    pass_date_d = request.form.get('pass_date')
+                    pass_issued_d = request.form.get('pass_issued')
+                    
+                    pacient = Patient(
+                        pacient_role=pacient_choice,
+                        first_name=first_name,
+                        last_name=last_name,
+                        surname=surname,
+                        birthday=birthday,
+                        refer=how_think,
+                        address=address,
+                        lr_pass_serial = pass_serial_d,
+                        lr_pass_num = pass_num_d,
+                        lr_pass_date = pass_date_d,
+                        lr_pass_issued = pass_issued_d
+                    )
+                    schedule.isActive = 0
+                    db.session.add(pacient)
+                    db.session.commit()
 
-            reception = Record(
-                doctor=doctor,
-                doctor_id=str(doc_id),
-                patient_id=str(pacient.id),
-                pacient=f'{last_name} {first_name} {surname}',
-                date=calendar,
-                time=time,
-                reason=reason
-            )
-            db.session.add(reception)
-            db.session.commit()
+                    reception = Record(
+                        doctor=doctor,
+                        doctor_id=str(doc_id),
+                        patient_id=str(pacient.id),
+                        pacient=f'{last_name} {first_name} {surname}',
+                        date=calendar,
+                        time=time,
+                        reason=reason
+                    )
+                    db.session.add(reception)
+                    db.session.commit()
 
-        elif pacient_choice == 'Беременная':
-            pass_serial = request.form.get('pass_serial')
-            pass_num = request.form.get('pass_num')
-            pass_date = request.form.get('pass_date')
-            pass_issued = request.form.get('pass_issued')
-            count_embr = request.form.get('count_embr')
-            estimated_birthday = request.form.get('estimated_birthday')
+                elif pacient_choice == 'Беременная':
+                    pass_serial = request.form.get('pass_serial')
+                    pass_num = request.form.get('pass_num')
+                    pass_date = request.form.get('pass_date')
+                    pass_issued = request.form.get('pass_issued')
+                    count_embr = request.form.get('count_embr')
+                    estimated_birthday = request.form.get('estimated_birthday')
 
-            pacient = Patient(
-                first_name=first_name,
-                last_name=last_name,
-                surname=surname,
-                birthday=birthday,
-                refer=how_thing,
-                address=address,
-                pass_serial = pass_serial,
-                pass_num = pass_num,
-                pass_date = pass_date,
-                pass_issued = pass_issued,
-                count_embr=count_embr,
-                estimated_birthday=estimated_birthday
-            )
+                    pacient = Patient(
+                        pacient_role=pacient_choice,
+                        first_name=first_name,
+                        last_name=last_name,
+                        surname=surname,
+                        birthday=birthday,
+                        refer=how_think,
+                        address=address,
+                        pass_serial = pass_serial,
+                        pass_num = pass_num,
+                        pass_date = pass_date,
+                        pass_issued = pass_issued,
+                        count_embr=count_embr,
+                        estimated_birthday=estimated_birthday
+                    )
 
-            reception = Record(
-                doctor=doctor,
-                doctor_id=str(doc_id),
-                patient_id=str(pacient.id),
-                pacient=f'{last_name} {first_name} {surname}',
-                date=calendar,
-                time=time,
-                reason=reason
-            )
-            db.session.add(reception)
-            db.session.commit()
+                    reception = Record(
+                        doctor=doctor,
+                        doctor_id=str(doc_id),
+                        patient_id=str(pacient.id),
+                        pacient=f'{last_name} {first_name} {surname}',
+                        date=calendar,
+                        time=time,
+                        reason=reason
+                    )
+                    schedule.isActive = 0
+                    db.session.add(reception)
+                    db.session.commit()
 
-        return render_template("main/doctor_record.html", pacient_choice=pacient_choice, doctors=doctors) 
-    return render_template("main/doctor_record.html", pacient_choice=pacient_choice, doctors=doctors)
+                print('schedule.date == str(calendar) and schedule.time == str(time) and schedule.isActive == 1')
+
+            elif str(schedule.date) == str(calendar) and str(schedule.time) == str(time) and schedule.isActive == 0:
+                print('schedule.date == str(calendar) and schedule.time == str(time) and schedule.isActive == 0')
+                flash('Время на эту дату занято!')
+                break
+            else:
+                flash('Ошибка, в расписании такой даты и времени нет!')
+
+        return render_template("main/doctor_record.html",current_date=current_date, pacient_choice=pacient_choice, doctors=doctors) 
+    return render_template("main/doctor_record.html", pacient_choice=pacient_choice, current_date=current_date, doc_sch=doc_sch, doctors=doctors)
 
 
 @application.route("/reception", methods=['GET', 'POST'])
@@ -285,23 +310,6 @@ def login():
         return redirect(url_for('reception'))
     return render_template('main/login.html', title='Золотые ручки - Авторизация')
 
-
-# обработка станицы регистрации
-@application.route('/register_staff', methods=['GET', 'POST'])
-def register():
-    # ксли пользователь авторизован перенаправляем на главню
-    if current_user.is_authenticated:
-        return redirect(url_for('login'))
-    # если отправили форму
-    if request.method == 'POST':
-        # добавляем пользователя и отправляем сообщение и перенаправляем на авторизацию
-        user = User(username=request.form.get('username'), email=request.form.get('email'))
-        user.set_password(request.form.get('password'))
-        db.session.add(user)
-        db.session.commit()
-        flash('Вы зарегистрирваны!')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Золотые ручки - Регистрация')
 
 
 # обработка станицы деавторизации

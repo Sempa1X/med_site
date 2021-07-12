@@ -124,32 +124,6 @@ class alert_list(db.Model):
     pacient_id = db.Column(db.Integer)
 
 
-
-
-# создаем класс для настройки админ панели
-class MyAdminView(ModelView):
-    def is_accessible(self):
-        return current_user.isAdmin
-    
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login'))
-
-
-# создаем класс для настройки лавной страницы админ панели
-class MyIndexView(AdminIndexView):
-    def is_accessible(self):
-        return current_user.isAdmin
-
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login'))
-        
-    def is_visible(self):
-    # This view won't appear in the menu structure
-        return False
-
-
-
-# добавляем пользователя в сессию
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))

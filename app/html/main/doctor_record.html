@@ -21,28 +21,26 @@
             {% endif %}
             {% endwith %}
             
-                <form name="test" action="" method="post">
+                <form id="myForm" action="" method="post">
 <!--  -->
-                    <div class="input-group">
-                        <span class="input-group-text" style="width: 10%">Доктор</span>
-                        <input name="doctor" type="text"  list="data_doc" class="form-control" placeholder="Фамилия" style="width: 33%">
-                            <datalist id="data_doc">
-                                {% for doctor in doctors %}
-                                    <option value="{{ doctor.id }}: {{ doctor.first_name }} {{ doctor.last_name }} {{ doctor.surname }}">
-                                {% endfor %}        
-                            </datalist>
-                    </div>
+                    
                     <br>
                     <div class="input-group">
-                        <input name="calendar" type="date" class="form-control" name="date" value="{{ current_date }}" placeholder="Дата">
+                        <input id="calendar" name="calendar" type="date" class="form-control" name="date" value="{{ current_date }}" placeholder="Дата">
 
                         <span class="input-group-text " style="width: 10%">Время</span>
-                        <input name="time" type="text"  list="data_date" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Имя" style="width: 33%">
-                            <datalist id="data_date ">
-                            <option value="10:00" selected>
-                            <option value="10:30">
-                            <option value="11:00">
+                        <input id='select_time' name="time" type="text"  list="data_time" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="Время" style="width: 33%">
+                            {% if doc_sch %}
+                            <datalist id="data_time">
+                                {% for i in doc_sch %}
+                                    <option value="{{ i.time }}">
+                                {% endfor %}
                             </datalist>
+                            {% else %}
+                            <datalist id="data_time">
+                                    <option value="На сегодня нет расписания">
+                            </datalist>
+                            {% endif %}
                     </div>
                     <br>
                                                     <!-- ФИО -->
@@ -141,66 +139,66 @@
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Серия паспорта опекуна</span>
-                    <input name="lr_pass_serial" type="number" maxlength="4"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
+                    <input name="lr_pass_serial" type="number" maxlength="4"   id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Номер паспорта опекуна</span>
-                    <input name="lr_pass_num" type="number" maxlength="6"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
+                    <input name="lr_pass_num" type="number" maxlength="6"   id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Дата выдачи паспорта опекуна</span>
-                    <input name="lr_pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
+                    <input name="lr_pass_date" type="text"  id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Кем выдан паспорт опекуна</span>
-                    <input name="lr_pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
+                    <input name="lr_pass_issued" type="text" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
                 </div>
                 
             {% elif pacient_choice == 'Обычный' %}
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Серия паспорта</span>
-                    <input name="pass_serial" type="number" maxlength="4"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
+                    <input name="pass_serial" type="number" maxlength="4" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Номер паспорта</span>
-                    <input name="pass_num" type="number" maxlength="6"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
+                    <input name="pass_num" type="number" maxlength="6"  id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Дата выдачи паспорта</span>
-                    <input name="pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
+                    <input name="pass_date" type="text" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Кем выдан паспорт</span>
-                    <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
+                    <input name="pass_issued" type="text"  id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
                 </div>
 
             {% elif pacient_choice == 'Беременная' %}
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Серия паспорта</span>
-                    <input name="pass_serial" type="number" maxlength="4" list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
+                    <input name="pass_serial" type="number" maxlength="4"  id="exampleDataList" aria-label="Last name" class="form-control" placeholder="4415" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Номер паспорта</span>
-                    <input name="pass_num" type="number" maxlength="6" list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
+                    <input name="pass_num" type="number" maxlength="6"  id="exampleDataList" aria-label="Last name" class="form-control" placeholder="996415" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Дата выдачи паспорта</span>
-                    <input name="pass_date" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
+                    <input name="pass_date" type="text" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="10.05.1996" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Кем выдан паспорт</span>
-                    <input name="pass_issued" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
+                    <input name="pass_issued" type="text" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="ГУВМ МВД РФ" style="width: 33%">  
                 </div>
                 <br>
                 <div class="input-group text-center">
@@ -210,7 +208,7 @@
                 <br>
                 <div class="input-group text-center">
                     <span class="input-group-text ">Примерная дата рождения плода</span>
-                    <input name="estimated_birthday" type="text"  list="data_first" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="20.10.2021" style="width: 33%">  
+                    <input name="estimated_birthday" type="text" id="exampleDataList" aria-label="Last name" class="form-control" placeholder="20.10.2021" style="width: 33%">  
                 </div>
 
             {% endif %}
@@ -223,9 +221,7 @@
 
 
     <!-- End Test -->
-    </div>
-
-
-    <!--Container Main end-->
+</div>  
+    <!-- Container Main end -->
 <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
 {% endblock %}

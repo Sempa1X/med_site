@@ -13,7 +13,7 @@
                     <div class="text-center">
                         <h4>Выберите дату</h4>
                         <input name="calendar" type="date" class="form-control" class="mydate" name="date" value="{{ current_date }}" placeholder="Дата">
-                        {% if current_user.role == 'admin' %}
+                        {% if current_user.role == 'admin' or current_user.role == 'superadmin' %}
                         <br>
                         <h4>Выберите доктора</h4>
                         <select name='select_doc' class="form-select mt-2" id="selectToastPlacement">
