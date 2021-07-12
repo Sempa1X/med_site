@@ -20,53 +20,47 @@
                         <i class='bx bx-bookmark-plus nav_icon'></i>
                         <span class="nav_name">Запись</span>
                     </a>
+                    
                     {% elif current_user.role == 'admin' %}
                     <a href="#" class="nav_logo"> 
                         <i class='bx bx-layer nav_logo-icon'></i>
                         <span class="nav_logo-name">Администратор</span>
                     </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">Пациенты</span>
+                    <a href="{{ url_for('reception') }}" class="nav_link">
+                        <i class='bx bx-calendar nav_icon'></i>
+                        <span class="nav_name">Прием</span>
                     </a>
+                    <a href="{{ url_for('record_post')}}" class="nav_link">
+                        <i class='bx bx-bookmark-plus nav_icon'></i>
+                        <span class="nav_name">Запись</span>
+                    </a>
+                    <a href="{{ url_for('schedule')}}" class="nav_link">
+                        <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">Расписание</span>
+                    </a>
+                    
                     {% elif current_user.role == 'superadmin' %}
                     <a href="#" class="nav_logo"> 
                         <i class='bx bx-layer nav_logo-icon'></i>
-                        <span class="nav_logo-name">Гл. Администратор</span>
+                        <span class="nav_logo-name">Администратор</span>
                     </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'></i> 
-                        <span class="nav_name">Что-то еще</span>
-                    </a> 
-                    {% endif %}
-                    <a href="{{ url_for('schedule')}}" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'></i> 
-                        <span class="nav_name">Расписание</span>
-                    </a> 
-                    <!-- <a href="#" class="nav_link active">
-                        <i class='bx bx-grid-alt nav_icon'></i>
+                    <a href="{{ url_for('reception') }}" class="nav_link">
+                        <i class='bx bx-calendar nav_icon'></i>
                         <span class="nav_name">Прием</span>
                     </a>
-                    <a href="#" class="nav_link">
+                    <a href="{{ url_for('record_post')}}" class="nav_link">
+                        <i class='bx bx-bookmark-plus nav_icon'></i>
+                        <span class="nav_name">Запись</span>
+                    </a>
+                    <a href="{{ url_for('schedule')}}" class="nav_link">
                         <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">Пациенты</span>
+                        <span class="nav_name">Расписание</span>
                     </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'></i> 
-                        <span class="nav_name">Что-то еще</span>
-                    </a> 
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-bookmark nav_icon'></i>
-                        <span class="nav_name">Очень интересно</span>
+                    <a href="{{ url_for('admin.index')}}" class="nav_link">
+                        <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">Администрирование базы и пользователей</span>
                     </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-folder nav_icon'></i>
-                        <span class="nav_name">Думаю тут стоящая вещь</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
-                        <span class="nav_name">Как дела?</span>
-                    </a> -->
+                    {% endif %}
                 </div>
             </div> <a href="{{ url_for('logout') }}" class="nav_link"> 
                 <i class='bx bx-log-out nav_icon'></i> 

@@ -45,13 +45,11 @@ def schedule():
     return render_template('main/schedule.html', doctors=doctors)
 
 
-@application.route('/schedule_input/<doc_id>', methods=['GET', 'POST', 'ajax'])
+@application.route('/schedule_input/<doc_id>', methods=['GET', 'POST'])
 @login_required
 def schedule_input(doc_id):
-    schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.isActive=='True'))
-    if request.method == 'POST':
-        pass    
-
+    if request.method == "GET":
+        schedules = Schedule.query.filter(and_(Schedule.doctor_id==doc_id, Schedule.isActive==1))
     return render_template('main/schedule_input.html', schedules=schedules)
 
 
