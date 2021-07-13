@@ -27,7 +27,7 @@ login.login_message = "Чтобы попасть на закрытые стра�
 # Работа с админкой
 from app.models import User, Schedule, Patient, Record
 
-admin = Admin(application, name='Medic', template_mode='bootstrap4', index_view=MyIndexView(name='Новый пользователь'))
+admin = Admin(application, name='POLICLINIC', template_mode='bootstrap4', index_view=MyIndexView(name='Регистрация'))
 admin.add_view(MyAdminView(User, db.session, name="Пользователи"))
 admin.add_view(MyAdminView(Schedule, db.session, name="Расписание"))
 admin.add_view(MyAdminView(Patient, db.session, name="Пациенты"))

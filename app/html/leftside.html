@@ -42,7 +42,7 @@
                     {% elif current_user.role == 'superadmin' %}
                     <a href="#" class="nav_logo"> 
                         <i class='bx bx-layer nav_logo-icon'></i>
-                        <span class="nav_logo-name">Администратор</span>
+                        <span class="nav_logo-name">Гл. Администратор</span>
                     </a>
                     <a href="{{ url_for('reception') }}" class="nav_link">
                         <i class='bx bx-calendar nav_icon'></i>
@@ -57,7 +57,7 @@
                         <span class="nav_name">Расписание</span>
                     </a>
                     <a href="{{ url_for('admin.index')}}" class="nav_link">
-                        <i class='bx bx-user nav_icon'></i>
+                        <i class='bx bxl-dev-to nav_icon'></i>
                         <span class="nav_name">Администрирование базы и пользователей</span>
                     </a>
                     {% endif %}
