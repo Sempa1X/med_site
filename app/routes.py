@@ -77,9 +77,8 @@ def record_post():
     if request.method == 'POST':
         pacient_choice = request.form.get('pacient_choice')
         doctor = request.form.get('doctor')
-        doctor_id = request.form.get('doctor')
-        doc_id = str(doctor_id).split(':')[0]
-
+        doc_id = str(doctor).split(':')[0]
+        print(pacient_choice)
         return redirect(url_for('record', doc_id=int(doc_id), doctor=doctor, pacient_choice=pacient_choice))
     return render_template('main/pacient_choice.html', doctors=doctors)
 
