@@ -7,6 +7,8 @@
     <div class="height-100 bg-light">
         <div class="d-flex justify-content-center">
             <div class="container-sm">
+
+                <!-- дата -->
                 <div class="row h-50">
                     <div class="col-sm">
                         <span>Год</span>
@@ -24,6 +26,8 @@
                         </select>
                     </div>
                 </div>
+
+                <!-- автоподбор адреса -->
                 <div class="row h-50">
                     <div class="col-sm">
                         <form action="/test" method="post" name="form0">
@@ -40,7 +44,9 @@
                         <div id="msg_yandex">Ответ от сервера: {{ yandex['msg'] }}</div>
                     </div>
                 </div>
-                <div class="row h-100">
+
+                <!-- игрался с ajax и проиграл (он ворк тут на кнопочку, но вот допустим это прикрутить к select, я сдох) -->
+                <div class="row h-50">
                     <div class="col-sm">
                         <form action="/test" method="post" name="form1">
                             <span>Тест ajax</span>
@@ -56,25 +62,48 @@
                         <div id="msg">Ответ от сервера: {{ ajax_answer['msg'] }}</div>
                     </div>
                 </div>
+
+                <!-- Поиск и добавление пациента -->
+                <div class="row h-25">
+                    <div class="col-sm">
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-dark" type="submit">Добавить</button>
+                            <input type="text" class="form-control" placeholder="Пациент">
+                            <button class="btn btn-outline-dark" type="submit" onclick="findUser()">Найти</button>
+                        </div>
+                    </div>
+                    <div class="find-user" id="finds" style="display: none;">
+                        <select name="find_user" class="form-select mt-2" id="users">
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        function findUser() {
+            finds.setAttribute("style", "display: block;");
+            user_list = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+			for (var user_count = 0; user_count <= 11; user_count++) {
+				let add_user = new Option(user_list[user_count], user_count);
+				users.append(add_user);
+            }
+        }
 
-        $(document).ready(function () {
-            $("#form0" ).submit(function( event ) {
-            sendAjaxForm("form0", "msg_yandex");
-            event.preventDefault();
-            });
-        });
+        // $(document).ready(function () {
+        //     $("#form0" ).submit(function( event ) {
+        //     sendAjaxForm("form0", "msg_yandex");
+        //     event.preventDefault();
+        //     });
+        // });
 
-        $(document).ready(function () {
-            $("#form1" ).submit(function( event ) {
-              sendAjaxForm("form1", "msg");
-              event.preventDefault();
-            });
-        });
+        // $(document).ready(function () {
+        //     $("#form1" ).submit(function( event ) {
+        //       sendAjaxForm("form1", "msg");
+        //       event.preventDefault();
+        //     });
+        // });
  
         /* отправка формы через ajax */
         function sendAjaxForm(form_ajax, msg) {
