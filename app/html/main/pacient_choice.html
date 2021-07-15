@@ -13,14 +13,14 @@
                 <form method="post">
                     <div class="input-group">
                         <span class="input-group-text">Доктор</span>
-                        <input name="doctor" type="text"  list="data_doc" class="form-control" placeholder="Фамилия" style="width: 33%">
+                        <input name="doctor" type="text"  list="data_doc" class="form-control" placeholder="ФИО">
                             <datalist id="data_doc">
                                 {% for doctor in doctors %}
                                     <option value="{{ doctor.id }}: {{ doctor.first_name }} {{ doctor.last_name }} {{ doctor.surname }}">
                                 {% endfor %}        
                             </datalist>
                     </div>
-
+                    <br>
                     <select name="pacient_choice" id="pacient_choice" class="form-select">
                         <option value="Обычный">Обычный</option>
                         <option value="Ребенок">Ребенок</option>
