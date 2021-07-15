@@ -10,7 +10,7 @@
                 <div class="row h-50">
                     <div class="col-sm">
                         <span>Год</span>
-                        <select name='year' class="form-select mt-2" id="years" onchange="this.form.submit()">
+                        <select name='year' class="form-select mt-2" id="years">
                         </select>
                     </div>
                     <div class="col-sm">
@@ -28,9 +28,10 @@
                     <div class="col-sm">
                         <form action="/test" method="post" name="form0">
                             <div id="header">
-                                <div class="input-group mb-3">
+                                <div class="input-group input-group-lg">
                                     <input name="address" type="text" id="suggest" class="form-control" placeholder="Введите адрес">
                                 </div>
+                                <br>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-dark" id="button">Проверить</button>
                                 </div>
@@ -67,14 +68,13 @@
             event.preventDefault();
             });
         });
-        /* переопределить поведение кнопки "Отправить" */
+
         $(document).ready(function () {
             $("#form1" ).submit(function( event ) {
               sendAjaxForm("form1", "msg");
               event.preventDefault();
             });
         });
- 
  
         /* отправка формы через ajax */
         function sendAjaxForm(form_ajax, msg) {
@@ -84,9 +84,8 @@
                 url: form.attr('action'),
                 data: form.serialize(),
                 success: function (response) {
-                    var json = jQuery.parseJSON(response);
-                    if (json.success == 'true') {
-                        form.trigger('reset');
+                    if (response['success'] == 'true') {
+                        alert("красава!");
                     }
                     else
                     {

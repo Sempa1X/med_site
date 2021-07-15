@@ -288,10 +288,12 @@ def test():
     if request.method == "POST":
         print(request.form)
         if "test_ajax" in request.form:
-            return render_template("main/test.html", ajax_answer={'success': 'true', 'msg': request.form['test_ajax']}, yandex="")
-        else:
-            return render_template("main/test.html", ajax_answer="", yandex={'success': 'true', 'msg': request.form['address']})
-    return render_template("main/test.html", ajax_answer="", yandex="")
+            return render_template("main/test.html", ajax_answer={'success': 'true', 'msg': request.form['test_ajax']}, yandex="", date="")
+        elif "address" in request.form:
+            return render_template("main/test.html", ajax_answer="", yandex={'success': 'true', 'msg': request.form['address']}, date="")
+        elif "year" in request.form:
+            return render_template("main/test.html", ajax_answer="", yandex="", date={'success': 'true', 'msg': request.form['year']})
+    return render_template("main/test.html", ajax_answer="", yandex="", date="")
 
 
 # обработка станицы авторизации 
