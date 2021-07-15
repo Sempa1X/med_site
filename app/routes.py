@@ -16,6 +16,7 @@ from sqlalchemy import or_, and_
 # импортируем свои файлы
 from app import application, db, login
 from app.models import Schedule, User, Record, Patient
+import json
 
 
 
@@ -284,8 +285,13 @@ def reception():
 @application.route("/test", methods=['GET', 'POST'])
 @login_required
 def test():
-        
-    return render_template("main/test.html")
+    if request.method == "POST":
+        print(request.form)
+        if "test_ajax" in request.form:
+            return render_template("main/test.html", ajax_answer={'success': 'true', 'msg': request.form['test_ajax']}, yandex="")
+        else:
+            return render_template("main/test.html", ajax_answer="", yandex={'success': 'true', 'msg': request.form['address']})
+    return render_template("main/test.html", ajax_answer="", yandex="")
 
 
 # обработка станицы авторизации 
