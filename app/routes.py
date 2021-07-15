@@ -285,7 +285,7 @@ def reception():
 @login_required
 def test():
         
-    return render_template("main/timetable.html")
+    return render_template("main/test.html")
 
 
 # обработка станицы авторизации 
