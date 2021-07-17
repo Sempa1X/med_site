@@ -120,11 +120,11 @@
         
             // Put the results in a div
             posting.done(function( data ) {
-                if (data) {
-                  alert("я сука работаю, " + data.data)
+                if (data.success == "false") {
+                  alert("Нет расписания на эту дату")
                 }
                 else {
-                  alert("я сука НЕработаю")
+                    alert("я сука работаю, " + data.data)
                 }
             });
         };

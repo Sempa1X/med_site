@@ -29,7 +29,8 @@ def reception_process():
         a = []
         for i in record:
             a.append(i.reason)
-        print(i.reason)
+        if a is None or len(a) == 0:
+            return jsonify({'success': 'false', 'data': 'Нет расписания на эту дату'})
         return jsonify({'success': 'true', 'data': a})
     return jsonify({'success': 'false', 'data': 'Нет расписания на эту дату'})
 
