@@ -1,12 +1,21 @@
 {% extends 'base/base.html' %}
 
 
-
 {% block content %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
+
+<div id="sandbox-container"></div>
 
 <div class="row h-50">
     <div class="col-sm">
-        <div id="sandbox-container"></div>
+        <form action="/reception/reception_process" id="searchForm">
+            <input type="text" name="s" placeholder="date" id="date">
+            <input type="submit" value="Search">
+        </form>
     </div>
 </div>
 
@@ -77,19 +86,42 @@
     </div>
 </div>
 
-
+<script>
+    // Attach a submit handler to the form
+    $( "#searchForm" ).submit(function( event ) {
+     
+      // Stop form from submitting normally
+      event.preventDefault();
+     
+      // Get some values from elements on the page:
+      var $form = $( this ),
+        term = $form.find( "input[name='s']" ).val(),
+        url = $form.attr( "action" );
+     
+      // Send the data using post
+      var posting = $.post( url, { date: term } );
+     
+      // Put the results in a div
+      posting.done(function( data ) {
+          if (data) {
+            alert("я сука работаю, " + data)
+          }
+          else {
+            alert("я сука НЕработаю")
+          }
+      });
+    });
+    </script>
+    <script>
+        $('#sandbox-container').datepicker({
+            startView: 2,
+            maxViewMode: 2,
+            todayBtn: "linked",
+            language: "ru",
+            daysOfWeekDisabled: "0",
+            autoclose: true,
+            todayHighlight: true
+        });
+    </script>
 
 {% endblock %}
-
-
-<script>
-    $('#sandbox-container').datepicker({
-        startView: 2,
-        maxViewMode: 2,
-        todayBtn: "linked",
-        language: "ru",
-        daysOfWeekDisabled: "0",
-        autoclose: true,
-        todayHighlight: true
-    });
-</script>

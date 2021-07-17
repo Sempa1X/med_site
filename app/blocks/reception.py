@@ -1,10 +1,9 @@
 import datetime
 
 from flask import Blueprint, render_template, redirect,\
-    url_for, jsonify
+    url_for, jsonify, request
 from flask_login import login_required
 from sqlalchemy import or_, and_
-from werkzeug.wrappers import request
 
 from app import db
 from app.src.database import User, Patient, Record
@@ -23,11 +22,18 @@ def reception():
     return render_template('reception/reception.html', res=res)
 
 
-@bp_reception.post('/reception_process')
+@bp_reception.route('/reception_process', methods=["POST"])
 def reception_process():
     if 'date' in request.form:
-        record = Record(Record.date == request.form['date'])
-        return jsonify({'success': 'true', 'records': record})
+        record = Record.query.filter(Record.date == request.form['date'])
+        a = []
+        for i in record:
+            b = []
+            for _ in i:
+                b.append(_)
+            a.append(b)
+        print(a)
+        return jsonify({'success': 'true', 'records': a})
     return jsonify({'success': 'false', 'text': 'Нет расписания на эту дату'})
 
 
