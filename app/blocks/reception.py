@@ -28,10 +28,11 @@ def reception_process():
         record = Record.query.filter(Record.date == request.form['date'])
         a = []
         for i in record:
-            a.append(i.reason)
+            doc = User.query.get(i.doctor_id)
+            a.append({'doc_full_name': })
         if a is None or len(a) == 0:
-            return jsonify({'success': 'false', 'data': 'Нет расписания на эту дату'})
+            return jsonify({'success': 'false'})
         return jsonify({'success': 'true', 'data': a})
-    return jsonify({'success': 'false', 'data': 'Нет расписания на эту дату'})
+    return jsonify({'success': 'false'})
 
 
