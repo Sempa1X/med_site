@@ -12,7 +12,7 @@ bp_login = Blueprint('login', __name__, url_prefix='/')
 
 
 @bp_login.route('/', methods=['POST', 'GET'])
-@login_required
+
 def login():
     if request.method == 'POST':
         print(request.form.get('username'), request.form.get('password'))
@@ -27,7 +27,7 @@ def login():
 
 
 @bp_login.route('/logout')
-@login_required
+
 def logout():
     logout_user() 
     return redirect(url_for('login.login'))
