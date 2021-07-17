@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
 
-    <form id='searchFormtest' action="reception/reception_process">
+    <form id='searchFormtest' action="/reception/reception_process">
         <div id="sandbox-container"></div>
 
 
@@ -95,40 +95,39 @@
     </script>
     <script>
         $('#sandbox-container').datepicker({
-            onSelect:function() {
-                console.log("Selected date:  input's current value: ");
-            },
+            format: "yyyy-mm-dd",
             startView: 2,
             maxViewMode: 2,
             todayBtn: "linked",
             language: "ru",
             daysOfWeekDisabled: "0",
             autoclose: true,
-            todayHighlight: true
-        })
-        .on('change', (function( event ) {
-     
-                // Stop form from submitting normally
-                event.preventDefault();
-               
-                // Get some values from elements on the page:
-                var $form = $( '#searchFormtest' ),
-                  term = $form.find( "#sandbox-container" ).val(),
-                  url = $form.attr( "action" );
-               
-                // Send the data using post
-                var posting = $.post( url, { date: term } );
-               
-                // Put the results in a div
-                posting.done(function( data ) {
-                    if (data) {
-                      alert("я сука работаю, " + data.records)
-                    }
-                    else {
-                      alert("я сука НЕработаю")
-                    }
-                });
-              }));
+            todayHighlight: true,
+            inline: true,
+            sideBySide: true
+        }).on('changeDate', showTestDate);
+        function showTestDate() {
+            console.log($('#sandbox-container').datepicker('getFormattedDate'));
+
+            event.preventDefault();
+        
+            var $form = $( '#searchFormtest' ),
+              term = $form.find( "#sandbox-container" ).val(),
+              url = $form.attr( "action" );
+        
+            // Send the data using post
+            var posting = $.post( url, { date: $('#sandbox-container').datepicker('getFormattedDate') } );
+        
+            // Put the results in a div
+            posting.done(function( data ) {
+                if (data) {
+                  alert("я сука работаю, " + data.records)
+                }
+                else {
+                  alert("я сука НЕработаю")
+                }
+            });
+        };
     </script>
 
 {% endblock %}
