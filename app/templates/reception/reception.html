@@ -8,20 +8,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
 
-    <form id='searchFormtest' action="/reception/reception_process">
-        <div id="sandbox-container"></div>
-
-
-    </form>
-
-<div class="row h-50">
-    <div class="col-sm">
-        <form action="/reception/reception_process" id="searchForm">
-            <input type="text" name="s" placeholder="date" id="date">
-            <input type="submit" value="Search">
+<div class="row">
+    <div class="col">
+        <form id='searchFormtest' action="/reception/reception_process">
+            <div id="sandbox-container"></div>
         </form>
+        <br>
+        <div class="alert" role="alert" id="alert"></div>
     </div>
 </div>
+
 
 <div class="row h-50">
     <div class="col-sm">
@@ -90,9 +86,6 @@
     </div>
 </div>
 
-<script>
-   
-    </script>
     <script>
         $('#sandbox-container').datepicker({
             format: "yyyy-mm-dd",
@@ -121,13 +114,24 @@
             // Put the results in a div
             posting.done(function( data ) {
                 if (data.success == "false") {
-                  alert("Нет расписания на эту дату")
+                    $('#alert').attr('class', 'alert alert-danger');
+                    $('#alert').text("Нет расписания на эту дату");
+
+                    setTimeout(sayHi, 2000);
                 }
                 else {
                     alert("я сука работаю, " + data.data)
                 }
             });
         };
+
+        function sayHi() {
+            $('#alert').attr('class', '');
+            $('#alert').text("");
+        }
+
+        
+
     </script>
 
 {% endblock %}
