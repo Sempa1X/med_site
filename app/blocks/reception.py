@@ -30,7 +30,7 @@ def reception_process():
         for i in record:
             a.append(i.reason)
         print(i.reason)
-        return jsonify({'success': 'true', 'records': a})
-    return jsonify({'success': 'false', 'text': 'Нет расписания на эту дату'})
+        return jsonify({'success': 'true', 'data': a})
+    return jsonify({'success': 'false', 'data': 'Нет расписания на эту дату'})
 
 
