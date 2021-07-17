@@ -1,17 +1,33 @@
-{% extends 'base/base.html' %}
-{% block title %}DEV{% endblock %}
+<html>
 
-{% block content %}
-<div class="container h-100">
-    <div class="row align-items-center h-100">
-        <div class="col-6 mx-auto">
-            <h1 class="text-center">Авторизация!</h1>
-            <form action="" method="post">
-                <input type="text" name='username'>
-                <input type="text" name="password">
-                <button type="submit">Отправить</button>
+<head>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body>
+    
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-3 col-md-8 mx-auto">
+            <h1 class="fw-light">Авторизация</h1>
+            <br>
+            <form method="post" action="#">
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input name="username" type="text" class="form-control" id="username" placeholder="Введите имя пользователя">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Введите пароль">
+                </div>
+                <br>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-dark">Войти</button>
+                </div>
             </form>
         </div>
     </div>
-</div>
-{% endblock %}
+</section>
+</body>
+</html>
