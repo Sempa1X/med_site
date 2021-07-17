@@ -28,11 +28,8 @@ def reception_process():
         record = Record.query.filter(Record.date == request.form['date'])
         a = []
         for i in record:
-            b = []
-            for _ in i:
-                b.append(_)
-            a.append(b)
-        print(a)
+            a.append(i.reason)
+        print(i.reason)
         return jsonify({'success': 'true', 'records': a})
     return jsonify({'success': 'false', 'text': 'Нет расписания на эту дату'})
 
