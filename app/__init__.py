@@ -25,9 +25,6 @@ application.register_blueprint(bp_login)
 from app.blocks.reception import bp_reception
 application.register_blueprint(bp_reception)
 
-
-
-
 # from app.src.database import MyIndexView
 
 
