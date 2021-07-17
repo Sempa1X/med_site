@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% include 'style.html' %}
+{% block title %}DEV{% endblock %}
+
+{% block content %}
+{% include 'leftside.html' %}
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <h1 class="text-center">Авторизация!</h1>
+            <form action="" method="post">
+                <input type="text" name='username'>
+                <input type="text" name="password">
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

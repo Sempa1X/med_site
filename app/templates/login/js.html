@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>.
+    <title>Document</title>
+</head>
+<body>
+    
+    <form method="post">
+    
+        <div class="form">
+            <input name="calendar" type="date" class="form-control calendar" class="mydate" id="calendar" value="{{ current_date }}" placeholder="Дата">
+
+            <select name="select" id="select">
+            </select>
+        </div>
+    
+    </form>
+
+    <script>
+        $(document).ready(function(){
+
+            $('form').on('change', function(event){
+        
+                $.ajax({
+                    data : {
+                        date_true : $('#calendar').val(),
+                        date_false : 'No Date'
+                    },
+                    type : 'POST',
+                    url : '/process'
+                })
+                .done(function(data){
+                    
+                    if (data.success == 'True'){    
+                        var objSel = document.getElementById("select");
+                        objSel.options.length = 0;                        
+                        var str = data.times.replace(/[^:0-9\s]/gi, '').split(' ');
+
+                    for(let i = 0; i<str.length; i++){
+                        let newOption = new Option(str[i], "val_" + i);
+                        objSel.append(newOption);
+
+                    }  
+                }
+                else{
+                    var objSel = document.getElementById("select");
+                    let selectedOption = objSel.options;
+                    let newOption = new Option('Нет времени', "val_exec");
+                    objSel.append(newOption);
+                }
+                })
+        
+            });
+        
+        });
+    </script>
+
+    <script src="{{url_for('static', filename = 'js.js') }}"></script>
+</body>
+</html>

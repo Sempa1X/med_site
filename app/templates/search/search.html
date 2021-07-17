@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" class="d-flex" action="/search_process">
+    <div class="input-group justify-content-center">
+        <div class="form-outline mt-2">
+        <input name="q" value="{{ request.args.get('q', '') }}" placeholder="Поиск товара" aria-label="Search" type="search" id="q" class="form-control" />
+        </div>
+        <button id="search-button" type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+        </button>
+    </div>
+</form>
+
+
+{% endblock %}
+
+
