@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Blueprint, render_template, redirect,\
-    url_for, jsonify, request
+    url_for, jsonify, request, flash
 from flask_login import login_required
 from sqlalchemy import or_, and_
 
@@ -34,5 +34,14 @@ def reception_process():
             return jsonify({'success': 'false'})
         return jsonify({'success': 'true', 'data': a})
     return jsonify({'success': 'false'})
+
+    record = Record.query.filter(Record.date == request.form['date'])
+    a = []
+    for i in record:
+        a.append(i.reason)
+    if a is None or len(a) == 0:
+        flash('Нет расписания на выбранную дату')
+        return jsonify({'success': 'false'})
+    return jsonify({'success': 'true', 'data': a})
 
 
