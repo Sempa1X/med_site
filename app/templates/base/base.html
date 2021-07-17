@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
 	<head>
-        {% include 'meta.html' %}
-        {% include 'links.html' %}
-		{% include 'style.html' %}
-		{% include 'scripts.html' %}
+        {% include 'base/meta.html' %}
+        {% include 'base/links.html' %}
+		{% include 'base/style.html' %}
+		{% include 'base/scripts.html' %}
         <title>{% block title %}{% endblock %}</title>
 	</head>
 	<body id="body-pd">
-		{% include 'leftside.html' %}
+		{% include 'base/leftside.html' %}
 		{% block content %} {% endblock %}
 	</body>
 </html>
