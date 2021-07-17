@@ -1,57 +1,95 @@
 {% extends 'base/base.html' %}
 
+
+
 {% block content %}
-    {% for i in res %}
-        {% for o in range(res.count()) %}
-        ID: {{ i.records[o].id }}
-        <form action="/reception_process" method="post">
-        
-            <div class="group">
-                <input type="text" id='inp'>
+
+<div class="row h-50">
+    <div class="col-sm">
+        <div id="sandbox-container"></div>
+    </div>
+</div>
+
+<div class="row h-50">
+    <div class="col-sm">
+        <span>Год</span>
+        <select name='year' class="form-select mt-2" id="years">
+        </select>
+    </div>
+    <div class="col-sm">
+        <span>Месяц</span>
+        <select name='month' class="form-select mt-2" id="months">
+        </select>
+    </div>
+    <div class="col-sm">
+        <span>Число</span>
+        <select name='day' class="form-select mt-2" id="days">
+        </select>
+    </div>
+</div>
+
+<!-- автоподбор адреса -->
+<div class="row h-50">
+    <div class="col-sm">
+        <form action="/test" method="post" name="form0">
+            <div id="header">
+                <div class="input-group input-group-lg">
+                    <input name="address" type="text" id="suggest" class="form-control" placeholder="Введите адрес">
+                </div>
+                <br>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-dark" id="button">Проверить</button>
+                </div>
             </div>
-        
         </form>
-            
-        {% endfor %}
-    {% endfor %}
+    </div>
+</div>
+
+<!-- игрался с ajax и проиграл (он ворк тут на кнопочку, но вот допустим это прикрутить к select, я сдох) -->
+<div class="row h-50">
+    <div class="col-sm">
+        <form action="/test" method="post" name="form1" id="form1">
+            <span>Тест ajax</span>
+            <select name='test_ajax' id='test_ajax' class="form-select mt-2" id="test_ajax">
+                <option value="Краснодар">Краснодар</option>
+                <option value="Москва">Москва</option>
+            </select>
+            <br>
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn btn-dark" value="Отправить"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Поиск и добавление пациента -->
+<div class="row h-25">
+    <div class="col-sm">
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-dark" type="submit">Добавить</button>
+            <input type="text" class="form-control" placeholder="Пациент">
+            <button class="btn btn-outline-dark" type="submit" onclick="findUser()">Найти</button>
+        </div>
+    </div>
+    <div class="find-user" id="finds" style="display: none;">
+        <select name="find_user" class="form-select mt-2" id="users">
+        </select>
+    </div>
+</div>
 
 
-    <script>
-        $(document).ready(function(){
-
-            $('inp').on('input', function(event){
-        
-                $.ajax({
-                    data : {
-                        date : $('#inp').val()
-                    },
-                    type : 'POST',
-                    url : '/reception_process'
-                })
-                .done(function(data){
-                    
-                    if (data.success == 'True'){    
-                        var objSel = document.getElementById("select");
-                        objSel.options.length = 0;                        
-                        var str = data.times.replace(/[^:0-9\s]/gi, '').split(' ');
-
-                    for(let i = 0; i<str.length; i++){
-                        let newOption = new Option(str[i], "val_" + i);
-                        objSel.append(newOption);
-
-                    }  
-                }
-                else{
-                    var objSel = document.getElementById("select");
-                    let selectedOption = objSel.options;
-                    let newOption = new Option('Нет времени', "val_exec");
-                    objSel.append(newOption);
-                }
-                })
-        
-            });
-        
-        });
-    </script>
 
 {% endblock %}
+
+
+<script>
+    $('#sandbox-container').datepicker({
+        startView: 2,
+        maxViewMode: 2,
+        todayBtn: "linked",
+        language: "ru",
+        daysOfWeekDisabled: "0",
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
