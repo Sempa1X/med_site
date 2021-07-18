@@ -7,9 +7,9 @@
     <div class="form-group">
     <h2 class="text-center">Имя</h2>
 
+    <input name="sur" placeholder="Фамилия" type="text">
     <input name="first" placeholder="Имя" type="text">
     <input name="last" placeholder="Отчество" type="text">
-    <input name="sur" placeholder="Фамилия" type="text">
 
     <h2 class="text-center">Краткая информация</h2>
 
@@ -41,6 +41,9 @@
         }
         else if ($('#role').val() == 'child'){
             $('#form').append('<h2 class="text-center">Данные о сопровождающем</h2>');
+            $('#form').append('<input name="lr_surname" placeholder="Фамилия представителя" type="text">');
+            $('#form').append('<input name="lr_f_name" placeholder="Имя представителя" type="text">');
+            $('#form').append('<input name="lr_l_name" placeholder="Отчество представителя" type="text">');
             $('#form').append('<input name="lr_status" placeholder="Тип представителя" type="text">');
             $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта представителя" type="text">');
             $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта представителя" type="text">');
