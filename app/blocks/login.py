@@ -14,6 +14,8 @@ bp_login = Blueprint('login', __name__, url_prefix='/')
 @bp_login.route('/', methods=['POST', 'GET'])
 
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('receptions.reception'))
     if request.method == 'POST':
         print(request.form.get('username'), request.form.get('password'))
         user = User.query.filter_by(username=request.form.get('username')).first()

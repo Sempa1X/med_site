@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Blueprint, render_template, redirect,\
-    url_for, jsonify, request, flash
+    url_for, jsonify, request
 from flask_login import login_required
 from sqlalchemy import or_, and_
 
@@ -24,24 +24,13 @@ def reception():
 
 @bp_reception.route('/reception_process', methods=["POST"])
 def reception_process():
-    if 'date' in request.form:
-        record = Record.query.filter(Record.date == request.form['date'])
-        a = []
-        for i in record:
-            doc = User.query.get(i.doctor_id)
-            a.append({'doc_full_name': })
-        if a is None or len(a) == 0:
-            return jsonify({'success': 'false'})
-        return jsonify({'success': 'true', 'data': a})
-    return jsonify({'success': 'false'})
-
     record = Record.query.filter(Record.date == request.form['date'])
-    a = []
+    patient_info = []
     for i in record:
-        a.append(i.reason)
-    if a is None or len(a) == 0:
-        flash('Нет расписания на выбранную дату')
+        patient = Patient.query.get(i.patient_id)
+        patient_info.append({'full_name': patient.full_name, 'trust_factor': patient.trust_factor, 'role': patient.patient_role, 'comment': patient.comment, 'phone': patient.phone}) 
+    if len(patient_info) == 0:
         return jsonify({'success': 'false'})
-    return jsonify({'success': 'true', 'data': a})
+    return jsonify({'success': 'true', 'data': patient_info})
 
 

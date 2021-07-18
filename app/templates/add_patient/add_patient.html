@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="container">
+
+<form id="form" method="POST" class="d-flex" action="">
+    <div class="form-group">
+    <h2 class="text-center">Имя</h2>
+
+    <input name="first" placeholder="Имя" type="text">
+    <input name="last" placeholder="Отчество" type="text">
+    <input name="sur" placeholder="Фамилия" type="text">
+
+    <h2 class="text-center">Краткая информация</h2>
+
+    <input name="birthday" placeholder="День рождения" type="text">
+    <input name="how_think" placeholder="Как узнал" type="text">
+
+    <input name="address" placeholder="Адрес" type="text">
+    <input name="phone" placeholder="Номер телефона" type="text">
+    <input name="phone2" placeholder="Запасной номер телефона" type="text">
+
+    <select name="role" id="role" placeholder="Тип пациента" type="text">
+        <option value="default">Обычный</option>
+        <option value="child">Ребёнок</option>
+        <option value="pregnant">Беременная</option>
+    </select>
+
+</form>
+
+<script>
+    $('#role').on('change', function(){
+        $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
+        if ($('#role').val() == 'default'){
+            $('#form').append('<h2 class="text-center">Данные</h2>');
+            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
+            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
+            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
+            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
+            $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
+        }
+        else if ($('#role').val() == 'child'){
+            $('#form').append('<h2 class="text-center">Данные о сопровождающем</h2>');
+            $('#form').append('<input name="lr_status" placeholder="Тип представителя" type="text">');
+            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта представителя" type="text">');
+            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта представителя" type="text">');
+            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта представителя" type="text">');
+            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта представителя" type="text">');
+            $('#form').append('<input name="comment" placeholder="Комментарий представителя(не обязательно)" type="text">');
+        }
+        else if ($('#role').val() == 'pregnant'){
+            $('#form').append('<h2 class="text-center">Данные</h2>');
+            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
+            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
+            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
+            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
+            $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
+        }
+        $('#form').append('<button type="submit" class="btn btn-outline-primary">Отправить</button>');
+        $('#form').append('</div>');
+        $('#form').append('</div>');
+        
+    });
+</script>
+{% endblock %}
+
+

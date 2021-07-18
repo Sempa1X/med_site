@@ -1,16 +1,38 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<form method="POST" class="d-flex" action="/search_process">
+<form method="POST" class="d-flex" action="">
     <div class="input-group justify-content-center">
         <div class="form-outline mt-2">
-        <input name="q" value="{{ request.args.get('q', '') }}" placeholder="Поиск товара" aria-label="Search" type="search" id="q" class="form-control" />
+            <input name="q" list="patient" value="{{ request.args.get('q', '') }}" placeholder="Поиск пациента" type="search" id="q" class="form-control" />
+            <datalist id="patient">
+                {% for i in patients %}
+                <option value="{{ i.full_name }}">
+                {% endfor %}
+            </datalist>
+        
+            <button id="search-button" type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+            </button>
         </div>
-        <button id="search-button" type="submit" class="btn btn-primary">
-        <i class="fas fa-search"></i>
-        </button>
     </div>
 </form>
+
+{% if is_patients %}
+    {% for i in patients_search %}
+        {{ i.full_name }}
+        {{ i.birthday }}
+        {{ i.is_reception }}
+        {{ i.trust_factor }}
+        {{ i.patient_role }}
+        {{ i.phone }}
+    {% endfor %}
+{% else %}
+    <div class="text-center">
+        <h2>Похожих пациентов нет</h2>
+    </div>
+{% endif
+     %}
 
 
 {% endblock %}

@@ -25,6 +25,13 @@ application.register_blueprint(bp_login)
 from app.blocks.reception import bp_reception
 application.register_blueprint(bp_reception)
 
+from app.blocks.search import bp_search
+application.register_blueprint(bp_search)
+
+from app.blocks.add_patient import bp_add
+application.register_blueprint(bp_add)
+
+
 # from app.src.database import MyIndexView
 
 

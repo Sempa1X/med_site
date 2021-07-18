@@ -24,6 +24,7 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
+    full_name = db.Column(db.String(255))
 
     sex = db.Column(db.Boolean, default=1)
     birthday = db.Column(db.String(50))
@@ -57,7 +58,7 @@ class Patient(db.Model):
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
-    full_name = db.Column(db.String(255), default=surname + " " + first_name + " " + last_name)
+    full_name = db.Column(db.String(255))
 
     birthday = db.Column(db.String(50))
     refer = db.Column(db.String(255), default='Сарафан')

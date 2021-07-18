@@ -2,43 +2,23 @@
 
 
 {% block content %}
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
-
 <div class="row">
     <div class="col">
         <form id='searchFormtest' action="/reception/reception_process">
             <div id="sandbox-container"></div>
         </form>
         <br>
-        <div class="alert" role="alert" id="alert"></div>
+        <div class role="alert" id="alert"></div>
     </div>
-</div>
+</div> 
 
-
-<div class="row h-50">
-    <div class="col-sm">
-        <span>Год</span>
-        <select name='year' class="form-select mt-2" id="years">
-        </select>
-    </div>
-    <div class="col-sm">
-        <span>Месяц</span>
-        <select name='month' class="form-select mt-2" id="months">
-        </select>
-    </div>
-    <div class="col-sm">
-        <span>Число</span>
-        <select name='day' class="form-select mt-2" id="days">
-        </select>
-    </div>
-</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
 
 <!-- автоподбор адреса -->
-<div class="row h-50">
+<!-- <div class="row h-50">
     <div class="col-sm">
         <form action="/test" method="post" name="form0">
             <div id="header">
@@ -52,27 +32,11 @@
             </div>
         </form>
     </div>
-</div>
+</div> -->
 
-<!-- игрался с ajax и проиграл (он ворк тут на кнопочку, но вот допустим это прикрутить к select, я сдох) -->
-<div class="row h-50">
-    <div class="col-sm">
-        <form action="/test" method="post" name="form1" id="form1">
-            <span>Тест ajax</span>
-            <select name='test_ajax' id='test_ajax' class="form-select mt-2" id="test_ajax">
-                <option value="Краснодар">Краснодар</option>
-                <option value="Москва">Москва</option>
-            </select>
-            <br>
-            <div class="d-grid gap-2">
-                <input type="submit" class="btn btn-dark" value="Отправить"/>
-            </div>
-        </form>
-    </div>
-</div>
 
 <!-- Поиск и добавление пациента -->
-<div class="row h-25">
+<!-- <div class="row h-25">
     <div class="col-sm">
         <div class="input-group mb-3">
             <button class="btn btn-outline-dark" type="submit">Добавить</button>
@@ -84,55 +48,60 @@
         <select name="find_user" class="form-select mt-2" id="users">
         </select>
     </div>
-</div>
+</div> -->
 
-    <script>
-        $('#sandbox-container').datepicker({
-            format: "yyyy-mm-dd",
-            startView: 2,
-            maxViewMode: 2,
-            todayBtn: "linked",
-            language: "ru",
-            daysOfWeekDisabled: "0",
-            autoclose: true,
-            todayHighlight: true,
-            inline: true,
-            sideBySide: true
-        }).on('changeDate', showTestDate);
-        function showTestDate() {
-            console.log($('#sandbox-container').datepicker('getFormattedDate'));
+<script>
+    $('#sandbox-container').datepicker({
+        format: "yyyy-mm-dd",
+        startView: 2,
+        maxViewMode: 2,
+        todayBtn: "linked",
+        language: "ru",
+        daysOfWeekDisabled: "0",
+        autoclose: true,
+        todayHighlight: true,
+    }).on('changeDate', showTestDate);
+    function showTestDate() {
+        console.log($('#sandbox-container').datepicker('getFormattedDate'));
 
-            event.preventDefault();
-        
-            var $form = $( '#searchFormtest' ),
-              term = $form.find( "#sandbox-container" ).val(),
-              url = $form.attr( "action" );
-        
-            // Send the data using post
-            var posting = $.post( url, { date: $('#sandbox-container').datepicker('getFormattedDate') } );
-        
-            // Put the results in a div
-            posting.done(function( data ) {
-                if (data.success == "false") {
-                    $('#alert').attr('class', 'alert alert-danger');
-                    $('#alert').text("Нет расписания на эту дату");
+        event.preventDefault();
+    
+        var $form = $( '#searchFormtest' ),
+            term = $form.find( "#sandbox-container" ).val(),
+            url = $form.attr( "action" );
+    
+        // Send the data using post
+        var posting = $.post( url, { date: $('#sandbox-container').datepicker('getFormattedDate') } );
+    
+        // Put the results in a div
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                $('#alert').attr('class', 'alert alert-danger');
+                $('#alert').text("Нет расписания на эту дату");
 
-                    setTimeout(sayHi, 2000);
+                setTimeout(sayHi, 2000);
+            }
+            else {
+                for (var a = 0; a < data.data.length; a++) {
+                    console.log(data.data[a].full_name + a)
+                    console.log(data.data[a].trust_factor + a)
+                    console.log(data.data[a].role + a)
+                    console.log(data.data[a].comment + a)
+                    console.log(data.data[a].phone + a)
+
                 }
-                else {
-                    alert("я сука работаю, " + data.data)
-                }
-            });
-        };
+            }
+        });
+    };
 
-        function sayHi() {
-            $('#alert').attr('class', '');
-            $('#alert').text("");
-        }
+    function sayHi() {
+        $('#alert').attr('class', '');
+        $('#alert').text("");
+    }
 
-        
+    
 
-    </script>
+</script>
 
 {% endblock %}
 
