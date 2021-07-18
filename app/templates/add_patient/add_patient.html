@@ -4,6 +4,15 @@
 <div class="container">
 
 <form id="form" method="POST" class="d-flex" action="">
+    {% if get_flashed_messages() %}
+                        <div class="alert alert-warning" role="alert">
+                            {% with messages = get_flashed_messages() %}
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}  
+                            {% endwith %}
+                        </div>
+                    {% endif %}
     <div class="form-group">
     <h2 class="text-center">Имя</h2>
 
@@ -31,7 +40,7 @@
 <script>
     $('#role').on('change', function(){
         $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-        if ($('#role').val() == 'default'){
+        if ($('#role').val() == 'default' && $('#role').SelectedIndex){
             $('#form').append('<h2 class="text-center">Данные</h2>');
             $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
             $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
@@ -58,7 +67,7 @@
             $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
             $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
             $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-            $('#form').append('<input name="comment" placeholder="Кол-во плодов" type="text">');
+            $('#form').append('<input name="num_fetus" placeholder="Кол-во плодов" type="text">');
             $('#form').append('<input name="estimated_birthday" placeholder="Примерное рождение" type="text">');
         }
         $('#form').append('<button type="submit" class="btn btn-outline-primary">Отправить</button>');

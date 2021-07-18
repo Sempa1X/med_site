@@ -17,14 +17,21 @@ def add_patient():
     is_found = False
     if request.method == 'POST': 
         check = []
-        full_name = request.form['sur'] + request.form['first'] + request.form['last'] 
-        check_patient = Patient.query.filter(or_(Patient.full_name.contains(full_name), Patient.phone.contains(request.form['phone']),Patient.phone2.contains(request.form['phone2']), Patient.phone2.contains(request.form['phone']),Patient.phone.contains(request.form['phone2'])) )
-        [check.append(i.full_name) for i in check_patient]
-        is_found = False if len(check) == 0 else True 
-        print(request.form['role'])
+        check_birthday = []
+        full_name = request.form['sur'] + " " + request.form['first'] + " "  + request.form['last'] 
+        
+        check_full_name = Patient.query.filter(Patient.full_name.contains(full_name)) 
+        [check.append(i.full_name) for i in check_full_name]
+
+        check_birth = Patient.query.filter(Patient.birthday.contains(request.form['birthday'])) 
+        [check_birthday.append(i.full_name) for i in check_birth]
+        
+        is_found = False if len(check) == 0 or len(check_birthday) == 0 else True 
+        
         if is_found:
             flash("Такой пацтент есть!")  
         else:
+            flash("Добавлен")  
             if request.form['role'] == 'default':
                 patient = Patient(first_name=request.form['first'], last_name=request.form['last'], surname=request.form['sur'], full_name=full_name, birthday=request.form['birthday'], refer=request.form['how_think'],\
                     lr_pass_serial=request.form['lr_pass_serial'], lr_pass_num= request.form['lr_pass_num'], lr_pass_date=request.form['lr_pass_date'],lr_pass_issued= request.form['lr_pass_issued'],\
