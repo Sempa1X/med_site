@@ -31,8 +31,18 @@ def add_patient():
                     comment=request.form['comment'])
                 db.session.add(patient)
                 db.session.commit()     
+            
             elif request.form['role'] == 'pregnant':
-                pass
+                patient = Patient(first_name=request.form['first'], last_name=request.form['last'], surname=request.form['sur'], full_name=full_name, birthday=request.form['birthday'], refer=request.form['how_think'],\
+                    lr_pass_serial=request.form['lr_pass_serial'], lr_pass_num= request.form['lr_pass_num'], lr_pass_date=request.form['lr_pass_date'],lr_pass_issued= request.form['lr_pass_issued'],\
+                    comment=request.form['comment'], estimated_birthday=request.form['estimated_birthday'], num_fetus=request.form['num_fetus'])
+                db.session.add(patient)
+                db.session.commit()  
+            
             elif request.form['role'] == 'child':
-                pass
+                patient = Patient(first_name=request.form['first'], last_name=request.form['last'], surname=request.form['sur'], full_name=full_name, birthday=request.form['birthday'], refer=request.form['how_think'],\
+                    lr_pass_serial=request.form['lr_pass_serial'], lr_pass_num= request.form['lr_pass_num'], lr_pass_date=request.form['lr_pass_date'],lr_pass_issued= request.form['lr_pass_issued'],\
+                    comment=request.form['comment'], lr_f_name=request.form['lr_f_name'], lr_l_name=request.form['lr_l_name'], lr_surname=request.form['lr_surname'])
+                db.session.add(patient)
+                db.session.commit()  
     return render_template('add_patient/add_patient.html')
