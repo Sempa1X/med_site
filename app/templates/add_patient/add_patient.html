@@ -4,7 +4,7 @@
 <div class="container">
 
     <form id="form" method="POST" action="">
-        <div class="container">
+        <div class="container" id='cont'>
             <select class="form-select" name="role" id="role">
                 <option value="none" selected>Выберите тип пациента</option>
                 <option value="default">Обычный</option>
@@ -59,12 +59,9 @@
             <br>
             <hr>
             <br>
-            <label for="data" class="form-label"><h3>Данные</h3></label>
-            <div class="row" id="data">
-                
-            </div>
-            <label for="phone2" class="form-label">Комментарий</label>
-            <textarea name="comment" class="form-control" type="text"></textarea>
+
+            <!-- <label for="phone2" class="form-label">Комментарий</label>
+            <textarea name="comment" class="form-control" type="text"></textarea> -->
         </div>
     </form>
 </div>
@@ -74,15 +71,45 @@
     //     return Object.keys(object).find(key => object[key] === value);
     // }
     $('#role').on('change', function() {
+        row_id = "data"
+        $("<label><h3>Данные</h3><label/>").attr({class: 'form-label', for: row_id}).appendTo('#cont');
+        $("<div/>").attr({class: 'row', id: row_id}).appendTo('#cont');
         if ($('#role').val() == 'default') {
-            var data_list = {'lr_pass_num': 'Номер паспорта', 'lr_pass_serial': 'Серия паспорта', 'lr_pass_date': 'Дата получения паспорта', 'lr_pass_issued': 'Место получения паспорта'}
-            console.log(data_list.length)
-            for (var a = 0; a < data_list.length; a++) {
-                console.log("aa")
-                // $("<div/>").attr({class: 'col', id: 'data_col_' + a}).appendTo('#data');
-                // $("<label>" + data_list[a].value +"<label/>").attr({class: 'form-label', for: getKeyByValue(data_list, data_list[a].value)}).appendTo('#data_col_' + a);
-                // $("<input/>").attr({class: 'form-control', id: getKeyByValue(data_list, data_list[a].value), type: 'text'}).appendTo('#data_col_' + a);
+            counter = 0
+            row_counter = 1
+            var data_list = Object.entries({
+                'lr_pass_num': 'Номер паспорта',
+                'lr_pass_serial': 'Серия паспорта',
+                'lr_pass_date': 'Дата получения паспорта',
+                'lr_pass_issued': 'Место получения паспорта'
+            })
+            for (var i = 0; i < data_list.length; i++) {
+                if (counter == 2) {
+                    row_id = 'data' + row_counter
+                    $("<br>").appendTo('#cont');
+                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#cont');
+                    i -= 1
+                    counter = 0
+                    row_counter += 1
+                }
+                else {
+                    $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
+                    $("<label>" + data_list[i][1] +"<label/>").attr({class: 'form-label', for: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    if (data_list[i][0].includes('date')) {
+                        $("<input/>").attr({class: 'datepicker', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    else {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                }
+                counter += 1
             }
+            // for (var a = 0; a < Object.values(data_list).length; a++) {
+            //     console.log("aa")
+            //     $("<div/>").attr({class: 'col', id: 'data_col_' + a}).appendTo('#data');
+            //     $("<label>" + data_list[a].value +"<label/>").attr({class: 'form-label', for: getKeyByValue(data_list, data_list[a].value)}).appendTo('#data_col_' + a);
+            //     $("<input/>").attr({class: 'form-control', id: getKeyByValue(data_list, data_list[a].value), type: 'text'}).appendTo('#data_col_' + a);
+            // }
             // $("<div/>").attr({class: 'col', id: 'data_col'}).appendTo('#data');
             // $("<label>как дела<label/>").attr({class: 'form-label', for: 'data2'}).appendTo('#data_col');
             // $("<input/>").attr({class: 'form-control', id: 'data2', type: 'text'}).appendTo('#data_col');
@@ -114,9 +141,9 @@
             $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
             $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
         }
-        $('#form').append('<button type="submit" class="btn btn-outline-primary">Отправить</button>');
-        $('#form').append('</div>');
-        $('#form').append('</div>');
+        // $('#form').append('<button type="submit" class="btn btn-outline-primary">Отправить</button>');
+        // $('#form').append('</div>');
+        // $('#form').append('</div>');
         
     });
 </script>
