@@ -64,24 +64,35 @@
                 
             </div>
             <label for="phone2" class="form-label">Комментарий</label>
-            <textarea name="comment" class="form-control" placeholder="..." type="text"></textarea>
+            <textarea name="comment" class="form-control" type="text"></textarea>
         </div>
     </form>
 </div>
 
 <script>
+    // function getKeyByValue(object, value) {
+    //     return Object.keys(object).find(key => object[key] === value);
+    // }
     $('#role').on('change', function() {
         if ($('#role').val() == 'default') {
-            $("<div/>").attr('class','col data').appendTo('#data');
-            $("<input/>").attr('class','form-control').appendTo('.data');
-            $("<input/>").attr('class','form-control').appendTo('.data'); 
-            $("<input/>").attr('class','form-control').appendTo('.data'); 
-            $("<input/>").attr('class','form-control').appendTo('.data'); 
-            $('.data').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
-            $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
+            var data_list = {'lr_pass_num': 'Номер паспорта', 'lr_pass_serial': 'Серия паспорта', 'lr_pass_date': 'Дата получения паспорта', 'lr_pass_issued': 'Место получения паспорта'}
+            console.log(data_list.length)
+            for (var a = 0; a < data_list.length; a++) {
+                console.log("aa")
+                // $("<div/>").attr({class: 'col', id: 'data_col_' + a}).appendTo('#data');
+                // $("<label>" + data_list[a].value +"<label/>").attr({class: 'form-label', for: getKeyByValue(data_list, data_list[a].value)}).appendTo('#data_col_' + a);
+                // $("<input/>").attr({class: 'form-control', id: getKeyByValue(data_list, data_list[a].value), type: 'text'}).appendTo('#data_col_' + a);
+            }
+            // $("<div/>").attr({class: 'col', id: 'data_col'}).appendTo('#data');
+            // $("<label>как дела<label/>").attr({class: 'form-label', for: 'data2'}).appendTo('#data_col');
+            // $("<input/>").attr({class: 'form-control', id: 'data2', type: 'text'}).appendTo('#data_col');
+            // $("<label>как дела<label/>").attr({class: 'form-label', for: 'data2'}).appendTo('.data');
+            // $("<input/>").attr({class: 'form-control', id: 'data2', type: 'text'}).appendTo('.data');
+            // $('.data').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
+            // $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
+            // $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
+            // $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
+            // $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
         }
         else if ($('#role').val() == 'child'){
             $('#form').append('<h2 class="text-center">Данные о сопровождающем</h2>');
