@@ -3,37 +3,81 @@
 {% block content %}
 <div class="container">
 
-<form id="form" method="POST" class="d-flex" action="">
-    <div class="form-group">
-    <h2 class="text-center">Имя</h2>
-
-    <input name="sur" placeholder="Фамилия" type="text">
-    <input name="first" placeholder="Имя" type="text">
-    <input name="last" placeholder="Отчество" type="text">
-
-    <h2 class="text-center">Краткая информация</h2>
-
-    <input name="birthday" placeholder="День рождения" type="text">
-    <input name="how_think" placeholder="Как узнал" type="text">
-
-    <input name="address" placeholder="Адрес" type="text">
-    <input name="phone" placeholder="Номер телефона" type="text">
-    <input name="phone2" placeholder="Запасной номер телефона" type="text">
-
-    <select name="role" id="role" placeholder="Тип пациента" type="text">
-        <option value="default">Обычный</option>
-        <option value="child">Ребёнок</option>
-        <option value="pregnant">Беременная</option>
-    </select>
-
-</form>
+    <form id="form" method="POST" action="">
+        <div class="container">
+            <select class="form-select" name="role" id="role">
+                <option value="none" selected>Выберите тип пациента</option>
+                <option value="default">Обычный</option>
+                <option value="child">Ребёнок</option>
+                <option value="pregnant">Беременная</option>
+            </select>
+            <br>
+            <label for="fio" class="form-label"><h3>Первичные данные</h3></label>
+            <div class="row" id="fio">
+                <div class="col">
+                    <label for="surname" class="form-label">Фамилия</label>
+                    <input id="surname" type="text" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="name" class="form-label">Имя</label>
+                    <input id="name" type="text" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="middlename" class="form-label">Отчество</label>
+                    <input id="middlename" type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <label for="info" class="form-label"><h4>Краткая информация</h4></label>
+            <div class="row" id="info">
+                <div class="col">
+                    <label for="birthday" class="form-label">День рождения</label>
+                    <input id="birthday" type="text" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="how_think" class="form-label">Как узнал?</label>
+                    <input id="how_think" type="text" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="address" class="form-label">Адрес</label>
+                    <input id="address" type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <label for="phone" class="form-label">Номер телефона</label>
+                    <input id="phone" type="text" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="phone2" class="form-label">Запасной номер телефона</label>
+                    <input id="phone2" type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <label for="data" class="form-label"><h3>Данные</h3></label>
+            <div class="row" id="data">
+                
+            </div>
+            <label for="phone2" class="form-label">Комментарий</label>
+            <textarea name="comment" class="form-control" placeholder="..." type="text"></textarea>
+        </div>
+    </form>
+</div>
 
 <script>
-    $('#role').on('change', function(){
-        $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-        if ($('#role').val() == 'default'){
-            $('#form').append('<h2 class="text-center">Данные</h2>');
-            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
+    $('#role').on('change', function() {
+        if ($('#role').val() == 'default') {
+            $("<div/>").attr('class','col data').appendTo('#data');
+            $("<input/>").attr('class','form-control').appendTo('.data');
+            $("<input/>").attr('class','form-control').appendTo('.data'); 
+            $("<input/>").attr('class','form-control').appendTo('.data'); 
+            $("<input/>").attr('class','form-control').appendTo('.data'); 
+            $('.data').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
             $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
             $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
             $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
