@@ -59,7 +59,6 @@
             <br>
             <hr>
             <br>
-
             <!-- <label for="phone2" class="form-label">Комментарий</label>
             <textarea name="comment" class="form-control" type="text"></textarea> -->
         </div>
@@ -70,10 +69,14 @@
     // function getKeyByValue(object, value) {
     //     return Object.keys(object).find(key => object[key] === value);
     // }
+    if (document.getElementById('data_place')) {
+        document.getElementById("data_place").remove();
+    }
     $('#role').on('change', function() {
         row_id = "data"
-        $("<label><h3>Данные</h3><label/>").attr({class: 'form-label', for: row_id}).appendTo('#cont');
-        $("<div/>").attr({class: 'row', id: row_id}).appendTo('#cont');
+        $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
+        $("<label><h3>Данные</h3><label/>").attr({class: 'form-label', for: row_id}).appendTo('#data_place');
+        $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place');
         if ($('#role').val() == 'default') {
             counter = 0
             row_counter = 1
@@ -84,10 +87,11 @@
                 'lr_pass_issued': 'Место получения паспорта'
             })
             for (var i = 0; i < data_list.length; i++) {
+                console.log(i)
                 if (counter == 2) {
                     row_id = 'data' + row_counter
-                    $("<br>").appendTo('#cont');
-                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#cont');
+                    $("<br>").appendTo('#data_place');
+                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place');
                     i -= 1
                     counter = 0
                     row_counter += 1
@@ -95,15 +99,17 @@
                 else {
                     $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
                     $("<label>" + data_list[i][1] +"<label/>").attr({class: 'form-label', for: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'datepicker', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    }
-                    else {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    }
+                    // if (data_list[i][0].includes('date')) {
+                    //     $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    // }
+                    // else {
+                    //     $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    // }
+                    $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    counter += 1
                 }
-                counter += 1
             }
+        }
             // for (var a = 0; a < Object.values(data_list).length; a++) {
             //     console.log("aa")
             //     $("<div/>").attr({class: 'col', id: 'data_col_' + a}).appendTo('#data');
@@ -120,27 +126,27 @@
             // $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
             // $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
             // $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-        }
-        else if ($('#role').val() == 'child'){
-            $('#form').append('<h2 class="text-center">Данные о сопровождающем</h2>');
-            $('#form').append('<input name="lr_surname" placeholder="Фамилия представителя" type="text">');
-            $('#form').append('<input name="lr_f_name" placeholder="Имя представителя" type="text">');
-            $('#form').append('<input name="lr_l_name" placeholder="Отчество представителя" type="text">');
-            $('#form').append('<input name="lr_status" placeholder="Тип представителя" type="text">');
-            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта представителя" type="text">');
-            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта представителя" type="text">');
-            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта представителя" type="text">');
-            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта представителя" type="text">');
-            $('#form').append('<input name="comment" placeholder="Комментарий представителя(не обязательно)" type="text">');
-        }
-        else if ($('#role').val() == 'pregnant'){
-            $('#form').append('<h2 class="text-center">Данные</h2>');
-            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
-            $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-        }
+        // }
+        // else if ($('#role').val() == 'child'){
+        //     $('#form').append('<h2 class="text-center">Данные о сопровождающем</h2>');
+        //     $('#form').append('<input name="lr_surname" placeholder="Фамилия представителя" type="text">');
+        //     $('#form').append('<input name="lr_f_name" placeholder="Имя представителя" type="text">');
+        //     $('#form').append('<input name="lr_l_name" placeholder="Отчество представителя" type="text">');
+        //     $('#form').append('<input name="lr_status" placeholder="Тип представителя" type="text">');
+        //     $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта представителя" type="text">');
+        //     $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта представителя" type="text">');
+        //     $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта представителя" type="text">');
+        //     $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта представителя" type="text">');
+        //     $('#form').append('<input name="comment" placeholder="Комментарий представителя(не обязательно)" type="text">');
+        // }
+        // else if ($('#role').val() == 'pregnant'){
+        //     $('#form').append('<h2 class="text-center">Данные</h2>');
+        //     $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
+        //     $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
+        //     $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
+        //     $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
+        //     $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
+        // }
         // $('#form').append('<button type="submit" class="btn btn-outline-primary">Отправить</button>');
         // $('#form').append('</div>');
         // $('#form').append('</div>');
