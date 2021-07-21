@@ -60,24 +60,24 @@ class Patient(db.Model):
     last_name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
     full_name = db.Column(db.String(255))
-
+#
     birthday = db.Column(db.String(50))
     refer = db.Column(db.String(255), default='Сарафан')
 
     is_reception = db.Column(db.Boolean, default=False)
     phone = db.Column(db.String(50))
     phone2 = db.Column(db.String(50))
-
+#
     lr_f_name = db.Column(db.String(255))
     lr_l_name = db.Column(db.String(255))
     lr_surname = db.Column(db.String(255))
     lr_status = db.Column(db.String(255))
-
+#
     lr_pass_serial = db.Column(db.String(255))
     lr_pass_num = db.Column(db.String(255))
     lr_pass_date = db.Column(db.String(255))
     lr_pass_issued = db.Column(db.String(255))
-
+#
     address = db.Column(db.String(255))
     trust_factor = db.Column(db.Boolean, default=True)
     patient_role = db.Column(db.String(255))
