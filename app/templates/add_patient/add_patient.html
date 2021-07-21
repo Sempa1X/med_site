@@ -33,7 +33,7 @@
             <div class="row" id="info">
                 <div class="col">
                     <label for="birthday" class="form-label">День рождения</label>
-                    <input id="birthday" type="date" class="form-control" max="2040-04-30" required>
+                    <input id="birthday" type="date" class="form-control" min='2021-01-01' max="2040-04-30" required>
                 </div>
                 <div class="col">
                     <label for="how_think" class="form-label">Как узнал?</label>
@@ -61,7 +61,7 @@
                     <label for="phone2" class="form-label">Запасной номер телефона</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">+7</span>
-                        <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                        <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, min: '2021-01-01', max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else {
                         $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
@@ -159,7 +159,7 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, min: '2021-01-01', max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else if (data_list[i][0].includes('select')) {
                         $("<select/>").attr({class: 'form-select', id: 'lr_s', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
@@ -271,10 +271,10 @@
 
         posting.done(function( data ) {
             if (data.success == "false") {
-               alert("ну все пизда")
+               alert("Что-то пошло не так...")
             }
             else {
-                alert("добавлен епт")
+                alert("Пациент занесен в базу данных")
             }
         });
     };
