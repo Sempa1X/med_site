@@ -1,22 +1,24 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<form method="POST" class="d-flex" action="">
-    <div class="input-group justify-content-center">
-        <div class="form-outline mt-2">
-            <input name="q" list="patient" value="{{ request.args.get('q', '') }}" placeholder="Поиск пациента" type="search" id="q" class="form-control" />
+<div class="container">
+    <form id="form" action="">
+        <div class="input-group mb-3">
+            <input name="q" list="patient" value="{{ request.args.get('q', '') }}" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
             <datalist id="patient">
                 {% for i in patients %}
                 <option value="{{ i.full_name }}">
                 {% endfor %}
             </datalist>
         
-            <button id="search-button" type="submit" class="btn btn-primary">
-            <i class="fas fa-search"></i>
+            <button id="search-button" type="submit" class="btn btn-outline-primary">
+                <i class="fas fa-search"></i>
             </button>
         </div>
-    </div>
-</form>
+
+
+    </form>
+</div>
 
 {% if is_patients %}
     {% for i in patients_search %}
