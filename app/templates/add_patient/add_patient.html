@@ -2,10 +2,9 @@
 
 {% block content %}
 <div class="container">
-
-    <form id="form" method="POST" action="/added">
+    <form id="form" action="/added" method="POST">
         <div class="container" id='cont'>
-            <select class="form-select" name="role" id="role">
+            <select class="form-select" name="role" id="role" required>
                 <option value="none" selected disabled>Выберите тип пациента</option>
                 <option value="default">Обычный</option>
                 <option value="child">Ребёнок</option>
@@ -16,15 +15,15 @@
             <div class="row" id="fio">
                 <div class="col">
                     <label for="surname" class="form-label">Фамилия</label>
-                    <input id="surname" type="text" class="form-control">
+                    <input id="surname" type="text" class="form-control" required>
                 </div>
                 <div class="col">
                     <label for="name" class="form-label">Имя</label>
-                    <input id="name" type="text" class="form-control">
+                    <input id="name" type="text" class="form-control" required>
                 </div>
                 <div class="col">
                     <label for="middlename" class="form-label">Отчество</label>
-                    <input id="middlename" type="text" class="form-control">
+                    <input id="middlename" type="text" class="form-control" required>
                 </div>
             </div>
             <br>
@@ -34,31 +33,42 @@
             <div class="row" id="info">
                 <div class="col">
                     <label for="birthday" class="form-label">День рождения</label>
-                    <input id="birthday" type="date" class="form-control">
+                    <input id="birthday" type="date" class="form-control" required>
                 </div>
                 <div class="col">
                     <label for="how_think" class="form-label">Как узнал?</label>
-                    <input id="how_think" type="text" class="form-control">
+                    <select class="form-select" id="how_think" required>
+                        <option value="none" disabled>Выберите тип рекламы</option>
+                        <option value="default">Сарафан</option>
+                        <option value="child">Реклама</option>
+                    </select>
                 </div>
                 <div class="col">
                     <label for="address" class="form-label">Адрес</label>
-                    <input id="address" type="text" class="form-control">
+                    <input id="address" type="text" class="form-control" required>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col">
                     <label for="phone" class="form-label">Номер телефона</label>
-                    <input id="phone" type="text" class="form-control">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+7</span>
+                        <input id="phone" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                    </div>
                 </div>
                 <div class="col">
                     <label for="phone2" class="form-label">Запасной номер телефона</label>
-                    <input id="phone2" type="text" class="form-control">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+7</span>
+                        <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
 </div>
+
 
 <script>
     function delBlock() {
@@ -95,7 +105,7 @@
                     'lr_pass_date': 'Дата получения паспорта',
                     'lr_pass_issued': 'Место получения паспорта',
                     'num_fetus': 'Кол-во плодов',
-                    'estimated_date': 'Примерная дата родов'
+                    'estimated_date': 'ПДР'
                 })
             }
             for (var i = 0; i < data_list.length; i++) {
@@ -112,10 +122,10 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]).textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     counter += 1
                 }
@@ -149,10 +159,10 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]).textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else if (data_list[i][0].includes('select')) {
-                        $("<select/>").attr({class: 'form-select', id: 'lr_s'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<select/>").attr({class: 'form-select', id: 'lr_s', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                         var lr_select = ['Мать', 'Отец', 'Дед']
                         let disabled_status = new Option('Выберите тип представителя', 0);
                         disabled_status.disabled = true
@@ -163,7 +173,7 @@
                         }
                     }
                     else {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
 
                     counter += 1
@@ -176,50 +186,49 @@
         $("<textarea/>").attr({class: 'form-control', id: 'comment', type: 'text'}).appendTo('#data_place');
         $("<br>").appendTo('#data_place');
         $("<div/>").attr({class: 'd-grid gap-2', id: 'btn'}).appendTo('#data_place');
-        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onClick: add_user()}).appendTo('#btn');
+        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onclick: add_user()}).appendTo('#btn');
         document.getElementById("answer").textContent = 'Отправить';
         $("<br>").appendTo('#data_place');
 
-        function add_user() {
-
-            event.preventDefault();
-        
-            var $form = $( '#form' ),
-                url = $form.attr( "action" );
-            let data = [{
-                'surname': $form.find( "#surname" ).val(),
-                'name': $form.find( "#name" ).val(),
-                'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
-                'how_think': $form.find( "#how_think" ).val(),
-                'address': $form.find( "#address" ).val(),
-                'phone': $form.find( "#phone" ).val(),
-                'phone2': $form.find( "#phone2" ).val(),
-            }]
-            console.log(data)
-            // var posting = $.post( url, { data: data } );
-        
-            // posting.done(function( data ) {
-            //     if (data.success == "false") {
-            //         $('#alert').attr('class', 'alert alert-danger');
-            //         $('#alert').text("Нет расписания на эту дату");
-
-            //         setTimeout(sayHi, 2000);
-            //     }
-            //     else {
-            //         for (var a = 0; a < data.data.length; a++) {
-            //             console.log(data.data[a].full_name + a)
-            //             console.log(data.data[a].trust_factor + a)
-            //             console.log(data.data[a].role + a)
-            //             console.log(data.data[a].comment + a)
-            //             console.log(data.data[a].phone + a)
-
-            //         }
-            //     }
-            // });
-        };
-
     });
+
+    function add_user() {
+
+        event.preventDefault();
+
+        var $form = $( '#form' ),
+            url = $form.attr( "action" );
+        let data = [{
+            'surname': $form.find( "#surname" ).val(),
+            'name': $form.find( "#name" ).val(),
+            'middlename': $form.find( "#middlename" ).val(),
+            'birthday': $form.find( "#birthday" ).val(),
+            'how_think': $form.find( "#how_think" ).val(),
+            'address': $form.find( "#address" ).val(),
+            'phone': $form.find( "#phone" ).val(),
+            'phone2': $form.find( "#phone2" ).val(),
+        }]
+        // var posting = $.post( url, { data: data } );
+
+        // posting.done(function( data ) {
+        //     if (data.success == "false") {
+        //         $('#alert').attr('class', 'alert alert-danger');
+        //         $('#alert').text("Нет расписания на эту дату");
+
+        //         setTimeout(sayHi, 2000);
+        //     }
+        //     else {
+        //         for (var a = 0; a < data.data.length; a++) {
+        //             console.log(data.data[a].full_name + a)
+        //             console.log(data.data[a].trust_factor + a)
+        //             console.log(data.data[a].role + a)
+        //             console.log(data.data[a].comment + a)
+        //             console.log(data.data[a].phone + a)
+
+        //         }
+        //     }
+        // });
+    };
 </script>
 {% endblock %}
 
