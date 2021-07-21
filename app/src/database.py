@@ -112,7 +112,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     doctor_id = db.Column(db.Integer)
     date = db.Column(db.String(255))
-    time = db.Column(db.String(255))
+    time = db.Column(db.String(255))    
     is_active = db.Column(db.String(255))
     office = db.Column(db.String(255), default=1)
 
