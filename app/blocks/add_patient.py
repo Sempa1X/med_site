@@ -22,12 +22,11 @@ def added():
     data_replace = []
     for i in request.form:
         data_replace.append([i, request.form[i]])
-        # print(request.form[i])
-    # print(request.form)
     patient = Patient()
     print(data_replace)
-    print(len(data_replace))
-    return jsonify({'success': 'false'})
+    print(data_replace[0]['surname'])
+
+    return jsonify({'success': 'True'})
 
 
 
