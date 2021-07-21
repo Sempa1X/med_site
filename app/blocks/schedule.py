@@ -16,17 +16,26 @@ current_time = str(now.strftime('%H:%M'))
 bp_schedule = Blueprint('schedule', __name__, url_prefix='/schedule')
 
 
-@bp_schedule.route('/')
+@bp_schedule.route('/', methods=['GET', 'POST'])
 @login_required
-def schedule(): 
-    return render_template('schedule/schedule.html')
+def schedule():
+    doctors = User.query.filter(and_(User.is_active=='True', User.role=="doctor"))
+    return render_template('schedule/schedule.html', doctors=doctors)
 
 
-@bp_schedule.post('/schedule_process')
+
+@bp_schedule.route('/process', methods=['GET', 'POST'])
+@login_required
 def schedule_process():
-    if 'date' in request.form:
-        record = Record(Record.date == request.form['date'])
-        return jsonify({'success': 'true', 'records': record})
-    return jsonify({'success': 'false', 'text': 'Нет расписания на эту дату'})
 
 
+    value_res = request.form.get('value_res')
+    date = request.form.get('calendar')
+    office = request.form.get('office')
+
+    for i in value_res.split(','):
+        schedule = Schedule(doctor_id=doc_id, date=date, office=office, time=i)
+        db.session.add(schedule)
+        db.session.commit()
+
+    # return render_template('main/schedule_doc.html')
