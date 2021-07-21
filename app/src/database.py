@@ -41,6 +41,7 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(255), default='doctor')
 
     records = db.relationship('Record', backref='doctor')
+    is_active = db.Column(db.Boolean, default=True)
 
     # метод для установки пароля пользователю
     def set_password(self, password):
