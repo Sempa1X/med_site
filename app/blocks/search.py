@@ -36,7 +36,7 @@ def search_process():
                     future_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
                 else:
                     lost_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
-            patient_info.append({'full_name': i.full_name, 'comment': i.comment,'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone, 'lost_records': lost_rec, 'future_records': future_rec}) 
+            patient_info.append({'address': o.address, 'estimated_birthday': o.estimated_birthday, 'num_fetus': o.num_fetus, 'lr_pass_issued': o.lr_pass_issued, 'lr_pass_date': o.lr_pass_date, 'lr_pass_num': o.lr_pass_num, 'lr_pass_serial': o.lr_pass_serial, 'lr_status': o.lr_status, 'lr_surname': o.lr_surname, 'lr_l_name':o.lr_l_name,'lr_f_name': o.lr_f_name,'is_reception': o.is_reception,'birthday': o.birthday, 'full_name': i.full_name, 'comment': i.comment,'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone, 'phone2': i.phone2, 'lost_records': lost_rec, 'future_records': future_rec}) 
         return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patient_info) == 0 else jsonify({'success': 'true', 'patients': patient_info})
     return jsonify({'success': 'false', 'text': 'Нет пациента'})
     
