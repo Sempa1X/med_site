@@ -19,6 +19,11 @@ bp_search = Blueprint('search', __name__, url_prefix='/search')
 @login_required
 def search(): 
     patients = Patient.query.all()
+    return render_template('search/search.html', patients=patients)
+
+
+@bp_search.route('/search_process', methods=['POST'])
+def search_process():
     if request.method == 'POST' and 'q' in request.args or 'q' in request.form:
         is_patients = True
         search = request.form.get('q')
@@ -27,17 +32,7 @@ def search():
         for i in patients_search:
             patients_search_arr.append(i)
         is_patients = False if len(patients_search_arr) == 0 else True
-        return render_template('search/search.html',patients=patients, patients_search=patients_search, is_patients=is_patients)
-    return render_template('search/search.html', patients=patients)
-
-
-# @bp_search.route('/search_process', methods=['POST'])
-# def search_process():
-#     if 'search' in request.form and request.args.get('q'):
-#         q = request.args.get('q')
-#         patients = Patient.query.filter(or_(Patient.full_name.contains(q), Patient.phone.contains(q), Patient.phone2.contains(q)))
-#         if len(patients) == 0:
-#             return jsonify({'success': 'true', 'patients': patients})
-#     return jsonify({'success': 'false', 'text': 'Нет пациента'})
+        return jsonify({'success': 'true', 'patients': patients_search_arr, 'is_patient': is_patients})
+    return jsonify({'success': 'false', 'text': 'Нет пациента'})
 
 
