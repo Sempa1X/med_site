@@ -19,6 +19,32 @@
 
     </form>
 </div>
+<a id='linkButton'>ClickMe</a>
+ 
+  <script type="text/javascript">
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "500",
+    "timeOut": "2000",
+    "extendedTimeOut": "2000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+  $(document).ready(function() {
+    $('#linkButton').click(function() {
+       toastr.success('Click Button');
+    });
+  });
+  </script>
 
 {% if is_patients %}
     {% for i in patients_search %}
@@ -36,8 +62,13 @@
 {% endif
      %}
 
-
+    
      <script>
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl, option)
+        })
+        toast.show()
 
         function find_user() {
             var $form = $( '#form' ),

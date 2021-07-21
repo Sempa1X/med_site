@@ -271,10 +271,10 @@
 
         posting.done(function( data ) {
             if (data.success == "false") {
-               alert("Что-то пошло не так...")
+                toastr.errors('Что-то пошло не так...');
             }
             else {
-                alert("Пациент занесен в базу данных")
+                toastr.success('Пользователь добавлен!');
             }
         });
     };
