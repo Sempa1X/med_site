@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="/add_patient/added">
+    <form id="form" action="/add_patient/added" onsubmit="add_user(); return false;">
         <div class="container" id='cont'>
-            <select class="form-select" name="role" id="role" required>
+            <select class="form-select" id="role" required>
                 <option value="none" selected disabled>Выберите тип пациента</option>
                 <option value="default">Обычный</option>
                 <option value="child">Ребёнок</option>
@@ -33,7 +33,7 @@
             <div class="row" id="info">
                 <div class="col">
                     <label for="birthday" class="form-label">День рождения</label>
-                    <input id="birthday" type="date" class="form-control" required>
+                    <input id="birthday" type="date" class="form-control" min='2021-01-01' max="2040-04-30" required>
                 </div>
                 <div class="col">
                     <label for="how_think" class="form-label">Как узнал?</label>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col">
                     <label for="address" class="form-label">Адрес</label>
-                    <input id="address" type="text" class="form-control" required>
+                    <input id="address" type="text" class="form-control input" required>
                 </div>
             </div>
             <br>
@@ -61,7 +61,7 @@
                     <label for="phone2" class="form-label">Запасной номер телефона</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">+7</span>
-                        <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                        <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
@@ -119,10 +119,10 @@
                 }
                 else {
                     $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
-                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    document.getElementById(data_list[i][0]).textContent = data_list[i][1];
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, min: '2021-01-01', max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else {
                         $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
@@ -156,10 +156,10 @@
                 }
                 else {
                     $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
-                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    document.getElementById(data_list[i][0]).textContent = data_list[i][1];
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, min: '2021-01-01', max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else if (data_list[i][0].includes('select')) {
                         $("<select/>").attr({class: 'form-select', id: 'lr_s', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
@@ -186,40 +186,95 @@
         $("<textarea/>").attr({class: 'form-control', id: 'comment', type: 'text'}).appendTo('#data_place');
         $("<br>").appendTo('#data_place');
         $("<div/>").attr({class: 'd-grid gap-2', id: 'btn'}).appendTo('#data_place');
-        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onСlick: 'add_user()'}).appendTo('#btn');
+        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit'}).appendTo('#btn');
         document.getElementById("answer").textContent = 'Отправить';
         $("<br>").appendTo('#data_place');
 
     });
 
     function add_user() {
-        event.preventDefault();
-
         var $form = $( '#form' ),
             url = $form.attr( "action" );
-        let data = {
-            'surname': $form.find( "#surname" ).val(),
-            'name': $form.find( "#name" ).val(),
-            'middlename': $form.find( "#middlename" ).val(),
-            'birthday': $form.find( "#birthday" ).val(),
-            'how_think': $form.find( "#how_think" ).val(),
-            'address': $form.find( "#address" ).val(),
-            'phone': $form.find( "#phone" ).val(),
-            'phone2': $form.find( "#phone2" ).val(),
+        if ($('#role').val() == 'default') {
+            var data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': $form.find( "#birthday" ).val(),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_surname': false,
+                'lr_f_name': false,
+                'lr_l_name': false,
+                'lr_s': false,
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': false,
+                'estimated_date': false,
+                'comment': $form.find( "#comment" ).val()
+            }
         }
-        // if ($('#role').val() == 'default') {
-        //     data.push({
-                
-        //     })
-        // }
-        var posting = $.post( url, { data: data } );
+        else if ($('#role').val() == 'pregnant') {
+            var data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': $form.find( "#birthday" ).val(),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_surname': false,
+                'lr_f_name': false,
+                'lr_l_name': false,
+                'lr_s': false,
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': $form.find( "#num_fetus" ).val(),
+                'estimated_date': $form.find( "#estimated_date" ).val(),
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
+        else if ($('#role').val() == 'child') {
+            var data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': $form.find( "#birthday" ).val(),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_surname': $form.find( "#lr_surname" ).val(),
+                'lr_f_name': $form.find( "#lr_f_name" ).val(),
+                'lr_l_name': $form.find( "#lr_l_name" ).val(),
+                'lr_s': $form.find( "#lr_s" ).val(),
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': false,
+                'estimated_date': false,
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
+        var posting = $.post( url, data );
 
         posting.done(function( data ) {
             if (data.success == "false") {
-               alert("ну все пизда")
+               alert("Что-то пошло не так...")
             }
             else {
-                alert("добавлен епт")
+                alert("Пациент занесен в базу данных")
             }
         });
     };
