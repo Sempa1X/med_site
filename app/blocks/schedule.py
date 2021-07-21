@@ -27,8 +27,6 @@ def schedule():
 @bp_schedule.route('/process', methods=['GET', 'POST'])
 @login_required
 def schedule_process():
-
-
     value_res = request.form.get('value_res')
     date = request.form.get('calendar')
     office = request.form.get('office')
