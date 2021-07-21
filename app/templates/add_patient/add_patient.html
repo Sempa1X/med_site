@@ -196,7 +196,7 @@
         var $form = $( '#form' ),
             url = $form.attr( "action" );
         if ($('#role').val() == 'default') {
-            var data = {
+            var full_data = {
                 'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
@@ -220,7 +220,7 @@
             }
         }
         else if ($('#role').val() == 'pregnant') {
-            var data = {
+            var full_data = {
                 'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
@@ -244,7 +244,7 @@
             }
         }
         else if ($('#role').val() == 'child') {
-            var data = {
+            var full_data = {
                 'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
@@ -267,7 +267,7 @@
                 'comment': $form.find( "#comment" ).val()
             }
         }
-        var posting = $.post( url, {'data': data} );
+        var posting = $.post( url, {data: full_data} );
 
         posting.done(function( data ) {
             if (data.success == "false") {
