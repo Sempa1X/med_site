@@ -26,12 +26,12 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(20))
     full_name = db.Column(db.String(255))
 
-    sex = db.Column(db.Boolean, default=1)
+    sex = db.Column(db.String(255), default=1)
     birthday = db.Column(db.String(50))
 
     phone = db.Column(db.String(50))
     phone2 = db.Column(db.String(50))
-    email = db.Column(db.String(255), unique=True)
+    email = db.Column(db.String(255))
 
     reg_time = db.Column(db.String(255), index=True, default=current_date + " " + current_time)
     coment = db.Column(db.String(255))

@@ -10,6 +10,8 @@ from app.src.database import User
 
 class MyAdminView(ModelView):
     def is_accessible(self):
+        if current_user.is_authenticated == False:
+            return redirect(url_for('login.login'))
         return current_user.role == 'superadmin'
 
     def inaccessible_callback(self, name, **kwargs):
@@ -19,24 +21,32 @@ class MyAdminView(ModelView):
 class MyIndexView(AdminIndexView):
     @expose('/', methods=['GET', 'POST'])
     def index(self):
+        counter = []
         if request.method == 'POST':
-            check_pers = User.query.filter(User.username == request.form['username']).first()
-            if len(check_pers.username) == 0:
-                full_name = request.form['s_name'] + " " + request.form['f_name'] + " " + request.form['l_name']
-                u = User( username=request.form['username'], first_name=request.form['f_name'], last_name=request.form['l_name'], surname=request.form['s_name'], full_name=full_name, sex=request.form.get('sex'),\
-                    birthday=request.form['birthday'], phone=request.form['phone'], phone2=request.form['phone2'], email=request.form['email'], division=request.form['division'], certificate=request.form['certificate'],\
+            check_pers = User.query.filter_by(username=request.form['username'])
+            if check_pers != None:
+                for i in check_pers:
+                    counter.append(i.username)
+                if len(counter) == 0:
+                    full_name = request.form['s_name'] + " " + request.form['f_name'] + " " + request.form['l_name']
+                    u = User( username=request.form['username'], first_name=request.form['f_name'], last_name=request.form['l_name'], surname=request.form['s_name'], full_name=full_name, sex=request.form.get('sex'),\
+                        birthday=request.form['birthday'], phone=request.form['phone'], phone2=request.form['phone2'], email=request.form['email'], division=request.form['division'], certificate=request.form['certificate'],\
                         role=request.form.get('role'))
-                u.set_password(request.form['passwd'])
+                    u.set_password(request.form['passwd'])
 
-                db.session.add(u)
-                db.session.commit()
-                flash(f"Работник {request.form['s_name']} {request.form['first_name']} {request.form['last_name']} добавлен. Роль: {request.form['role']}")
+                    db.session.add(u)
+                    db.session.commit()
+                    flash(f"Работник {request.form['s_name']} {request.form['f_name']} {request.form['l_name']} добавлен. Роль: {request.form['role']}")
+                else:
+                    flash(f"Работник {request.form['username']} найден, и не может быть добавлен!")
             else:
-                flash(f"Работник {request.form['username']} найден, и не может быть добавлен!")
+                flash('Ошибка')
             return self.render('admin/index.html')
         return self.render('admin/index.html')
 
     def is_accessible(self):
+        if current_user.is_authenticated == False:
+            return redirect(url_for('login.login'))
         return current_user.role == 'superadmin'
 
     def inaccessible_callback(self, name, **kwargs):
