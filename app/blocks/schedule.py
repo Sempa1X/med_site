@@ -7,7 +7,7 @@ from sqlalchemy import or_, and_
 from werkzeug.wrappers import request
 
 from app import db
-from app.src.database import User, Patient, Record
+from app.src.database import User, Patient, Record, Schedule
 
 
 now = datetime.datetime.now()
@@ -27,12 +27,10 @@ def schedule():
 @bp_schedule.route('/process', methods=['GET', 'POST'])
 @login_required
 def schedule_process():
-    value_res = request.form.get('value_res')
-    date = request.form.get('calendar')
-    office = request.form.get('office')
+    data = request.form['data']
 
-    for i in value_res.split(','):
-        schedule = Schedule(doctor_id=doc_id, date=date, office=office, time=i)
+    for i in data:
+        schedule = Schedule()
         db.session.add(schedule)
         db.session.commit()
 
