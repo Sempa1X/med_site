@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="" onsubmit="find_user(); return false;">
+    <form id="form" action="/search/search_process" onsubmit="find_user(); return false;">
         <div class="input-group mb-3">
             <input list="patient" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
             <datalist id="patient">
@@ -19,32 +19,7 @@
 
     </form>
 </div>
-<a id='linkButton'>ClickMe</a>
  
-  <script type="text/javascript">
-  toastr.options = {
-    "closeButton": false,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": true,
-    "positionClass": "toast-bottom-right",
-    "preventDuplicates": true,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "500",
-    "timeOut": "2000",
-    "extendedTimeOut": "2000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-    }
-  $(document).ready(function() {
-    $('#linkButton').click(function() {
-       toastr.success('Click Button');
-    });
-  });
-  </script>
 
 {% if is_patients %}
     {% for i in patients_search %}
@@ -78,10 +53,11 @@
 
             posting.done(function( data ) {
                 if (data.success == "false") {
-                    alert("Что-то пошло не так...")
+                    toastr["warning"]("Пользователь не найден.", "Предупреждение!");
                 }
                 else {
-                    alert("Пациент занесен в базу данных")
+                    console.log(data.success);
+                    toastr["success"]("Успешно!");
                 }
             });
         };
