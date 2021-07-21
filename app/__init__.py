@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_admin import Admin
 from config import Config
 
 
@@ -32,9 +33,10 @@ from app.blocks.add_patient import bp_add
 application.register_blueprint(bp_add)
 
 
-# from app.src.database import MyIndexView
+from app.src.admin import MyIndexView, MyAdminView
+from app.src.database import Record, User, Patient
 
-
-# admin = Admin(application, name='Shop', template_mode='bootstrap4', index_view=MyIndexView())
-# admin.add_view(ModelView(Category, db.session, name="Категории"))
-# admin.add_view(ModelView(Product, db.session, name="Товары"))
+admin = Admin(application, name='Medic', url='/reception', template_mode='bootstrap4', index_view=MyIndexView(name='Добавление персонала'))
+admin.add_view(MyAdminView(Patient, db.session, name="Пациенты"))
+admin.add_view(MyAdminView(Record, db.session, name="Записи"))
+admin.add_view(MyAdminView(User, db.session, name="Персонал"))
