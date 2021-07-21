@@ -28,9 +28,9 @@ def search_process():
     patients_search_arr = []
     patients_search = Patient.query.filter(or_(Patient.full_name.contains(search), Patient.phone.contains(search), Patient.phone2.contains(search)))
     for i in patients_search:
-        patients_search_arr.append(i)
+        patients_search_arr.append(i) 
     print(patients_search_arr)
-    return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patients_search_arr) == 0 else jsonify({'success': 'true', 'patients': patients_search_arr})
+    return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patients_search_arr) == 0 else jsonify({'success': 'true', 'patients': str(patients_search_arr)})
         
     
 
