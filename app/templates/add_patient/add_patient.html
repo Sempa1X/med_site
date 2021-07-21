@@ -2,79 +2,233 @@
 
 {% block content %}
 <div class="container">
+    <form id="form" action="/added" method="POST">
+        <div class="container" id='cont'>
+            <select class="form-select" name="role" id="role" required>
+                <option value="none" selected disabled>Выберите тип пациента</option>
+                <option value="default">Обычный</option>
+                <option value="child">Ребёнок</option>
+                <option value="pregnant">Беременная</option>
+            </select>
+            <br>
+            <label for="fio" class="form-label"><h4>Первичные данные</h4></label>
+            <div class="row" id="fio">
+                <div class="col">
+                    <label for="surname" class="form-label">Фамилия</label>
+                    <input id="surname" type="text" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label for="name" class="form-label">Имя</label>
+                    <input id="name" type="text" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label for="middlename" class="form-label">Отчество</label>
+                    <input id="middlename" type="text" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <label for="info" class="form-label"><h4>Краткая информация</h4></label>
+            <div class="row" id="info">
+                <div class="col">
+                    <label for="birthday" class="form-label">День рождения</label>
+                    <input id="birthday" type="date" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label for="how_think" class="form-label">Как узнал?</label>
+                    <select class="form-select" id="how_think" required>
+                        <option value="none" disabled>Выберите тип рекламы</option>
+                        <option value="default">Сарафан</option>
+                        <option value="child">Реклама</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="address" class="form-label">Адрес</label>
+                    <input id="address" type="text" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <label for="phone" class="form-label">Номер телефона</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+7</span>
+                        <input id="phone" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="phone2" class="form-label">Запасной номер телефона</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+7</span>
+                        <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
-<form id="form" method="POST" class="d-flex" action="">
-    {% if get_flashed_messages() %}
-                        <div class="alert alert-warning" role="alert">
-                            {% with messages = get_flashed_messages() %}
-                                {% for message in messages %}
-                                    {{ message }}
-                                {% endfor %}  
-                            {% endwith %}
-                        </div>
-                    {% endif %}
-    <div class="form-group">
-    <h2 class="text-center">Имя</h2>
-
-    <input name="sur" placeholder="Фамилия" type="text">
-    <input name="first" placeholder="Имя" type="text">
-    <input name="last" placeholder="Отчество" type="text">
-
-    <h2 class="text-center">Краткая информация</h2>
-
-    <input name="birthday" placeholder="День рождения" type="text">
-    <input name="how_think" placeholder="Как узнал" type="text">
-
-    <input name="address" placeholder="Адрес" type="text">
-    <input name="phone" placeholder="Номер телефона" type="text">
-    <input name="phone2" placeholder="Запасной номер телефона" type="text">
-
-    <select name="role" id="role" placeholder="Тип пациента" type="text">
-        <option value="default">Обычный</option>
-        <option value="child">Ребёнок</option>
-        <option value="pregnant">Беременная</option>
-    </select>
-
-</form>
 
 <script>
-    $('#role').on('change', function(){
-        $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-        if ($('#role').val() == 'default' && $('#role').SelectedIndex){
-            $('#form').append('<h2 class="text-center">Данные</h2>');
-            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
-            $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
+    function delBlock() {
+        if ($('#data_place').length) {
+            $("#data_place").empty();
+        }
+    }
+    $('#role').on('change', function() {
+        delBlock()
+        row_id = "data"
+        $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
+        $("<br>").appendTo('#data_place');
+        $("<hr>").appendTo('#data_place');
+        $("<br>").appendTo('#data_place');
+        $("<label/>").attr({class: 'form-label', for: row_id, id: 'data_label'}).appendTo('#data_place');
+        $("<h4/>").attr({id: 'data_label_h4'}).appendTo('#data_label');
+        $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place');
+        if ($('#role').val() == 'default' || $('#role').val() == 'pregnant') {
+            document.getElementById('data_label_h4').textContent = 'Данные';
+            counter = 0
+            row_counter = 1
+            if ($('#role').val() == 'default') {
+                var data_list = Object.entries({
+                    'lr_pass_num': 'Номер паспорта',
+                    'lr_pass_serial': 'Серия паспорта',
+                    'lr_pass_date': 'Дата получения паспорта',
+                    'lr_pass_issued': 'Место получения паспорта'
+                })
+            }
+            else {
+                var data_list = Object.entries({
+                    'lr_pass_num': 'Номер паспорта',
+                    'lr_pass_serial': 'Серия паспорта',
+                    'lr_pass_date': 'Дата получения паспорта',
+                    'lr_pass_issued': 'Место получения паспорта',
+                    'num_fetus': 'Кол-во плодов',
+                    'estimated_date': 'ПДР'
+                })
+            }
+            for (var i = 0; i < data_list.length; i++) {
+                if (counter == 2) {
+                    row_id = 'data' + row_counter
+                    $("<br>").appendTo('#data_place');
+                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place');
+                    i -= 1
+                    counter = 0
+                    row_counter += 1
+                }
+                else {
+                    $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]).textContent = data_list[i][1];
+                    if (data_list[i][0].includes('date')) {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    else {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    counter += 1
+                }
+            }
         }
         else if ($('#role').val() == 'child'){
-            $('#form').append('<h2 class="text-center">Данные о сопровождающем</h2>');
-            $('#form').append('<input name="lr_surname" placeholder="Фамилия представителя" type="text">');
-            $('#form').append('<input name="lr_f_name" placeholder="Имя представителя" type="text">');
-            $('#form').append('<input name="lr_l_name" placeholder="Отчество представителя" type="text">');
-            $('#form').append('<input name="lr_status" placeholder="Тип представителя" type="text">');
-            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта представителя" type="text">');
-            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта представителя" type="text">');
-            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта представителя" type="text">');
-            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта представителя" type="text">');
-            $('#form').append('<input name="comment" placeholder="Комментарий представителя(не обязательно)" type="text">');
+            document.getElementById('data_label_h4').textContent = 'Данные о сопровождающем';
+            counter = 0
+            row_counter = 1
+            var data_list = Object.entries({
+                'lr_surname': 'Фамилия представителя',
+                'lr_f_name': 'Имя представителя',
+                'lr_l_name': 'Отчество представителя',
+                'lr_select': 'Тип представителя',
+                'lr_pass_num': 'Номер паспорта представителя',
+                'lr_pass_serial': 'Серия паспорта представителя',
+                'lr_pass_date': 'Дата получения паспорта представителя',
+                'lr_pass_issued': 'Место получения паспорта представителя',
+            })
+            for (var i = 0; i < data_list.length; i++) {
+                if (counter == 3) {
+                    row_id = 'data' + row_counter
+                    $("<br>").appendTo('#data_place');
+                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place');
+                    i -= 1
+                    counter = 0
+                    row_counter += 1
+                }
+                else {
+                    $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]).textContent = data_list[i][1];
+                    if (data_list[i][0].includes('date')) {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    else if (data_list[i][0].includes('select')) {
+                        $("<select/>").attr({class: 'form-select', id: 'lr_s', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        var lr_select = ['Мать', 'Отец', 'Дед']
+                        let disabled_status = new Option('Выберите тип представителя', 0);
+                        disabled_status.disabled = true
+                        lr_s.append(disabled_status);
+                        for (let count = 0; count < lr_select.length; count++) {
+                            let new_status = new Option(lr_select[count], count + 1);
+                            lr_s.append(new_status);
+                        }
+                    }
+                    else {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+
+                    counter += 1
+                }
+            }
         }
-        else if ($('#role').val() == 'pregnant'){
-            $('#form').append('<h2 class="text-center">Данные</h2>');
-            $('#form').append('<input name="lr_pass_num" placeholder="Номер паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_serial" placeholder="Серия паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_date" placeholder="Дата получения паспорта" type="text">');
-            $('#form').append('<input name="lr_pass_issued" placeholder="Место получения паспорта" type="text">');
-            $('#form').append('<input name="comment" placeholder="Комментарий пациента(не обязательно)" type="text">');
-            $('#form').append('<input name="num_fetus" placeholder="Кол-во плодов" type="text">');
-            $('#form').append('<input name="estimated_birthday" placeholder="Примерное рождение" type="text">');
-        }
-        $('#form').append('<button type="submit" class="btn btn-outline-primary">Отправить</button>');
-        $('#form').append('</div>');
-        $('#form').append('</div>');
-        
+        $("<br>").appendTo('#data_place');
+        $("<label/>").attr({class: 'form-label', for: 'comment', id: 'comm'}).appendTo('#data_place');
+        document.getElementById("comm").textContent = 'Комментарий';
+        $("<textarea/>").attr({class: 'form-control', id: 'comment', type: 'text'}).appendTo('#data_place');
+        $("<br>").appendTo('#data_place');
+        $("<div/>").attr({class: 'd-grid gap-2', id: 'btn'}).appendTo('#data_place');
+        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onclick: add_user()}).appendTo('#btn');
+        document.getElementById("answer").textContent = 'Отправить';
+        $("<br>").appendTo('#data_place');
+
     });
+
+    function add_user() {
+
+        event.preventDefault();
+
+        var $form = $( '#form' ),
+            url = $form.attr( "action" );
+        let data = [{
+            'surname': $form.find( "#surname" ).val(),
+            'name': $form.find( "#name" ).val(),
+            'middlename': $form.find( "#middlename" ).val(),
+            'birthday': $form.find( "#birthday" ).val(),
+            'how_think': $form.find( "#how_think" ).val(),
+            'address': $form.find( "#address" ).val(),
+            'phone': $form.find( "#phone" ).val(),
+            'phone2': $form.find( "#phone2" ).val(),
+        }]
+        // var posting = $.post( url, { data: data } );
+
+        // posting.done(function( data ) {
+        //     if (data.success == "false") {
+        //         $('#alert').attr('class', 'alert alert-danger');
+        //         $('#alert').text("Нет расписания на эту дату");
+
+        //         setTimeout(sayHi, 2000);
+        //     }
+        //     else {
+        //         for (var a = 0; a < data.data.length; a++) {
+        //             console.log(data.data[a].full_name + a)
+        //             console.log(data.data[a].trust_factor + a)
+        //             console.log(data.data[a].role + a)
+        //             console.log(data.data[a].comment + a)
+        //             console.log(data.data[a].phone + a)
+
+        //         }
+        //     }
+        // });
+    };
 </script>
 {% endblock %}
 
