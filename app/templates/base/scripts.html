@@ -18,62 +18,24 @@
 				$('.jmp__input_tel').mask('(000) 000-00-00');
 			});
 		</script>
-		
-		
-		
-		<script>
-			// let selectedOption = years.options[years.selectedIndex];
-			// наш value selectedOption.value я даун ы
-			var currentYear = new Date().getFullYear()
-			var currentMount = new Date().getMonth()
-			var currentDay = new Date().getDate()
-			month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
-			max = currentYear + 10
-			var last_day_in_month = new Date(currentYear, currentMount, 0).getDate();
-			for (var year = currentYear; year <= max; year++) {
-				let add_year = new Option(year, year);
-				years.append(add_year);
-			}
-			for (var month_count = 0; month_count <= 11; month_count++) {
-				let add_month = new Option(month[month_count], month_count + 1);
-				if (month_count == currentMount) {
-					add_month.selected = true;
-				}
-				months.append(add_month);
-			}
-			for (var day_count = 1; day_count <= last_day_in_month + 1; day_count++) {
-				let add_day = new Option(day_count, day_count);
-				if (day_count == currentDay) {
-					add_day.selected = true;
-				}
-				days.append(add_day);
-			}
-		</script>
 
-		<!-- <script>
+		<script>
 			ymaps.ready(init);
 
 			function init() {
-				// Подключаем поисковые подсказки к полю ввода.
-				var suggestView = new ymaps.SuggestView('suggest'),
+				var suggestView = new ymaps.SuggestView('address'),
 					map,
 					placemark;
 
-				// При клике по кнопке запускаем верификацию введёных данных.
-				$('#button').bind('click', function (e) {
-					geocode();
-				});
-
 				function geocode() {
-					// Забираем запрос из поля ввода.
-					var request = $('#suggest').val();
-					// Геокодируем введённые данные.
+
+					var request = $('#address').val();
+				
 					ymaps.geocode(request).then(function (res) {
 						var obj = res.geoObjects.get(0),
 							error, hint;
 
 						if (obj) {
-							// Об оценке точности ответа геокодера можно прочитать тут: https://tech.yandex.ru/maps/doc/geocoder/desc/reference/precision-docpage/
 							switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
 								case 'exact':
 									break;
@@ -96,75 +58,8 @@
 							error = 'Адрес не найден';
 							hint = 'Уточните адрес';
 						}
-
-						// Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
-						if (error) {
-							showError(error);
-							showMessage(hint);
-						} else {
-							showResult(obj);
-						}
-					}, function (e) {
-						console.log(e)
-					})
-
+					});
 				}
-				function showResult(obj) {
+			}
 
-					var mapContainer = $('#map'),
-						bounds = obj.properties.get('boundedBy'),
-					// Рассчитываем видимую область для текущего положения пользователя.
-						mapState = ymaps.util.bounds.getCenterAndZoom(
-							bounds,
-							[mapContainer.width(), mapContainer.height()]
-						),
-					// Сохраняем полный адрес для сообщения под картой.
-						address = [obj.getCountry(), obj.getAddressLine()].join(', '),
-					// Сохраняем укороченный адрес для подписи метки.
-						shortAddress = [obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' ');
-					// Убираем контролы с карты.
-					mapState.controls = [];
-					// Создаём карту.
-					createMap(mapState, shortAddress);
-					// Выводим сообщение под картой.
-					showMessage(address);
-				}
-
-				function showError(message) {
-					$('#notice').text(message);
-					$('#suggest').addClass('input_error');
-					$('#notice').css('display', 'block');
-					// Удаляем карту.
-					if (map) {
-						map.destroy();
-						map = null;
-					}
-				}
-
-				function createMap(state, caption) {
-					// Если карта еще не была создана, то создадим ее и добавим метку с адресом.
-					if (!map) {
-						map = new ymaps.Map('map', state);
-						placemark = new ymaps.Placemark(
-							map.getCenter(), {
-								iconCaption: caption,
-								balloonContent: caption
-							}, {
-								preset: 'islands#redDotIconWithCaption'
-							});
-						map.geoObjects.add(placemark);
-						// Если карта есть, то выставляем новый центр карты и меняем данные и позицию метки в соответствии с найденным адресом.
-					} else {
-						map.setCenter(state.center, state.zoom);
-						placemark.geometry.setCoordinates(state.center);
-						placemark.properties.set({iconCaption: caption, balloonContent: caption});
-					}
-				}
-
-				function showMessage(message) {
-					$('#messageHeader').text('Данные получены:');
-					$('#message').text(message);
-				}
-	}
-
-		</script> -->
+		</script>
