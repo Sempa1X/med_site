@@ -101,17 +101,22 @@
         };
 
         function outputData(data) {
-            
+            delBlock()
+            translate = {
+              'default': 'Обычный',
+              'child': 'Ребенок',
+              'pregnant': 'Беременная'
+            }
             $("<div/>").attr({id: 'data_place'}).appendTo('#main');
-            $("<div/>").attr({id: 'card_main', class: 'card border-info mb-3'}).appendTo('#data_place');
-            $("<div/>").attr({id: 'card_header', class: 'card-header bg-transparent border-info'}).appendTo('#card_main');
+            $("<div/>").attr({id: 'card_main', class: 'card border-primary mb-3'}).appendTo('#data_place');
+            $("<div/>").attr({id: 'card_header', class: 'card-header bg-transparent border-primary text-center'}).appendTo('#card_main');
             document.getElementById('card_header').textContent = data.full_name;
             $("<div/>").attr({id: 'card_body', class: 'card-body'}).appendTo('#card_main');
             $("<h5/>").attr({id: 'card_title', class: 'card-title'}).appendTo('#card_body');
             document.getElementById('card_title').textContent = data.phone;
             $("<p/>").attr({id: 'card_text', class: 'card-text'}).appendTo('#card_body');
             document.getElementById('card_text').textContent = data.comment;
-            $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-info'}).appendTo('#card_main');
+            $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-primary'}).appendTo('#card_main');
             $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
             if (data.lost_records.length > 0 && data.future_records.length > 0) {
                 if (data.lost_records.length > 0) {
@@ -124,10 +129,12 @@
                         $("<div/>").attr({id: 'old_accordion_item' + i, class: 'accordion-item'}).appendTo('#old_record');
                         $("<h2/>").attr({id: 'old_accordion_item_header' + i, class: 'accordion-header'}).appendTo('#old_accordion_item' + i);
                         $("<button/>").attr({id: 'old_btn_' + i, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': '#old_text_' + i, 'aria-expanded': 'false', 'aria-controls': 'old_text_' + i}).appendTo('#old_accordion_item_header' + i);
-                        document.getElementById('old_btn_' + i).textContent = 'test';
+                        document.getElementById('old_btn_' + i).textContent = `${data.lost_records[i].date} [${data.lost_records[i].time}]`;
                         $("<div/>").attr({id: 'old_text_' + i, class: 'accordion-collapse collapse'}).appendTo('#old_accordion_item' + i);
-                        $("<div/>").attr({id: 'old_accordion_body_' + i, class: 'accordion-body'}).appendTo('#old_text_' + i);
-                        document.getElementById('old_accordion_body_' + i).textContent = 'Тут описание крч какое-то';
+                        $("<div/>").attr({id: 'old_doctor_full_name_' + i, class: 'accordion-body'}).appendTo('#old_text_' + i);
+                        document.getElementById('old_doctor_full_name_' + i).textContent = `Доктор: ${data.lost_records[i].doctor_full_name}`;
+                        $("<div/>").attr({id: 'old_office_' + i, class: 'accordion-body'}).appendTo('#old_text_' + i);
+                        document.getElementById('old_office_' + i).textContent = `Кабинет: ${data.lost_records[i].office}`;
                     }
                 }
                 if (data.future_records.length > 0) {
@@ -140,15 +147,17 @@
                         $("<div/>").attr({id: 'future_accordion_item' + i, class: 'accordion-item'}).appendTo('#future_record');
                         $("<h2/>").attr({id: 'future_accordion_item_header' + i, class: 'accordion-header'}).appendTo('#future_accordion_item' + i);
                         $("<button/>").attr({id: 'future_btn_' + i, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': '#future_text_' + i, 'aria-expanded': 'false', 'aria-controls': 'future_text_' + i}).appendTo('#future_accordion_item_header' + i);
-                        document.getElementById('future_btn_' + i).textContent = 'test';
+                        document.getElementById('future_btn_' + i).textContent = `${data.future_records[i].date} [${data.future_records[i].time}]`;
                         $("<div/>").attr({id: 'future_text_' + i, class: 'accordion-collapse collapse'}).appendTo('#future_accordion_item' + i);
-                        $("<div/>").attr({id: 'future_accordion_body_' + i, class: 'accordion-body'}).appendTo('#future_text_' + i);
-                        document.getElementById('future_accordion_body_' + i).textContent = 'Тут описание крч какое-то';
+                        $("<div/>").attr({id: 'future_doctor_full_name_' + i, class: 'accordion-body'}).appendTo('#future_text_' + i);
+                        document.getElementById('future_doctor_full_name_' + i).textContent = `Доктор: ${data.future_records[i].doctor_full_name}`;
+                        $("<div/>").attr({id: 'future_office_' + i, class: 'accordion-body'}).appendTo('#future_text_' + i);
+                        document.getElementById('future_office_' + i).textContent = `Кабинет: ${data.future_records[i].office}`;
                     }
                 }
             }
             else {
-                $("<h5/>").attr({id: 'footer_text', class: 'card-title'}).appendTo('#row');
+                $("<h3/>").attr({id: 'footer_text', class: 'text-center lead'}).appendTo('#row');
                 document.getElementById('footer_text').textContent = 'У данного пациента отсутствуют записи!';
             }
             
