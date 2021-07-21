@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="/add_patient/added" method="POST">
+    <form id="form" action="/add_patient/added">
         <div class="container" id='cont'>
             <select class="form-select" name="role" id="role" required>
                 <option value="none" selected disabled>Выберите тип пациента</option>
@@ -205,7 +205,7 @@
             'how_think': $form.find( "#how_think" ).val(),
             'address': $form.find( "#address" ).val(),
             'phone': $form.find( "#phone" ).val(),
-            'phone2': $form.find( "#phone2" ).val()
+            'phone2': $form.find( "#phone2" ).val(),
         }
         // if ($('#role').val() == 'default') {
         //     data.push({
