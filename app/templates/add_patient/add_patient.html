@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="/add_patient/added" method="POST">
+    <form id="form" action="/add_patient/added" onsubmit="add_user(); return false;">
         <div class="container" id='cont'>
-            <select class="form-select" name="role" id="role" required>
+            <select class="form-select" id="role" required>
                 <option value="none" selected disabled>Выберите тип пациента</option>
                 <option value="default">Обычный</option>
                 <option value="child">Ребёнок</option>
@@ -33,7 +33,7 @@
             <div class="row" id="info">
                 <div class="col">
                     <label for="birthday" class="form-label">День рождения</label>
-                    <input id="birthday" type="date" class="form-control" required>
+                    <input id="birthday" type="date" class="form-control" max="2040-04-30" required>
                 </div>
                 <div class="col">
                     <label for="how_think" class="form-label">Как узнал?</label>
@@ -122,7 +122,7 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]).textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else {
                         $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
@@ -159,7 +159,7 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]).textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else if (data_list[i][0].includes('select')) {
                         $("<select/>").attr({class: 'form-select', id: 'lr_s', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
@@ -186,7 +186,7 @@
         $("<textarea/>").attr({class: 'form-control', id: 'comment', type: 'text'}).appendTo('#data_place');
         $("<br>").appendTo('#data_place');
         $("<div/>").attr({class: 'd-grid gap-2', id: 'btn'}).appendTo('#data_place');
-        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onСlick: 'add_user()'}).appendTo('#btn');
+        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit'}).appendTo('#btn');
         document.getElementById("answer").textContent = 'Отправить';
         $("<br>").appendTo('#data_place');
 
@@ -194,25 +194,69 @@
 
     function add_user() {
         event.preventDefault();
-
         var $form = $( '#form' ),
             url = $form.attr( "action" );
-        let data = {
-            'surname': $form.find( "#surname" ).val(),
-            'name': $form.find( "#name" ).val(),
-            'middlename': $form.find( "#middlename" ).val(),
-            'birthday': $form.find( "#birthday" ).val(),
-            'how_think': $form.find( "#how_think" ).val(),
-            'address': $form.find( "#address" ).val(),
-            'phone': $form.find( "#phone" ).val(),
-            'phone2': $form.find( "#phone2" ).val()
+        if ($('#role').val() == 'default') {
+            var data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': $form.find( "#birthday" ).val(),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'comment': $form.find( "#comment" ).val()
+            }
         }
-        // if ($('#role').val() == 'default') {
-        //     data.push({
-                
-        //     })
-        // }
-        var posting = $.post( url, { data: data } );
+        else if ($('#role').val() == 'pregnant') {
+            var data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': $form.find( "#birthday" ).val(),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': $form.find( "#num_fetus" ).val(),
+                'estimated_date': $form.find( "#estimated_date" ).val(),
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
+        else if ($('#role').val() == 'child') {
+            var data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': $form.find( "#birthday" ).val(),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_surname': $form.find( "#lr_surname" ).val(),
+                'lr_f_name': $form.find( "#lr_f_name" ).val(),
+                'lr_l_name': $form.find( "#lr_l_name" ).val(),
+                'lr_s': $form.find( "#lr_s" ).val(),
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
+        var posting = $.post( url, data );
 
         posting.done(function( data ) {
             if (data.success == "false") {

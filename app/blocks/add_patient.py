@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect,\
-    url_for, request, flash
+    url_for, request, flash, jsonify
 from sqlalchemy import or_
 from flask_login import current_user, login_user,\
     login_required, logout_user
@@ -19,11 +19,8 @@ def add_patient():
 
 @bp_add.route('/added', methods=['POST'])
 def added():
-    if 'data' in request.form or 'data' in request.args:
-        print(request.form['data'])
-        print(request.form['data']['surname'])
-        return 'True'
-    return 'false'
+    print(request.form)
+    return jsonify({'success': 'false'})
 
 
 
