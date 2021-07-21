@@ -25,12 +25,13 @@ def search():
 @bp_search.route('/search_process', methods=['POST'])
 def search_process():
     search = request.form.get('data')
-    patient_info = []
-    patients_search = Patient.query.filter(or_(Patient.full_name.contains(search), Patient.phone.contains(search), Patient.phone2.contains(search)))
-    for i in patients_search:
-        patient_info.append({'full_name': i.full_name, 'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone}) 
-    return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patient_info) == 0 else jsonify({'success': 'true', 'patients': patient_info})
-        
+    if search:
+        patient_info = []
+        patients_search = Patient.query.filter(or_(Patient.full_name.contains(search), Patient.phone.contains(search), Patient.phone2.contains(search)))
+        for i in patients_search:
+            patient_info.append({'full_name': i.full_name, 'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone}) 
+        return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patient_info) == 0 else jsonify({'success': 'true', 'patients': patient_info})
+    return jsonify({'success': 'false', 'text': 'Нет пациента'})
     
 
 
