@@ -267,7 +267,7 @@
                 'comment': $form.find( "#comment" ).val()
             }
         }
-        var posting = $.post( url, data );
+        var posting = $.post( url, {'data': data} );
 
         posting.done(function( data ) {
             if (data.success == "false") {
