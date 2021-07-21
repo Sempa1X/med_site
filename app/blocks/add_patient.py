@@ -19,7 +19,14 @@ def add_patient():
 
 @bp_add.route('/added', methods=['POST'])
 def added():
-    print(request.form)
+    data_replace = []
+    for i in request.form:
+        data_replace.append([i, request.form[i]])
+        # print(request.form[i])
+    # print(request.form)
+    patient = Patient()
+    print(data_replace)
+    print(len(data_replace))
     return jsonify({'success': 'false'})
 
 

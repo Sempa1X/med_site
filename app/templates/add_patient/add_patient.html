@@ -119,8 +119,8 @@
                 }
                 else {
                     $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
-                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    document.getElementById(data_list[i][0]).textContent = data_list[i][1];
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
                         $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
@@ -156,8 +156,8 @@
                 }
                 else {
                     $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
-                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0]}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
-                    document.getElementById(data_list[i][0]).textContent = data_list[i][1];
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
                         $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "2040-04-30"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
@@ -193,7 +193,6 @@
     });
 
     function add_user() {
-        event.preventDefault();
         var $form = $( '#form' ),
             url = $form.attr( "action" );
         if ($('#role').val() == 'default') {
@@ -207,10 +206,16 @@
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_surname': false,
+                'lr_f_name': false,
+                'lr_l_name': false,
+                'lr_s': false,
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
                 'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': false,
+                'estimated_date': false,
                 'comment': $form.find( "#comment" ).val()
             }
         }
@@ -225,6 +230,10 @@
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'lr_surname': false,
+                'lr_f_name': false,
+                'lr_l_name': false,
+                'lr_s': false,
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
                 'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
@@ -253,6 +262,8 @@
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
                 'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': false,
+                'estimated_date': false,
                 'comment': $form.find( "#comment" ).val()
             }
         }

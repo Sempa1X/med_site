@@ -80,7 +80,6 @@ class Patient(db.Model):
     address = db.Column(db.String(255))
     trust_factor = db.Column(db.Boolean, default=True)
     patient_role = db.Column(db.String(255))
-
     estimated_birthday = db.Column(db.String(255))
     num_fetus = db.Column(db.Integer, default=1)
 
