@@ -1,44 +1,46 @@
-import os
-
+import re
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.base import AdminIndexView, expose
-from werkzeug.utils import secure_filename
 from flask_login import current_user
 from flask import redirect, url_for, request, flash
 
 from app import db, application
-
-
-UPLOAD_FOLDER = application.config['UPLOAD_FOLDER']
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'webp'])
-
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+from app.src.database import User
 
 
 class MyAdminView(ModelView):
     def is_accessible(self):
-        if current_user.is_authenticated:
-            return current_user.isAdmin
-        return current_user.is_authenticated
+        return current_user.role == 'superadmin'
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login.logins'))
-
+        return redirect(url_for('receptions.reception'))
 
 
 class MyIndexView(AdminIndexView):
     @expose('/', methods=['GET', 'POST'])
     def index(self):
         if request.method == 'POST':
+            check_pers = User.query.filter(User.username == request.form['username']).first()
+            if len(check_pers.username) == 0:
+                full_name = request.form['s_name'] + " " + request.form['f_name'] + " " + request.form['l_name']
+                u = User( username=request.form['username'], first_name=request.form['f_name'], last_name=request.form['l_name'], surname=request.form['s_name'], full_name=full_name, sex=request.form.get('sex'),\
+                    birthday=request.form['birthday'], phone=request.form['phone'], phone2=request.form['phone2'], email=request.form['email'], division=request.form['division'], certificate=request.form['certificate'],\
+                        role=request.form.get('role'))
+                u.set_password(request.form['passwd'])
+
+                db.session.add(u)
+                db.session.commit()
+                flash(f"Работник {request.form['s_name']} {request.form['first_name']} {request.form['last_name']} добавлен. Роль: {request.form['role']}")
+            else:
+                flash(f"Работник {request.form['username']} найден, и не может быть добавлен!")
             return self.render('admin/index.html')
         return self.render('admin/index.html')
 
     def is_accessible(self):
-        if current_user.is_authenticated:
-            return current_user.isAdmin
-        return current_user.is_authenticated
+        return current_user.role == 'superadmin'
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login.logins'))
+        return redirect(url_for('receptions.reception'))
+
+
+    

@@ -26,7 +26,7 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(20))
     full_name = db.Column(db.String(255))
 
-    sex = db.Column(db.Boolean, default=1)
+    sex = db.Column(db.String(255))
     birthday = db.Column(db.String(50))
 
     phone = db.Column(db.String(50))
@@ -106,6 +106,15 @@ class Record(db.Model):
     isActive = db.Column(db.Boolean, default=True)
     reason = db.Column(db.String(255))
 
+
+class Schedule(db.Model):
+    __tablename__ = 'schedules'
+    id = db.Column(db.Integer, primary_key=True)
+    doctor_id = db.Column(db.Integer)
+    date = db.Column(db.String(255))
+    time = db.Column(db.String(255))
+    office = db.Column(db.Integer)
+    isActive = db.Column(db.Boolean, default=True, nullable=False)
 
 
 @login.user_loader
