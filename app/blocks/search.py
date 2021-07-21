@@ -1,7 +1,7 @@
-import datetime
+import datetime, json
 
 from flask import Blueprint, render_template, redirect,\
-    url_for, jsonify, request
+    url_for, jsonify, request, Response
 from flask_login import login_required
 from sqlalchemy import or_, and_
 
@@ -25,12 +25,11 @@ def search():
 @bp_search.route('/search_process', methods=['POST'])
 def search_process():
     search = request.form.get('data')
-    patients_search_arr = []
+    patient_info = []
     patients_search = Patient.query.filter(or_(Patient.full_name.contains(search), Patient.phone.contains(search), Patient.phone2.contains(search)))
     for i in patients_search:
-        patients_search_arr.append(i) 
-    print(patients_search_arr)
-    return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patients_search_arr) == 0 else jsonify({'success': 'true', 'patients': str(patients_search_arr)})
+        patient_info.append({'full_name': i.full_name, 'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone}) 
+    return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patient_info) == 0 else jsonify({'success': 'true', 'patients': patient_info})
         
     
 
