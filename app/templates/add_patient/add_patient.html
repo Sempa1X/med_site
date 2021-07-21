@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="/add_patient/added">
+    <form id="form" method="POST" action="/add_patient/added">
         <div class="container" id='cont'>
             <select class="form-select" name="role" id="role" required>
                 <option value="none" selected disabled>Выберите тип пациента</option>
