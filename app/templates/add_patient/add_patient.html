@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="/added" method="POST">
+    <form id="form" action="/add_patient/added">
         <div class="container" id='cont'>
             <select class="form-select" name="role" id="role" required>
                 <option value="none" selected disabled>Выберите тип пациента</option>
@@ -186,19 +186,18 @@
         $("<textarea/>").attr({class: 'form-control', id: 'comment', type: 'text'}).appendTo('#data_place');
         $("<br>").appendTo('#data_place');
         $("<div/>").attr({class: 'd-grid gap-2', id: 'btn'}).appendTo('#data_place');
-        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onclick: add_user()}).appendTo('#btn');
+        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit', onСlick: 'add_user()'}).appendTo('#btn');
         document.getElementById("answer").textContent = 'Отправить';
         $("<br>").appendTo('#data_place');
 
     });
 
     function add_user() {
-
         event.preventDefault();
 
         var $form = $( '#form' ),
             url = $form.attr( "action" );
-        let data = [{
+        let data = {
             'surname': $form.find( "#surname" ).val(),
             'name': $form.find( "#name" ).val(),
             'middlename': $form.find( "#middlename" ).val(),
@@ -207,27 +206,22 @@
             'address': $form.find( "#address" ).val(),
             'phone': $form.find( "#phone" ).val(),
             'phone2': $form.find( "#phone2" ).val(),
-        }]
-        // var posting = $.post( url, { data: data } );
+        }
+        // if ($('#role').val() == 'default') {
+        //     data.push({
+                
+        //     })
+        // }
+        var posting = $.post( url, { data: data } );
 
-        // posting.done(function( data ) {
-        //     if (data.success == "false") {
-        //         $('#alert').attr('class', 'alert alert-danger');
-        //         $('#alert').text("Нет расписания на эту дату");
-
-        //         setTimeout(sayHi, 2000);
-        //     }
-        //     else {
-        //         for (var a = 0; a < data.data.length; a++) {
-        //             console.log(data.data[a].full_name + a)
-        //             console.log(data.data[a].trust_factor + a)
-        //             console.log(data.data[a].role + a)
-        //             console.log(data.data[a].comment + a)
-        //             console.log(data.data[a].phone + a)
-
-        //         }
-        //     }
-        // });
+        posting.done(function( data ) {
+            if (data.success == "false") {
+               alert("ну все пизда")
+            }
+            else {
+                alert("добавлен епт")
+            }
+        });
     };
 </script>
 {% endblock %}
