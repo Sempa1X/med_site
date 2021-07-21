@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="container">
-    <form id="form" action="">
+    <form id="form" action="" onsubmit="find_user(); return false;">
         <div class="input-group mb-3">
-            <input name="q" list="patient" value="{{ request.args.get('q', '') }}" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
+            <input list="patient" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
             <datalist id="patient">
                 {% for i in patients %}
                 <option value="{{ i.full_name }}">
@@ -36,6 +36,25 @@
 {% endif
      %}
 
+
+     <script>
+
+        function find_user() {
+            var $form = $( '#form' ),
+                url = $form.attr( "action" );
+            // $('#q').val()
+            var posting = $.post( url, {'data' : $('#q').val()} );
+
+            posting.done(function( data ) {
+                if (data.success == "false") {
+                alert("Что-то пошло не так...")
+                }
+                else {
+                    alert("Пациент занесен в базу данных")
+                }
+            });
+        };
+    </script>
 
 {% endblock %}
 
