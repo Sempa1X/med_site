@@ -19,9 +19,11 @@ def add_patient():
 
 @bp_add.route('/added', methods=['POST'])
 def added():
-    if 'data' in request.form:
+    if 'data' in request.form or 'data' in request.args:
         print(request.form['data'])
         print(request.form['data']['surname'])
+        return 'True'
+    return 'false'
 
 
 
