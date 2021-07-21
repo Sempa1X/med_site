@@ -1,6 +1,16 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
+<style>
+.collapse {
+  overflow: auto;
+  width: auto;
+  height: auto;
+  max-height: 50vh;
+  max-width: 100%;
+}
+</style>
+
 <div class="container" id='main'>
     <form id="form" action="/search/search_process" onsubmit="find_user(); return false;">
         <div class="input-group mb-3">
@@ -10,72 +20,72 @@
                 <option value="{{ i.full_name }}">
                 {% endfor %}
             </datalist>
-        
             <button id="search-button" type="submit" class="btn btn-outline-primary">
                 <i class="fas fa-search"></i>
             </button>
         </div>
-
-
     </form>
-    <div class="card border-primary mb-3">
-        <div class="card-header bg-transparent border-primary" id='header'>Название</div>
-        <div class="card-body text-dark">
-        <h5 class="card-title" id='title'>Тайтл</h5>
-        <p class="card-text" id='info-text'>инфа о пидорасе</p>
+
+    <!-- <div class="card border-info mb-3" id='card'>
+        <div class="card-header bg-transparent border-info" id='header'>Header</div>
+        <div class="card-body" id='body'>
+            <h5 class="card-title" id='title'>Success card title</h5>
+            <p class="card-text" id='card_text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
-        <div class="card-footer bg-transparent border-primary" id='footer'>
-            aaaa
+        <div class="card-footer bg-transparent border-info">
+            <div class="row">
+                <div class="col">
+                    <label for="old_record" class="form-label"><b>Прошедшие записи</b></label>
+                    <div class="accordion accordion-flush" id="old_record">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="1">
+                                <button id='old_btn_1' class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#old_text_1" aria-expanded="false" aria-controls="old_text_1">
+                                Accordion Item #1
+                                </button>
+                            </h2>
+                            <div id="old_text_1" class="accordion-collapse collapse" >
+                                <div class="accordion-body">Это корпус-гармошка первого предмета. Он отображается по умолчанию, пока плагин свертывания не добавит соответствующие классы, которые мы используем для стилизации каждого элемента. Эти классы управляют общим внешним видом, а также отображением и скрытием с помощью переходов CSS. Вы можете изменить все это с помощью пользовательского CSS или переопределить наши переменные по умолчанию. Также стоит отметить, что практически любой HTML может быть в пределах .accordion-body, хотя переход ограничивает переполнение.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="future_record" class="form-label"><b>Текущие записи</b></label>
+                    <div class="accordion accordion-flush" id="future_record">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button id='future_btn_1' class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#future_text_1" aria-expanded="false" aria-controls="future_text_1">
+                                    Accordion Item #1
+                                </button>
+                            </h2>
+                            <div id="future_text_1" class="accordion-collapse collapse" >
+                                <div class="accordion-body">Это корпус-гармошка первого предмета. Он отображается по умолчанию, пока плагин свертывания не добавит соответствующие классы, которые мы используем для стилизации каждого элемента. Эти классы управляют общим внешним видом, а также отображением и скрытием с помощью переходов CSS. Вы можете изменить все это с помощью пользовательского CSS или переопределить наши переменные по умолчанию. Также стоит отметить, что практически любой HTML может быть в пределах .accordion-body, хотя переход ограничивает переполнение.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingOne">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                  Accordion Item #1
-                </button>
-              </h2>
-              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                  Accordion Item #2
-                </button>
-              </h2>
-              <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                  Accordion Item #3
-                </button>
-              </h2>
-              <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-              </div>
-            </div>
-          </div>
-    </div>-
+    </div> -->
+
+
+
 </div>
  
 
 
     
      <script>
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function (toastEl) {
-        return new bootstrap.Toast(toastEl, option)
-        })
-        toast.show()
+
+        function delBlock() {
+            if ($('#data_place').length) {
+                $("#data_place").empty();
+            }
+        }
 
         function find_user() {
             var $form = $( '#form' ),
                 url = $form.attr( "action" );
-            // $('#q').val()
             var posting = $.post( url, {'data' : $('#q').val()} );
 
             posting.done(function( data ) {
@@ -83,11 +93,101 @@
                     toastr["warning"]("Пользователь не найден.", "Предупреждение!");
                 }
                 else {
+                    outputData(data.patients[0]);
                     console.log(data.patients);
                     toastr["success"]("Успешно!");
                 }
             });
         };
+
+        function outputData(data) {
+            
+            $("<div/>").attr({id: 'data_place'}).appendTo('#main');
+            $("<div/>").attr({id: 'card_main', class: 'card border-info mb-3'}).appendTo('#data_place');
+            $("<div/>").attr({id: 'card_header', class: 'card-header bg-transparent border-info'}).appendTo('#card_main');
+            document.getElementById('card_header').textContent = data.full_name;
+            $("<div/>").attr({id: 'card_body', class: 'card-body'}).appendTo('#card_main');
+            $("<h5/>").attr({id: 'card_title', class: 'card-title'}).appendTo('#card_body');
+            document.getElementById('card_title').textContent = data.phone;
+            $("<p/>").attr({id: 'card_text', class: 'card-text'}).appendTo('#card_body');
+            document.getElementById('card_text').textContent = data.comment;
+            $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-info'}).appendTo('#card_main');
+            $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
+            if (data.lost_records.length > 0 && data.future_records.length > 0) {
+                if (data.lost_records.length > 0) {
+                    $("<div/>").attr({id: 'col_1', class: 'col'}).appendTo('#row');
+                    $("<label/>").attr({id: 'old_label', class: 'form-label', for: 'old_record'}).appendTo('#col_1');
+                    $("<b/>").attr({id: 'b_old_label'}).appendTo('#old_label');
+                    document.getElementById('b_old_label').textContent = 'Прошедшие записи';
+                    $("<div/>").attr({id: 'old_record', class: 'accordion accordion-flush'}).appendTo('#col_1');
+                    for (let i = 0; i < data.lost_records.length; i++) {
+                        $("<div/>").attr({id: 'old_accordion_item' + i, class: 'accordion-item'}).appendTo('#old_record');
+                        $("<h2/>").attr({id: 'old_accordion_item_header' + i, class: 'accordion-header'}).appendTo('#old_accordion_item' + i);
+                        $("<button/>").attr({id: 'old_btn_' + i, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': '#old_text_' + i, 'aria-expanded': 'false', 'aria-controls': 'old_text_' + i}).appendTo('#old_accordion_item_header' + i);
+                        document.getElementById('old_btn_' + i).textContent = 'test';
+                        $("<div/>").attr({id: 'old_text_' + i, class: 'accordion-collapse collapse'}).appendTo('#old_accordion_item' + i);
+                        $("<div/>").attr({id: 'old_accordion_body_' + i, class: 'accordion-body'}).appendTo('#old_text_' + i);
+                        document.getElementById('old_accordion_body_' + i).textContent = 'Тут описание крч какое-то';
+                    }
+                }
+                if (data.future_records.length > 0) {
+                    $("<div/>").attr({id: 'col_2', class: 'col'}).appendTo('#row');
+                    $("<label/>").attr({id: 'future_label', class: 'form-label', for: 'future_record'}).appendTo('#col_2');
+                    $("<b/>").attr({id: 'b_future_label'}).appendTo('#future_label');
+                    document.getElementById('b_future_label').textContent = 'Текущие записи';
+                    $("<div/>").attr({id: 'future_record', class: 'accordion accordion-flush'}).appendTo('#col_2');
+                    for (let i = 0; i < data.future_records.length; i++) {
+                        $("<div/>").attr({id: 'future_accordion_item' + i, class: 'accordion-item'}).appendTo('#future_record');
+                        $("<h2/>").attr({id: 'future_accordion_item_header' + i, class: 'accordion-header'}).appendTo('#future_accordion_item' + i);
+                        $("<button/>").attr({id: 'future_btn_' + i, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': '#future_text_' + i, 'aria-expanded': 'false', 'aria-controls': 'future_text_' + i}).appendTo('#future_accordion_item_header' + i);
+                        document.getElementById('future_btn_' + i).textContent = 'test';
+                        $("<div/>").attr({id: 'future_text_' + i, class: 'accordion-collapse collapse'}).appendTo('#future_accordion_item' + i);
+                        $("<div/>").attr({id: 'future_accordion_body_' + i, class: 'accordion-body'}).appendTo('#future_text_' + i);
+                        document.getElementById('future_accordion_body_' + i).textContent = 'Тут описание крч какое-то';
+                    }
+                }
+            }
+            else {
+                $("<h5/>").attr({id: 'footer_text', class: 'card-title'}).appendTo('#row');
+                document.getElementById('footer_text').textContent = 'У данного пациента отсутствуют записи!';
+            }
+            
+
+//             <div class="accordion accordion-flush" id="old_record">
+//                 <div class="accordion-item">
+//                     <h2 class="accordion-header" id="flush-headingOne">
+//                         <button id='old_btn_1' class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#old_text_1" aria-expanded="false" aria-controls="old_text_1">
+//                         Accordion Item #1
+//                         </button>
+//                     </h2>
+//                     <div id="old_text_1" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+//                         <div class="accordion-body">Это корпус-гармошка первого предмета. Он отображается по умолчанию, пока плагин свертывания не добавит соответствующие классы, которые мы используем для стилизации каждого элемента. Эти классы управляют общим внешним видом, а также отображением и скрытием с помощью переходов CSS. Вы можете изменить все это с помощью пользовательского CSS или переопределить наши переменные по умолчанию. Также стоит отметить, что практически любой HTML может быть в пределах .accordion-body, хотя переход ограничивает переполнение.</div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//         <div class="col">
+//             <label for="future_record" class="form-label"><b>Текущие записи</b></label>
+//             <div class="accordion accordion-flush" id="future_record">
+//                 <div class="accordion-item">
+//                     <h2 class="accordion-header" id="flush-headingOne">
+//                         <button id='future_btn_1' class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#future_text_1" aria-expanded="false" aria-controls="future_text_1">
+//                             Accordion Item #1
+//                         </button>
+//                     </h2>
+//                     <div id="future_text_1" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+//                         <div class="accordion-body">Это корпус-гармошка первого предмета. Он отображается по умолчанию, пока плагин свертывания не добавит соответствующие классы, которые мы используем для стилизации каждого элемента. Эти классы управляют общим внешним видом, а также отображением и скрытием с помощью переходов CSS. Вы можете изменить все это с помощью пользовательского CSS или переопределить наши переменные по умолчанию. Также стоит отметить, что практически любой HTML может быть в пределах .accordion-body, хотя переход ограничивает переполнение.</div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     </div>
+// </div>
+// </div>
+        }
+
+
+        
     </script>
 
 {% endblock %}
