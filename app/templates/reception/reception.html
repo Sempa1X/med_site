@@ -51,9 +51,12 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data);
+                // console.log(data.doctors);
                 toastr["success"]("Успешно!");
-                createForm();
+                for (count in data.doctors) {
+                    createForm(count, data.doctors[count])
+                    console.log(data.doctors[count]);
+                }
             }
         });
     };
@@ -86,8 +89,8 @@
                 toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
             }
             else {
-                createForm();
                 for (var a = 0; a < data.data.length; a++) {
+                    createForm(data);
                     console.log(data.data[a].full_name + a)
                     console.log(data.data[a].trust_factor + a)
                     console.log(data.data[a].role + a)
@@ -105,7 +108,7 @@
         }
     }
     
-    function createForm() {
+    function createForm(count, data) {
 
     //     <div class="row" id='row_1'>
     //     <div class="col" id='col_1'>
@@ -127,24 +130,22 @@
     //     </div>
     // </div>
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
-        $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
-        $("<div/>").attr({id: 'col', class: 'col'}).appendTo('#row');
-        $("<div/>").attr({id: 'card_main', class: 'card'}).appendTo('#col');
-        $("<div/>").attr({id: 'card_body', class: 'card-body'}).appendTo('#card_main');
-        $("<h5/>").attr({id: 'card_title', class: 'card-title'}).appendTo('#card_body');
-        document.getElementById('card_title').textContent = 'ФИО доктора';
-        $("<p/>").attr({id: 'card-text', class: 'card-text'}).appendTo('#card_body');
-        document.getElementById('card-text').textContent = 'Текст какой-то';
-        $("<ul/>").attr({id: 'card_list', class: 'list-group list-group-flush'}).appendTo('#card_main');
-        $("<li/>").attr({id: 'card_list_item_1', class: 'list-group-item'}).appendTo('#card_list');
-        $("<input/>").attr({class: 'form-control', id: 'card_list_item_input_1', type: 'text'}).appendTo('#card_list_item_1');
+        $("<div/>").attr({id: `row_${count}`, class: 'row'}).appendTo('#data_place');
+        $("<div/>").attr({id: `col_${count}`, class: 'col'}).appendTo(`#row_${count}`);
+        $("<div/>").attr({id: `card_main_${count}`, class: 'card'}).appendTo(`#col_${count}`);
+        $("<div/>").attr({id: `card_body_${count}`, class: 'card-body'}).appendTo(`#card_main_${count}`);
+        $("<h5/>").attr({id: `card_title_${count}`, class: 'card-title'}).appendTo(`#card_body_${count}`);
+        document.getElementById(`card_title_${count}`).textContent = data.doc_full_name;
+        // $("<p/>").attr({id: `card_text_${count}`, class: 'card-text'}).appendTo(`#card_body_${count}`);
+        // document.getElementById(`card_text_${count}`).textContent = 'Текст какой-то';
+        $("<ul/>").attr({id: `card_list_${count}`, class: 'list-group list-group-flush'}).appendTo(`#card_main_${count}`);
+        // for (record in data.records) {
+        for (let a = 0; a < data.records.length; a++) {
+            $("<li/>").attr({id: `card_list_item_${a}`, class: 'list-group-item'}).appendTo(`#card_list_${count}`);
+            $("<input/>").attr({class: 'form-control', id: `card_list_item_input_${a}`, type: 'text'}).appendTo(`#card_list_item_${a}`);
+        }
         // document.getElementById('card_list_item_1').textContent = `Строчка 1`;
-        $("<li/>").attr({id: 'card_list_item_2', class: 'list-group-item'}).appendTo('#card_list');
-        document.getElementById('card_list_item_2').textContent = `Строчка 2`;
-        $("<li/>").attr({id: 'card_list_item_3', class: 'list-group-item'}).appendTo('#card_list');
-        document.getElementById('card_list_item_3').textContent = `Строчка 3`;
-        $("<li/>").attr({id: 'card_list_item_4', class: 'list-group-item'}).appendTo('#card_list');
-        document.getElementById('card_list_item_4').textContent = `Строчка 4`;
+
 
         // $("<div/>").attr({id: 'card_body_row', class: 'row'}).appendTo('#card_body');
         // $("<div/>").attr({id: 'card_body_col_1', class: 'col'}).appendTo('#card_body_row');
