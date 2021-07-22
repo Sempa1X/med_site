@@ -23,9 +23,12 @@ def reception():
 
 @bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
+    doctors = []
     res = User.query.filter(and_(User.role == 'doctor', User.records.any(date = current_date)))
-    if len(res) > 0:
-        return jsonify({'success': 'true', 'doctors': res})
+    for doctor in res:
+        doctors.append(doctor)
+    if len(doctors) > 0:
+        return jsonify({'success': 'true', 'doctors': doctors})
     return jsonify({'success': 'false'})
     
 
