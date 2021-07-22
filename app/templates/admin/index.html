@@ -1,4 +1,6 @@
 {% extends 'admin/master.html' %}
+{% include 'base/links.html' %}
+{% include 'base/scripts.html' %}
 
 {% block body %}
 
@@ -8,11 +10,11 @@
         <div class="row">
             <div class="col">
                 <label for="username" class="form-label">Имя пользователя</label>
-                <input type="text" name='username' id='username' class="form-control">
+                <input type="text" name='username' id='username' class="form-control" required>
             </div>
             <div class="col">
                 <label for="password" class="form-label">Пароль</label>
-                <input type="password" id='password' name='passwd' class="form-control">
+                <input type="password" id='password' name='passwd' class="form-control" required>
             </div>
         </div>
         <br>
@@ -21,15 +23,15 @@
         <div class="row">
             <div class="col">
                 <label for="f_name" class="form-label">Имя</label>
-                <input type="text" name='f_name' id='f_name' class="form-control">
+                <input type="text" name='f_name' id='f_name' class="form-control" required>
             </div>
             <div class="col">
                 <label for="l_name" class="form-label">Фамилия</label>
-                <input type="text" name='l_name' id='l_name' class="form-control">
+                <input type="text" name='l_name' id='l_name' class="form-control" required>
             </div>
             <div class="col">
                 <label for="s_name" class="form-label">Отчество</label>
-                <input type="text" name='s_name' id='s_name' class="form-control">
+                <input type="text" name='s_name' id='s_name' class="form-control" required>
             </div>
         </div>
         <br>
@@ -38,7 +40,7 @@
         <div class="row">
             <div class="col">
                 <label for="sex" class="form-label">Пол</label>
-                <select class="form-select" id="sex" name="sex">
+                <select class="form-select" id="sex" name="sex" required>
                     <option value="none" selected disabled>Выберите пол</option>
                     <option value="woman">Женский</option>
                     <option value="man">Мужской</option>
@@ -47,7 +49,7 @@
             </div>
             <div class="col">
                 <label for="birthday" class="form-label">Дата рождения</label>
-                <input id="birthday" name="birthday" type="date" class="form-control" max="2100-04-30">
+                <input id="birthday" name="birthday" type="date" class="form-control" max="2100-04-30" required>
             </div>
         </div>
         <br>
@@ -56,40 +58,50 @@
                 <label for="phone" class="form-label">Номер телефона</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">+7</span>
-                    <input id="phone" name="phone" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
+                    <input id="phone" name="phone" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
                 </div>
             </div>
             <div class="col">
                 <label for="phone2" class="form-label">Запасной номер телефона</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">+7</span>
-                    <input id="phone2" name="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
+                    <input id="phone2" name="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" id='email' name='email' class="form-control">
+                <input type="email" id='email' name='email' class="form-control" required>
             </div>
         </div>
         <br>
+        <hr>
         <br>
+        <div class="row">
+            <div class="col">
+                <label for="division" class="form-label">Специализация</label>
+                <input type="text" id='division' name='division' class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="certificate" class="form-label">Сертификат</label>
+                <input type="text" id='certificate' name='certificate' class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="role" class="form-label">Сертификат</label>
+                <select class="form-select" id="role" name="role" required>
+                    <option value="none" selected disabled>Выберите роль пользователя</option>
+                    <option value="superadmin">Супер администратор</option>
+                    <option value="admin">Администратор</option>
+                    <option value="doctor">Доктор</option>
+                </select>
+            </div>
+        </div>
         <br>
-        <input type="text" name='division' class="form-control">
-        <input type="text" name='certificate' class="form-control">
-        <input type="text" name='role' class="form-control">
-        <button type="submit"> send </button>
-
+        <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary" type="submit">Отправить</button>
+        </div>
     </form>
 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-<script>
-    $(function() {
-        $('.jmp__input_tel').mask('(000) 000-00-00');
-    });
-</script>
-{% include 'base/links.html' %}
-{% include 'base/scripts.html' %}
 {% endblock %}
