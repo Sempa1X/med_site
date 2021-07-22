@@ -32,10 +32,10 @@ def search_process():
         patients_search = Patient.query.filter(or_(Patient.full_name.contains(search), Patient.phone.contains(search), Patient.phone2.contains(search)))
         for i in patients_search:
             for o in i.records:
-                if i.date > current_date:
-                    future_rec.append({'id': i.id, 'is_active': i.isActive, 'doctor_full_name':i.doctor_full_name, 'date':i.date, 'time':i.time, 'office':i.office,  'doctor_id':i.doctor_id})
+                if o.date > current_date:
+                    future_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
                 else:
-                    lost_rec.append({'id': i.id, 'is_active': i.isActive, 'doctor_full_name':i.doctor_full_name, 'date':i.date, 'time':i.time, 'office':i.office,  'doctor_id':i.doctor_id})
+                    lost_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
             patient_info.append({'address': i.address, 'estimated_birthday': i.estimated_birthday, 'num_fetus': i.num_fetus, 'lr_pass_issued': i.lr_pass_issued, 'lr_pass_date': i.lr_pass_date, 'lr_pass_num': i.lr_pass_num, 'lr_pass_serial': i.lr_pass_serial, 'lr_status': i.lr_status, 'lr_full_name': i.lr_surname + " " + i.lr_l_name + " " + i.lr_f_name,'is_reception': i.is_reception,'birthday': i.birthday, 'full_name': i.full_name, 'comment': i.comment,'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone, 'phone2': i.phone2, 'lost_records': lost_rec, 'future_records': future_rec}) 
         return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patient_info) == 0 else jsonify({'success': 'true', 'patients': patient_info})
     return jsonify({'success': 'false', 'text': 'Нет пациента'})
