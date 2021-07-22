@@ -2,9 +2,43 @@
 
 
 {% block content %}
+
+<div class="container" id='cont'>
+    <div class="row">
+        <div class="col">
+            <form id='searchFormtest' action="/reception/reception_process">
+                <div id="sandbox-container" class="d-flex justify-content-center"></div>
+            </form>
+            <br>
+            <div class role="alert" id="alert"></div>
+        </div>
+    </div>
+    <!-- <div class="row" id='row_1'>
+        <div class="col" id='col_1'>
+            <div class="card" id='card_main'>
+                <div class="card-body" id='card_body'>
+                  <h5 class="card-title" id='card_title'>Card title</h5>
+                  <p class="card-text" id='card_text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <ul class="list-group list-group-flush" id='card_list'>
+                  <li class="list-group-item" id='card_list_item_1'>An item</li>
+                  <li class="list-group-item">A second item</li>
+                  <li class="list-group-item">A third item</li>
+                </ul>
+                <div class="card-body" id='card_footer'>
+                  <a href="#" class="card-link" >Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
+
 <script>
     $(document).ready(function() { 
-        console.log("я родился");
         get_doctors();
     });
 
@@ -19,28 +53,11 @@
             else {
                 console.log(data);
                 toastr["success"]("Успешно!");
+                createForm();
             }
         });
     };
 
-</script>
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <form id='searchFormtest' action="/reception/reception_process">
-                <div id="sandbox-container" class="d-flex justify-content-center"></div>
-            </form>
-            <br>
-            <div class role="alert" id="alert"></div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
-
-<script>
     $('#sandbox-container').datepicker({
         format: "yyyy-mm-dd",
         startView: 2,
@@ -69,6 +86,7 @@
                 toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
             }
             else {
+                createForm();
                 for (var a = 0; a < data.data.length; a++) {
                     console.log(data.data[a].full_name + a)
                     console.log(data.data[a].trust_factor + a)
@@ -80,8 +98,75 @@
             }
         });
     };
-    
 
+    function delBlock() {
+        if ($('#data_place').length) {
+            $("#data_place").empty();
+        }
+    }
+    
+    function createForm() {
+
+    //     <div class="row" id='row_1'>
+    //     <div class="col" id='col_1'>
+    //         <div class="card" id='card_main'>
+    //             <div class="card-body" id='card_body'>
+    //               <h5 class="card-title" id='card_title'>Card title</h5>
+    //               <p class="card-text" id='card_text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    //             </div>
+    //             <ul class="list-group list-group-flush" id='card_list'>
+    //               <li class="list-group-item" id='card_list_item_1'>An item</li>
+    //               <li class="list-group-item">A second item</li>
+    //               <li class="list-group-item">A third item</li>
+    //             </ul>
+    //             <div class="card-body" id='card_footer'>
+    //               <a href="#" class="card-link" >Card link</a>
+    //               <a href="#" class="card-link">Another link</a>
+    //             </div>
+    //         </div>
+    //     </div>
+    // </div>
+        $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
+        $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
+        $("<div/>").attr({id: 'col', class: 'col'}).appendTo('#row');
+        $("<div/>").attr({id: 'card_main', class: 'card'}).appendTo('#col');
+        $("<div/>").attr({id: 'card_body', class: 'card-body'}).appendTo('#card_main');
+        $("<h5/>").attr({id: 'card_title', class: 'card-title'}).appendTo('#card_body');
+        document.getElementById('card_title').textContent = 'ФИО доктора';
+        $("<p/>").attr({id: 'card-text', class: 'card-text'}).appendTo('#card_body');
+        document.getElementById('card-text').textContent = 'Текст какой-то';
+        $("<ul/>").attr({id: 'card_list', class: 'list-group list-group-flush'}).appendTo('#card_main');
+        $("<li/>").attr({id: 'card_list_item_1', class: 'list-group-item'}).appendTo('#card_list');
+        $("<input/>").attr({class: 'form-control', id: 'card_list_item_input_1', type: 'text'}).appendTo('#card_list_item_1');
+        // document.getElementById('card_list_item_1').textContent = `Строчка 1`;
+        $("<li/>").attr({id: 'card_list_item_2', class: 'list-group-item'}).appendTo('#card_list');
+        document.getElementById('card_list_item_2').textContent = `Строчка 2`;
+        $("<li/>").attr({id: 'card_list_item_3', class: 'list-group-item'}).appendTo('#card_list');
+        document.getElementById('card_list_item_3').textContent = `Строчка 3`;
+        $("<li/>").attr({id: 'card_list_item_4', class: 'list-group-item'}).appendTo('#card_list');
+        document.getElementById('card_list_item_4').textContent = `Строчка 4`;
+
+        // $("<div/>").attr({id: 'card_body_row', class: 'row'}).appendTo('#card_body');
+        // $("<div/>").attr({id: 'card_body_col_1', class: 'col'}).appendTo('#card_body_row');
+        // $("<div/>").attr({id: 'card_body_col_2', class: 'col'}).appendTo('#card_body_row');
+        // $("<h3/>").attr({id: 'short_info', class: 'text-center lead'}).appendTo('#card_body_col_1');
+        // document.getElementById('short_info').textContent = 'Краткая информация';
+        // $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_1');
+        // $("<li/>").attr({id: 'card_text_type', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        // document.getElementById('card_text_type').textContent = `Тип пациента "${translate[data.role]}"`;
+        // $("<li/>").attr({id: 'card_text_bd', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        // document.getElementById('card_text_bd').textContent = `Дата рождения: ${data.birthday}`;
+        // $("<li/>").attr({id: 'card_text_age', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        // document.getElementById('card_text_age').textContent = `Возраст: ${data.age}`;
+        // $("<li/>").attr({id: 'card_text_tf', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        // document.getElementById('card_text_tf').textContent = `Фактор доверия: ${getTrustFactor(data.trust_factor)}`;
+        // $("<li/>").attr({id: 'card_text_phone', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        // document.getElementById('card_text_phone').textContent = `Номер телефона: ${data.phone}`;
+        // $("<li/>").attr({id: 'card_text_phone2', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        // document.getElementById('card_text_phone2').textContent = `Дополнительный номер телефона: ${data.phone2}`;
+        
+        // $("<h3/>").attr({id: 'data_info', class: 'text-center lead'}).appendTo('#card_body_col_2');
+    }
 </script>
 
 {% endblock %}

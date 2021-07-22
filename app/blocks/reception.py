@@ -33,8 +33,6 @@ def get_doctors():
             date_obj = now.strptime(date, '%Y-%m-%d')
             if date_obj == current_date_obj:
                 records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
-            else:
-                continue
         doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
     return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
     
