@@ -168,7 +168,7 @@
                 document.getElementById('card_text_num_fetus').textContent = `Кол-во плодов: ${data.num_fetus}`;
             }
             else if (data.role == 'child') {
-                document.getElementById('data_info').textContent = 'Данные о представители';
+                document.getElementById('data_info').textContent = 'Данные о представителе';
                 $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_2');
                 $("<li/>").attr({id: 'card_text_lr_pass_serial', class: 'list-group-item'}).appendTo('#card_body_col_2');
                 document.getElementById('card_text_lr_pass_serial').textContent = `Серия паспорта: ${data.lr_pass_serial}`;
