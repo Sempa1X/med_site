@@ -51,8 +51,8 @@ def calculate_age(birth_year, birth_month, birth_day):  # Расчет "Полн
         elif full_month < 0:
             age = str(full_month + 12) + ' мес.'
         elif full_month == 0:  # Полных дней
-            if today.day - born.day < 0:
-                age = str(today.day - born.day + corrector()) + ' дн.'
+            if today.day - born.day > 0:
+                age = str(today.day - born.day) + ' дн.'
             else:
                 age = 'Эмбрион???'
         else:
@@ -62,7 +62,7 @@ def calculate_age(birth_year, birth_month, birth_day):  # Расчет "Полн
     return age
 
 # --- Тестове данные
-# birth_year = 2016
-# birth_month = 2
-# birth_day = 18
-# calculate_age(birth_year, birth_month, birth_day)
+# birth_year = 2021
+# birth_month = 7
+# birth_day = 1
+# print(calculate_age(birth_year, birth_month, birth_day))
