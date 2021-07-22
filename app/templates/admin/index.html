@@ -4,20 +4,78 @@
 
 <div class="container">
     <form action="" method="post">
-
-        <input type="text" name='username' class="form-control">
-        <input type="password" name='passwd' class="form-control">
-    
-        <input type="text" name='f_name' class="form-control">
-        <input type="text" name='l_name' class="form-control">
-        <input type="text" name='s_name' class="form-control">
-    
-        <input type="text" name='sex' class="form-control">
-        <input type="text" name='birthday' class="form-control">
-        <input type="tel" name='phone' class="form-control">
-        <input type="tel" name='phone2' class="form-control">
-        <input type="email" name='email' class="form-control">
-    
+        <br>
+        <div class="row">
+            <div class="col">
+                <label for="username" class="form-label">Имя пользователя</label>
+                <input type="text" name='username' id='username' class="form-control">
+            </div>
+            <div class="col">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" id='password' name='passwd' class="form-control">
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+            <div class="col">
+                <label for="f_name" class="form-label">Имя</label>
+                <input type="text" name='f_name' id='f_name' class="form-control">
+            </div>
+            <div class="col">
+                <label for="l_name" class="form-label">Фамилия</label>
+                <input type="text" name='l_name' id='l_name' class="form-control">
+            </div>
+            <div class="col">
+                <label for="s_name" class="form-label">Отчество</label>
+                <input type="text" name='s_name' id='s_name' class="form-control">
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+            <div class="col">
+                <label for="sex" class="form-label">Пол</label>
+                <select class="form-select" id="sex" name="sex">
+                    <option value="none" selected disabled>Выберите пол</option>
+                    <option value="woman">Женский</option>
+                    <option value="man">Мужской</option>
+                    <option value="daun">Средний</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="birthday" class="form-label">Дата рождения</label>
+                <input id="birthday" name="birthday" type="date" class="form-control" max="2100-04-30">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <label for="phone" class="form-label">Номер телефона</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+7</span>
+                    <input id="phone" name="phone" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col">
+                <label for="phone2" class="form-label">Запасной номер телефона</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+7</span>
+                    <input id="phone2" name="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id='email' name='email' class="form-control">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
         <input type="text" name='division' class="form-control">
         <input type="text" name='certificate' class="form-control">
         <input type="text" name='role' class="form-control">
@@ -26,4 +84,12 @@
     </form>
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script>
+    $(function() {
+        $('.jmp__input_tel').mask('(000) 000-00-00');
+    });
+</script>
+{% include 'base/links.html' %}
+{% include 'base/scripts.html' %}
 {% endblock %}
