@@ -25,10 +25,12 @@ def reception():
 def get_doctors():
     doctors = []
     res = User.query.filter(and_(User.role == 'doctor', User.records.any(date = current_date)))
-
+    records_list = []
     for doctor in res:
         for rec in doctor.records:
-            doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id}, {'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
+            print(rec.date)
+            records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
+        doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
     return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
     
 
