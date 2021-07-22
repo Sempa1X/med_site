@@ -2,72 +2,43 @@
 
 
 {% block content %}
-<div class="row">
-    <div class="col">
-        <form id='searchFormtest' action="/reception/reception_process">
-            <div id="sandbox-container"></div>
-        </form>
-        <br>
-        <div class role="alert" id="alert"></div>
-    </div>
-</div>
+<script>
+    $(document).ready(function() { 
+        console.log("я родился");
+        get_doctors();
+    });
+
+    function get_doctors() {
+        url = '/reception/get_doctors'
+        var posting = $.post( url );
+
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                console.log(data);
+                toastr["success"]("Успешно!");
+            }
+        });
+    };
+
+</script>
 
 <div class="container">
-    <form id="form" action="/search/search_process" onsubmit="find_user(); return false;">
-        <div class="input-group mb-3">
-            <input list="patient" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
-            <datalist id="patient">
-                {% for i in patients %}
-                <option value="{{ i.full_name }}">
-                {% endfor %}
-            </datalist>
-        
-            <button id="search-button" type="submit" class="btn btn-outline-primary">
-                <i class="fas fa-search"></i>
-            </button>
+    <div class="row">
+        <div class="col">
+            <form id='searchFormtest' action="/reception/reception_process">
+                <div id="sandbox-container" class="d-flex justify-content-center"></div>
+            </form>
+            <br>
+            <div class role="alert" id="alert"></div>
         </div>
-
-
-    </form>
+    </div>
 </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
-
-<!-- автоподбор адреса -->
-<!-- <div class="row h-50">
-    <div class="col-sm">
-        <form action="/test" method="post" name="form0">
-            <div id="header">
-                <div class="input-group input-group-lg">
-                    <input name="address" type="text" id="suggest" class="form-control" placeholder="Введите адрес">
-                </div>
-                <br>
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-dark" id="button">Проверить</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div> -->
-
-
-<!-- Поиск и добавление пациента -->
-<!-- <div class="row h-25">
-    <div class="col-sm">
-        <div class="input-group mb-3">
-            <button class="btn btn-outline-dark" type="submit">Добавить</button>
-            <input type="text" class="form-control" placeholder="Пациент">
-            <button class="btn btn-outline-dark" type="submit" onclick="findUser()">Найти</button>
-        </div>
-    </div>
-    <div class="find-user" id="finds" style="display: none;">
-        <select name="find_user" class="form-select mt-2" id="users">
-        </select>
-    </div>
-</div> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
 
 <script>
     $('#sandbox-container').datepicker({
@@ -109,7 +80,6 @@
             }
         });
     };
-
     
 
 </script>
