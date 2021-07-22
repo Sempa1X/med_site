@@ -21,13 +21,13 @@ def reception():
     return render_template('reception/reception.html')
 
 
-@bp_reception.route('/get_doctors')
+@bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
     res = User.query.filter(and_(User.role == 'doctor', User.records.any(date = current_date)))
     if len(res) > 0:
         return jsonify({'success': 'true', 'doctors': res})
     return jsonify({'success': 'false'})
-
+    
 
 @bp_reception.route('/reception_process', methods=["POST"])
 def reception_process():
