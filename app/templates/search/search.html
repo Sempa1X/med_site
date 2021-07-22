@@ -181,16 +181,9 @@
                 
                 $("<li/>").attr({id: 'card_text_estimated_birthday', class: 'list-group-item'}).appendTo('#card_body_col_2');
                 document.getElementById('card_text_estimated_birthday').textContent = `ПДР: ${data.estimated_birthday}`;
-                // $("<li/>").attr({id: 'card_text_num_fetusd', class: 'list-group-item'}).appendTo('#card_body_col_2');
-                // document.getElementById('card_text_num_fetus').textContent = `Кол-во плодов: ${data.num_fetus}`;
+                $("<li/>").attr({id: 'card_text_lr_full_name', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_full_name').textContent = `ФИО: ${data.r_full_name}`;
             }
-            // <ul class="list-group list-group-flush">
-            //   <li class="list-group-item">An item</li>
-            //   <li class="list-group-item">A second item</li>
-            //   <li class="list-group-item">A third item</li>
-            //   <li class="list-group-item">A fourth item</li>
-            //   <li class="list-group-item">And a fifth one</li>
-            // </ul>
             $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-primary'}).appendTo('#card_main');
             $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
             if (data.lost_records.length > 0 && data.future_records.length > 0) {
