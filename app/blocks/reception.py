@@ -31,8 +31,7 @@ def get_doctors():
         doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id})
         for rec in doctor.records:
             rec_doc.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
-
-    return jsonify({'success': 'true', 'doctors': doctors, 'rec_doctor': rec_doc}) if len(doctors) > 0 else jsonify({'success': 'false'})
+    return jsonify({'success': 'true', 'doctors':{'doctor': doctors, 'rec_doctor': rec_doc}}) if len(doctors) > 0 else jsonify({'success': 'false'})
     
 
 @bp_reception.route('/reception_process', methods=["POST"])
