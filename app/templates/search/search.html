@@ -100,6 +100,13 @@
             });
         };
 
+        function getTrustFactor(factor) {
+          if (factor)
+            return "Положительный"
+          else
+            return "Отрицательный"
+        }
+
         function outputData(data) {
             delBlock()
             translate = {
@@ -112,10 +119,78 @@
             $("<div/>").attr({id: 'card_header', class: 'card-header bg-transparent border-primary text-center'}).appendTo('#card_main');
             document.getElementById('card_header').textContent = data.full_name;
             $("<div/>").attr({id: 'card_body', class: 'card-body'}).appendTo('#card_main');
-            $("<h5/>").attr({id: 'card_title', class: 'card-title'}).appendTo('#card_body');
-            document.getElementById('card_title').textContent = data.phone;
-            $("<p/>").attr({id: 'card_text', class: 'card-text'}).appendTo('#card_body');
-            document.getElementById('card_text').textContent = data.comment;
+            $("<div/>").attr({id: 'card_body_row', class: 'row'}).appendTo('#card_body');
+            $("<div/>").attr({id: 'card_body_col_1', class: 'col'}).appendTo('#card_body_row');
+            $("<div/>").attr({id: 'card_body_col_2', class: 'col'}).appendTo('#card_body_row');
+            $("<h3/>").attr({id: 'short_info', class: 'text-center lead'}).appendTo('#card_body_col_1');
+            document.getElementById('short_info').textContent = 'Краткая информация';
+            $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_1');
+            $("<li/>").attr({id: 'card_text_type', class: 'list-group-item'}).appendTo('#card_body_col_1');
+            document.getElementById('card_text_type').textContent = `Тип пациента "${translate[data.role]}"`;
+            $("<li/>").attr({id: 'card_text_bd', class: 'list-group-item'}).appendTo('#card_body_col_1');
+            document.getElementById('card_text_bd').textContent = `Дата рождения: ${data.birthday}`;
+            $("<li/>").attr({id: 'card_text_age', class: 'list-group-item'}).appendTo('#card_body_col_1');
+            document.getElementById('card_text_age').textContent = `Возраст: 0 лет`;
+            $("<li/>").attr({id: 'card_text_tf', class: 'list-group-item'}).appendTo('#card_body_col_1');
+            document.getElementById('card_text_tf').textContent = `Фактор доверия: ${getTrustFactor(data.trust_factor)}`;
+            $("<li/>").attr({id: 'card_text_phone', class: 'list-group-item'}).appendTo('#card_body_col_1');
+            document.getElementById('card_text_phone').textContent = `Номер телефона: ${data.phone}`;
+            $("<li/>").attr({id: 'card_text_phone2', class: 'list-group-item'}).appendTo('#card_body_col_1');
+            document.getElementById('card_text_phone2').textContent = `Дополнительный номер телефона: ${data.phone2}`;
+            
+            $("<h3/>").attr({id: 'data_info', class: 'text-center lead'}).appendTo('#card_body_col_2');
+            if (data.role == 'default') {
+                document.getElementById('data_info').textContent = 'Данные о пациенте';
+                $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_2');
+                $("<li/>").attr({id: 'card_text_lr_pass_serial', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_serial').textContent = `Серия паспорта: ${data.lr_pass_serial}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_num', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_num').textContent = `Номер паспорта: ${data.lr_pass_num}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_date', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_date').textContent = `Дата выдачи: ${data.lr_pass_date}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_issued', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_issued').textContent = `Кем выдан: ${data.lr_pass_issued}`;
+            }
+            else if (data.role == 'pregnant') {
+                document.getElementById('data_info').textContent = 'Данные о пациенте';
+                $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_2');
+                $("<li/>").attr({id: 'card_text_lr_pass_serial', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_serial').textContent = `Серия паспорта: ${data.lr_pass_serial}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_num', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_num').textContent = `Номер паспорта: ${data.lr_pass_num}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_date', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_date').textContent = `Дата выдачи: ${data.lr_pass_date}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_issued', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_issued').textContent = `Кем выдан: ${data.lr_pass_issued}`;
+                $("<li/>").attr({id: 'card_text_lr_status', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_status').textContent = `Тип представителя "${translate[data.role]}"`;
+                $("<li/>").attr({id: 'card_text_num_fetusd', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_num_fetus').textContent = `Кол-во плодов: ${data.num_fetus}`;
+            }
+            else if (data.role == 'child') {
+                document.getElementById('data_info').textContent = 'Данные о представители';
+                $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_2');
+                $("<li/>").attr({id: 'card_text_lr_pass_serial', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_serial').textContent = `Серия паспорта: ${data.lr_pass_serial}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_num', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_num').textContent = `Номер паспорта: ${data.lr_pass_num}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_date', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_date').textContent = `Дата выдачи: ${data.lr_pass_date}`;
+                $("<li/>").attr({id: 'card_text_lr_pass_issued', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_lr_pass_issued').textContent = `Кем выдан: ${data.lr_pass_issued}`;
+                
+                $("<li/>").attr({id: 'card_text_estimated_birthday', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                document.getElementById('card_text_estimated_birthday').textContent = `ПДР: ${data.estimated_birthday}`;
+                // $("<li/>").attr({id: 'card_text_num_fetusd', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                // document.getElementById('card_text_num_fetus').textContent = `Кол-во плодов: ${data.num_fetus}`;
+            }
+            // <ul class="list-group list-group-flush">
+            //   <li class="list-group-item">An item</li>
+            //   <li class="list-group-item">A second item</li>
+            //   <li class="list-group-item">A third item</li>
+            //   <li class="list-group-item">A fourth item</li>
+            //   <li class="list-group-item">And a fifth one</li>
+            // </ul>
             $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-primary'}).appendTo('#card_main');
             $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
             if (data.lost_records.length > 0 && data.future_records.length > 0) {
@@ -160,39 +235,6 @@
                 $("<h3/>").attr({id: 'footer_text', class: 'text-center lead'}).appendTo('#row');
                 document.getElementById('footer_text').textContent = 'У данного пациента отсутствуют записи!';
             }
-            
-
-//             <div class="accordion accordion-flush" id="old_record">
-//                 <div class="accordion-item">
-//                     <h2 class="accordion-header" id="flush-headingOne">
-//                         <button id='old_btn_1' class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#old_text_1" aria-expanded="false" aria-controls="old_text_1">
-//                         Accordion Item #1
-//                         </button>
-//                     </h2>
-//                     <div id="old_text_1" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-//                         <div class="accordion-body">Это корпус-гармошка первого предмета. Он отображается по умолчанию, пока плагин свертывания не добавит соответствующие классы, которые мы используем для стилизации каждого элемента. Эти классы управляют общим внешним видом, а также отображением и скрытием с помощью переходов CSS. Вы можете изменить все это с помощью пользовательского CSS или переопределить наши переменные по умолчанию. Также стоит отметить, что практически любой HTML может быть в пределах .accordion-body, хотя переход ограничивает переполнение.</div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//         <div class="col">
-//             <label for="future_record" class="form-label"><b>Текущие записи</b></label>
-//             <div class="accordion accordion-flush" id="future_record">
-//                 <div class="accordion-item">
-//                     <h2 class="accordion-header" id="flush-headingOne">
-//                         <button id='future_btn_1' class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#future_text_1" aria-expanded="false" aria-controls="future_text_1">
-//                             Accordion Item #1
-//                         </button>
-//                     </h2>
-//                     <div id="future_text_1" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-//                         <div class="accordion-body">Это корпус-гармошка первого предмета. Он отображается по умолчанию, пока плагин свертывания не добавит соответствующие классы, которые мы используем для стилизации каждого элемента. Эти классы управляют общим внешним видом, а также отображением и скрытием с помощью переходов CSS. Вы можете изменить все это с помощью пользовательского CSS или переопределить наши переменные по умолчанию. Также стоит отметить, что практически любой HTML может быть в пределах .accordion-body, хотя переход ограничивает переполнение.</div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>
-// </div>
-// </div>
         }
 
 
