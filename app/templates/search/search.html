@@ -164,7 +164,7 @@
                 document.getElementById('card_text_lr_pass_issued').textContent = `Кем выдан: ${data.lr_pass_issued}`;
                 $("<li/>").attr({id: 'card_text_estimated_birthday', class: 'list-group-item'}).appendTo('#card_body_col_2');
                 document.getElementById('card_text_estimated_birthday').textContent = `ПДР: ${data.estimated_birthday}`;
-                $("<li/>").attr({id: 'card_text_num_fetusd', class: 'list-group-item'}).appendTo('#card_body_col_2');
+                $("<li/>").attr({id: 'card_text_num_fetus', class: 'list-group-item'}).appendTo('#card_body_col_2');
                 document.getElementById('card_text_num_fetus').textContent = `Кол-во плодов: ${data.num_fetus}`;
             }
             else if (data.role == 'child') {
