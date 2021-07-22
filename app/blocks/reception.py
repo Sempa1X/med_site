@@ -18,8 +18,15 @@ bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 @bp_reception.route('/')
 @login_required
 def reception(): 
+    return render_template('reception/reception.html')
+
+
+@bp_reception.route('/get_doctors')
+def get_doctors():
     res = User.query.filter(and_(User.role == 'doctor', User.records.any(date = current_date)))
-    return render_template('reception/reception.html', res=res)
+    if len(res) > 0:
+        return jsonify({'success': 'true', 'doctors': res})
+    return jsonify({'success': 'false'})
 
 
 @bp_reception.route('/reception_process', methods=["POST"])
