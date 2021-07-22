@@ -11,6 +11,7 @@ from app.src.database import User, Patient, Record
 
 now = datetime.datetime.now()
 current_date = str(now.strftime('%Y-%m-%d'))
+current_date_obj = now.strptime(current_date, '%Y-%m-%d')
 current_time = str(now.strftime('%H:%M'))
 bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 
@@ -24,12 +25,15 @@ def reception():
 @bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
     doctors = []
-    res = User.query.filter(and_(User.role == 'doctor', User.records.any(date = current_date)))
+    res = User.query.filter(and_(User.role == 'doctor'))
     records_list = []
     for doctor in res:
         for rec in doctor.records:
-            print(rec.date)
-            records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
+            date = rec.date
+            date_obj = now.strptime(date, '%Y-%m-%d')
+            if date_obj == current_date_obj:
+                print(rec.date)
+                records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
         doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
     return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
     
