@@ -19,7 +19,7 @@ bp_schedule = Blueprint('schedule', __name__, url_prefix='/schedule')
 @bp_schedule.route('/', methods=['GET', 'POST'])
 @login_required
 def schedule():
-    doctors = User.query.filter(and_(User.is_active=='True', User.role=="doctor"))
+    doctors = User.query.filter(User.role=="doctor")
     return render_template('schedule/schedule.html', doctors=doctors)
 
 
