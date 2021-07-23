@@ -10,7 +10,7 @@
 </style>
 
 <div class="container" id='cont'>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col">
             <form id='searchFormtest' action="/reception/reception_process">
                 <div id="sandbox-container" class="d-flex justify-content-center"></div>
@@ -18,144 +18,200 @@
         </div>
     </div>
     <div class="row" id='row'>
-        <div class="col-sm-3 overflow-auto" id='col_1' style="max-height: 50vh;">
+        <div class="col-sm-3" id='col_1'>
             <div>
-                <p class="text-center mb-1">Трунов Дмитрий Иванович</p>
+                <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №1</p>
             </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">09:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">09:30</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">10:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">10:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">11:00</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">11:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">12:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">12:30</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">13:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">13:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">14:00</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">14:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">15:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">09:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">09:30</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">10:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">10:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">11:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">11:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">12:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">12:30</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">13:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">13:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">14:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">14:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">15:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
             </div>
         </div>
-        <div class="col-sm-3 overflow-auto" id='col_1' style="max-height: 50vh;">
+        <div class="col-sm-3" id='col_1' style="max-height: 40vh;">
             <div>
-                <p class="text-center mb-1">Трунов Дмитрий Иванович</p>
+                <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №2</p>
             </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
             </div>
         </div>
-        <div class="col-sm-3 overflow-auto" id='col_1' style="max-height: 50vh;">
+        <div class="col-sm-3" id='col_1' style="max-height: 40vh;">
             <div>
-                <p class="text-center mb-1">Трунов Дмитрий Иванович</p>
+                <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №3</p>
             </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-            </div>
-            <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
+                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                </div>
             </div>
         </div>
-        <div class="col-sm-3 overflow-auto" id='col_1' style="max-height: 50vh;">
+        <div class="col-sm-3" id='col_1' style="max-height: 50vh;">
             <div>
-                <p class="text-center mb-1">Трунов Дмитрий Иванович</p>
+                <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №4</p>
             </div>
-            <div class="text-center">
-                <h5 class="mb-1">Расписание отсутствует</h5>
-                <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-edit"></i> Добавить</button>
+            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
+                <div class="text-center">
+                    <h5 class="mb-3">Расписание отсутствует</h5>
+                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-edit"></i> Добавить</button>
+                </div>
             </div>
         </div>
     </div>
