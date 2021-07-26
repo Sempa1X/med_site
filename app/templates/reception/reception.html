@@ -2,12 +2,6 @@
 
 
 {% block content %}
-<style>
-.vhr {
-  width: 1px;
-  height: 200px;
-}
-</style>
 
 <div class="container" id='cont'>
     <div class="row mb-5">
@@ -17,8 +11,7 @@
             </form>
         </div>
     </div>
-    <div class="row" id='row'>
-        <div class="col-sm-3" id='col_1'>
+        <!-- <div class="col-sm-3" id='col_1'>
             <div>
                 <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №1</p>
@@ -105,8 +98,8 @@
                     <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-3" id='col_1' style="max-height: 40vh;">
+        </div> -->
+        <!-- <div class="col-sm-3" id='col_1' c>
             <div>
                 <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №2</p>
@@ -177,8 +170,8 @@
                     <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-3" id='col_1' style="max-height: 40vh;">
+        </div> -->
+        <!-- <div class="col-sm-3" id='col_1' style="max-height: 40vh;">
             <div>
                 <p class="text-center mb-1">ФИО Врача</p>
                 <p class="text-center">Кабинет №3</p>
@@ -213,8 +206,7 @@
                     <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-edit"></i> Добавить</button>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> -->
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
@@ -222,8 +214,7 @@
 
 <script>
     $(document).ready(function() { 
-        // get_doctors();
-        toastr["success"]("Страница загружена!");
+        get_doctors();
     });
 
     function get_doctors() {
@@ -237,10 +228,11 @@
             else {
                 // console.log(data.doctors);
                 toastr["success"]("Успешно!");
-                for (count in data.doctors) {
-                    createForm(count, data.doctors[count])
-                    console.log(data.doctors[count]);
-                }
+                createForm(data.doctors);
+                // for (count in data.doctors) {
+                //     createForm(count, data.doctors[count])
+                //     console.log(data.doctors[count]);
+                // }
             }
         });
     };
@@ -292,65 +284,67 @@
         }
     }
     
-    function createForm(count, data) {
-
-    //     <div class="row" id='row_1'>
-    //     <div class="col" id='col_1'>
-    //         <div class="card" id='card_main'>
-    //             <div class="card-body" id='card_body'>
-    //               <h5 class="card-title" id='card_title'>Card title</h5>
-    //               <p class="card-text" id='card_text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    //             </div>
-    //             <ul class="list-group list-group-flush" id='card_list'>
-    //               <li class="list-group-item" id='card_list_item_1'>An item</li>
-    //               <li class="list-group-item">A second item</li>
-    //               <li class="list-group-item">A third item</li>
-    //             </ul>
-    //             <div class="card-body" id='card_footer'>
-    //               <a href="#" class="card-link" >Card link</a>
-    //               <a href="#" class="card-link">Another link</a>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
+    function createForm(data) {
+        delBlock()
+        // <div class="col-sm-3" id='col_1'>
+        //     <div>
+        //         <p class="text-center mb-1">ФИО Врача</p>
+        //         <p class="text-center">Кабинет №1</p>
+        //     </div>
+        //     <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
+        //         <div class="input-group input-group-sm mb-2">
+        //             <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
+        //             <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+        //             <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+        //             <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+        //         </div>
+        //         <div class="input-group input-group-sm mb-2">
+        //             <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
+        //             <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+        //             <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+        //         </div>
+        //         <div class="input-group input-group-sm mb-2">
+        //             <span class="input-group-text btn-secondary text-white" id="addons">09:00</span>
+        //             <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
+        //             <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+        //         </div>
+        //         <div class="input-group input-group-sm mb-2">
+        //             <span class="input-group-text btn-secondary text-white" id="addons">09:30</span>
+        //             <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
+        //             <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
+        //             <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+        //         </div>
+        //     </div>
+        // </div>
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
-        $("<div/>").attr({id: `row_${count}`, class: 'row'}).appendTo('#data_place');
-        $("<div/>").attr({id: `col_${count}`, class: 'col'}).appendTo(`#row_${count}`);
-        $("<div/>").attr({id: `card_main_${count}`, class: 'card'}).appendTo(`#col_${count}`);
-        $("<div/>").attr({id: `card_body_${count}`, class: 'card-body'}).appendTo(`#card_main_${count}`);
-        $("<h5/>").attr({id: `card_title_${count}`, class: 'card-title'}).appendTo(`#card_body_${count}`);
-        document.getElementById(`card_title_${count}`).textContent = data.doc_full_name;
-        // $("<p/>").attr({id: `card_text_${count}`, class: 'card-text'}).appendTo(`#card_body_${count}`);
-        // document.getElementById(`card_text_${count}`).textContent = 'Текст какой-то';
-        $("<ul/>").attr({id: `card_list_${count}`, class: 'list-group list-group-flush'}).appendTo(`#card_main_${count}`);
-        // for (record in data.records) {
-        for (let a = 0; a < data.records.length; a++) {
-            $("<li/>").attr({id: `card_list_item_${a}`, class: 'list-group-item'}).appendTo(`#card_list_${count}`);
-            $("<input/>").attr({class: 'form-control', id: `card_list_item_input_${a}`, type: 'text'}).appendTo(`#card_list_item_${a}`);
+        $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
+        for (let count = 0; count < data.length; count++) {
+            console.log(count)
+            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
+            $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
+            $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
+            document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
+            $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
+            if (data[count].records.length > 0) {
+                document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
+                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
+                for (item_count = 0; item_count < data[count].records.length; item_count++) {
+                    $("<div/>").attr({id: `scroll_item_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
+                    // if (data[count].records.date == )
+                    $("<span/>").attr({id: `scroll_item_span_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${item_count}`);
+                    document.getElementById(`scroll_item_span_${item_count}`).textContent = 11;
+                    $("<input/>").attr({id: `scroll_item_input_${item_count}`, class: 'form-control', type: 'text', placeholder: 'фио', 'aria-describedby': `scroll_item_span_${item_count}`}).appendTo(`#scroll_item_${item_count}`);
+                }
+            }
+            else {
+                $("<div/>").attr({id: `records_${count}`, class: 'text-center'}).appendTo(`#col_${count}`);
+                $("<h5/>").attr({id: `not_record_h5_${count}`, class: 'mb-3'}).appendTo(`#records_${count}`);
+                document.getElementById(`not_record_h5_${count}`).textContent = 'Расписание отсутствует';
+                $("<button/>").attr({id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button'}).appendTo(`#records_${count}`);
+                $("<i/>").attr({class: 'bx bx-calendar-edit'}).appendTo(`#not_record_button_${count}`);
+                document.getElementById(`not_record_button_${count}`).textContent = ' Добавить';
+            }
         }
-        // document.getElementById('card_list_item_1').textContent = `Строчка 1`;
-
-
-        // $("<div/>").attr({id: 'card_body_row', class: 'row'}).appendTo('#card_body');
-        // $("<div/>").attr({id: 'card_body_col_1', class: 'col'}).appendTo('#card_body_row');
-        // $("<div/>").attr({id: 'card_body_col_2', class: 'col'}).appendTo('#card_body_row');
-        // $("<h3/>").attr({id: 'short_info', class: 'text-center lead'}).appendTo('#card_body_col_1');
-        // document.getElementById('short_info').textContent = 'Краткая информация';
-        // $("<ul/>").attr({id: 'card_header', class: 'list-group list-group-flush'}).appendTo('#card_body_col_1');
-        // $("<li/>").attr({id: 'card_text_type', class: 'list-group-item'}).appendTo('#card_body_col_1');
-        // document.getElementById('card_text_type').textContent = `Тип пациента "${translate[data.role]}"`;
-        // $("<li/>").attr({id: 'card_text_bd', class: 'list-group-item'}).appendTo('#card_body_col_1');
-        // document.getElementById('card_text_bd').textContent = `Дата рождения: ${data.birthday}`;
-        // $("<li/>").attr({id: 'card_text_age', class: 'list-group-item'}).appendTo('#card_body_col_1');
-        // document.getElementById('card_text_age').textContent = `Возраст: ${data.age}`;
-        // $("<li/>").attr({id: 'card_text_tf', class: 'list-group-item'}).appendTo('#card_body_col_1');
-        // document.getElementById('card_text_tf').textContent = `Фактор доверия: ${getTrustFactor(data.trust_factor)}`;
-        // $("<li/>").attr({id: 'card_text_phone', class: 'list-group-item'}).appendTo('#card_body_col_1');
-        // document.getElementById('card_text_phone').textContent = `Номер телефона: ${data.phone}`;
-        // $("<li/>").attr({id: 'card_text_phone2', class: 'list-group-item'}).appendTo('#card_body_col_1');
-        // document.getElementById('card_text_phone2').textContent = `Дополнительный номер телефона: ${data.phone2}`;
-        
-        // $("<h3/>").attr({id: 'data_info', class: 'text-center lead'}).appendTo('#card_body_col_2');
     }
 </script>
 

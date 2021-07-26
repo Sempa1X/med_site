@@ -31,9 +31,12 @@ def get_doctors():
         for rec in doctor.records:
             date = rec.date
             date_obj = now.strptime(date, '%Y-%m-%d')
-            if date_obj == current_date_obj:
+            if date_obj == current_date_obj and doctor.id == rec.doctor_id:
+                print(doctor.id, rec.doctor_id)
                 records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
+                print(records_list)
         doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
+        records_list = []
     return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
     
 
