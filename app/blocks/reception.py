@@ -16,21 +16,18 @@ current_time = str(now.strftime('%H:%M'))
 bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 
 
+# Work
 @bp_reception.route('/')
 @login_required
-def reception(): 
-
+def reception():   
     return render_template('reception/reception.html')
 
 
+# Work
 @bp_reception.route('/add_schedule', methods=["POST"])
 def add_schedule():
     data = [[1, '2021-07-26', '16:30', 2], [1, '2021-07-26', '16:00', 2], [1, '2021-07-26', '13:30', 2], [1, '2021-07-26', '15:30', 2]]     # request.form['data']
     is_added = False 
-    ##### debug ######
-    for i in data:
-        print(i)
-    ##################
     for i in data:
         record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3])
         db.session.add(record)
@@ -41,6 +38,16 @@ def add_schedule():
     
 @bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
+#     data_list = []
+#     doctors = User.query.filter(and_(User.role == 'doctor'))
+    
+#     for i in doctors:
+#         for o in i.records:
+#             date_obj = now.strptime(o.date, '%Y-%m-%d')
+#             if date_obj == current_date_obj:
+#                 data_list.append({'doc_full_name': i.full_name, 'office': o.office, 'date': o.date, 'time': o.time, 'patient_full_name': o.patient_full_name, 'id_patient': o.patient_id})
+#     return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
+   
     doctors = []
     res = User.query.filter(and_(User.role == 'doctor'))
     records_list = []
@@ -52,11 +59,12 @@ def get_doctors():
                 print(doctor.id, rec.doctor_id)
                 records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
                 print(records_list)
-        doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list, 'current_date': current_date})
+        doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
         records_list = []
     return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
-    
 
+
+# Work
 @bp_reception.route('/reception_process', methods=["POST"])
 def reception_process():
     record = Record.query.filter(Record.date == request.form['date'])
