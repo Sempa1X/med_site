@@ -28,10 +28,6 @@ def reception():
 def add_schedule():
     data = [[1, '2021-07-26', '16:30', 2], [1, '2021-07-26', '16:00', 2], [1, '2021-07-26', '13:30', 2], [1, '2021-07-26', '15:30', 2]]     # request.form['data']
     is_added = False 
-    ##### debug ######
-    for i in data:
-        print(i)
-    ##################
     for i in data:
         record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3])
         db.session.add(record)
@@ -40,7 +36,7 @@ def add_schedule():
     return jsonify({'success': 'true'}) if is_added else jsonify({'success': 'flase'}) 
         
     
-@bp_reception.route('/get_doctors', methods=['get', "POST"])
+@bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
 #     data_list = []
 #     doctors = User.query.filter(and_(User.role == 'doctor'))
