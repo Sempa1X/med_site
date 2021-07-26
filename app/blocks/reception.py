@@ -52,7 +52,7 @@ def get_doctors():
                 print(doctor.id, rec.doctor_id)
                 records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
                 print(records_list)
-        doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
+        doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list, 'current_date': current_date})
         records_list = []
     return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
     

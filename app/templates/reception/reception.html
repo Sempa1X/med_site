@@ -23,7 +23,7 @@
                 <div class="modal-body">
                     <form id="form_modal" action="/schedule/add_schedule" onsubmit="add_schedule(); return false;">
                         <select name="doctor" id='sel_doc' class="form-select" aria-label="Пример выбора по умолчанию" required>
-                            <option value="none"disabled required>Выбор доктора...</option>
+                            <option value="none" selected disabled required>Выбор доктора...</option>
                         </select>
                         <br>
                         <div class="input-group mb-3">
@@ -35,8 +35,8 @@
                             <input id="after" type="number" aria-label="First name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control after" required>
                             <input id="before" type="number" aria-label="Last name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control before" required>
                         </div>
-                        <select name="step" id='step' class="form-select" aria-label="Пример выбора по умолчанию" required>
-                            <option value="0" disabled>Выберите промежуток</option>
+                        <select onchange="test(this);" name="step" id='step' class="form-select" aria-label="Пример выбора по умолчанию" required>
+                            <option value="0" selected disabled>Выберите промежуток</option>
                             <option value="15">15 мин</option>
                             <option value="30">30 мин</option>
                             <option value="45">45 мин</option>   
@@ -63,6 +63,8 @@
             this.value = this.value.slice(0,2); 
         }
     }
+    var result = [];
+    var current_date = ""
 
     before.oninput = function () {
         if (this.value.length > 2) {
@@ -70,20 +72,18 @@
         }
     }
 
-    function getSchedule(obj){
+    function test(obj){
         let start = document.getElementById("after").value;
         let end = document.getElementById("before").value;
         let _start = moment(start, 'HH:mm');
         let _end = moment(end, 'HH:mm');
-        
-        let result = [];
+        result = []
         
         while (_start <= _end) {
             result.push(_start.format('HH:mm'));
             _start.add(obj.value, 'minutes');
         }
-        console.log(result);
-        // return result;
+        console.log(result)
     }
     function add_schedule() {
         
@@ -94,29 +94,22 @@
             end = $form.find( "#before" ).val(),
             step = $form.find( "#step" ).val(),
             url = $form.attr( "action" );
-        console.log(doc_id, office, start, end, step);
-        // getSchedule(step);
-        // console.log(test_list);
-        // Send the data using post
-        // var posting = $.post(url, { date: ["хуй"] } );
-    
-        // Put the results in a div
-        // posting.done(function( data ) {
-        //     if (data.success == "false") {
-        //         toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
-        //     }
-        //     else {
-        //         for (var a = 0; a < data.data.length; a++) {
-        //             createForm(data);
-        //             console.log(data.data[a].full_name + a)
-        //             console.log(data.data[a].trust_factor + a)
-        //             console.log(data.data[a].role + a)
-        //             console.log(data.data[a].comment + a)
-        //             console.log(data.data[a].phone + a)
 
-        //         }
-        //     }
-        // });
+        let answer = []
+
+        for (let count_times = 0; count_times < result.length; count_times++) {
+            answer.push([office, current_date, result[count_times]])
+        }
+
+        console.log(answer)
+
+        var posting = $.post(url, { data: answer } );
+    
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Ошибка!");
+            }
+        });
     };
 </script>   
 
@@ -143,6 +136,8 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
+                current_date = data.doctors[0].current_date
+                console.log(data.doctors[0])
                 toastr["success"]("Успешно!");
                 createForm(data.doctors);
             }
