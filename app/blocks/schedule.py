@@ -7,7 +7,7 @@ from sqlalchemy import or_, and_
 from werkzeug.wrappers import request
 
 from app import db
-from app.src.database import User, Patient, Record, Schedule
+from app.src.database import User, Patient, Record
 
 
 now = datetime.datetime.now()
@@ -29,9 +29,9 @@ def schedule():
 def schedule_process():
     data = request.form['data']
 
-    for i in data:
-        schedule = Schedule()
-        db.session.add(schedule)
-        db.session.commit()
+    # for i in data:
+    #     schedule = Schedule()
+    #     db.session.add(schedule)
+    #     db.session.commit()
 
     # return render_template('main/schedule_doc.html')
