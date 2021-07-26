@@ -11,206 +11,116 @@
             </form>
         </div>
     </div>
-        <!-- <div class="col-sm-3" id='col_1'>
-            <div>
-                <p class="text-center mb-1">ФИО Врача</p>
-                <p class="text-center">Кабинет №1</p>
-            </div>
-            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
+      
+      <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_label">Расписание</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">09:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">09:30</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">10:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">10:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">11:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">11:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">12:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">12:30</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">13:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">13:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">14:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">14:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">15:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="col-sm-3" id='col_1' c>
-            <div>
-                <p class="text-center mb-1">ФИО Врача</p>
-                <p class="text-center">Кабинет №2</p>
-            </div>
-            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="col-sm-3" id='col_1' style="max-height: 40vh;">
-            <div>
-                <p class="text-center mb-1">ФИО Врача</p>
-                <p class="text-center">Кабинет №3</p>
-            </div>
-            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-                    <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-                    <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-                </div>
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text btn-primary text-white" id="addons">09:00</span>
-                    <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
+                <div class="modal-body">
+                    <form id="form_modal" action="/schedule/add_schedule" onsubmit="add_schedule(); return false;">
+                        <select name="doctor" id='sel_doc' class="form-select" aria-label="Пример выбора по умолчанию" required>
+                            <option value="none" selected disabled required>Выбор доктора...</option>
+                        </select>
+                        <br>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Номер кабинета</span>
+                            <input name="office" id='office' type="number" aria-label="First name" class="form-control" onkeypress="return event.charCode >= 48" min="1" max="24" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Время</span>
+                            <input id="after" type="number" aria-label="First name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control after" required>
+                            <input id="before" type="number" aria-label="Last name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control before" required>
+                        </div>
+                        <select onchange="test(this);" name="step" id='step' class="form-select" aria-label="Пример выбора по умолчанию" required>
+                            <option value="0" selected disabled>Выберите промежуток</option>
+                            <option value="15">15 мин</option>
+                            <option value="30">30 мин</option>
+                            <option value="45">45 мин</option>   
+                            <option value="60">60 мин</option>
+                        </select>
+                        <br>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark">Создать</button>
+                        </div>
+                    </div>
+                </form>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3" id='col_1' style="max-height: 50vh;">
-            <div>
-                <p class="text-center mb-1">ФИО Врача</p>
-                <p class="text-center">Кабинет №4</p>
-            </div>
-            <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
-                <div class="text-center">
-                    <h5 class="mb-3">Расписание отсутствует</h5>
-                    <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-edit"></i> Добавить</button>
-                </div>
-            </div>
-        </div> -->
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
+
+<script>
+    after.oninput = function () {
+        if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+        }
+    }
+    var result = [];
+    var current_date = ""
+
+    before.oninput = function () {
+        if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+        }
+    }
+
+    function test(obj){
+        let start = document.getElementById("after").value;
+        let end = document.getElementById("before").value;
+        let _start = moment(start, 'HH:mm');
+        let _end = moment(end, 'HH:mm');
+        result = []
+        
+        while (_start <= _end) {
+            result.push(_start.format('HH:mm'));
+            _start.add(obj.value, 'minutes');
+        }
+        console.log(result)
+    }
+    function add_schedule() {
+        
+        var $form = $( '#form_modal' ),
+            doc_id = $form.find( "#sel_doc" ).val(),
+            office = $form.find( "#office" ).val(),
+            start = $form.find( "#after" ).val(),
+            end = $form.find( "#before" ).val(),
+            step = $form.find( "#step" ).val(),
+            url = $form.attr( "action" );
+
+        let answer = []
+
+        for (let count_times = 0; count_times < result.length; count_times++) {
+            answer.push([office, current_date, result[count_times]])
+        }
+
+        console.log(answer)
+
+        var posting = $.post(url, { data: answer } );
+    
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Ошибка!");
+            }
+        });
+    };
+</script>   
+
+<script>
+    $(document).ready(function(){
+      $("#myBtn").click(function(){
+        $("#myModal").modal();
+      });
+    });
+</script>
+    
 
 <script>
     $(document).ready(function() { 
@@ -226,13 +136,10 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                // console.log(data.doctors);
+                current_date = data.doctors[0].current_date
+                console.log(data.doctors[0])
                 toastr["success"]("Успешно!");
                 createForm(data.doctors);
-                // for (count in data.doctors) {
-                //     createForm(count, data.doctors[count])
-                //     console.log(data.doctors[count]);
-                // }
             }
         });
     };
@@ -286,40 +193,12 @@
     
     function createForm(data) {
         delBlock()
-        // <div class="col-sm-3" id='col_1'>
-        //     <div>
-        //         <p class="text-center mb-1">ФИО Врача</p>
-        //         <p class="text-center">Кабинет №1</p>
-        //     </div>
-        //     <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-        //             <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-        //             <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-        //         </div>
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-        //             <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-        //         </div>
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">09:00</span>
-        //             <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-        //         </div>
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">09:30</span>
-        //             <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-        //             <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-        //         </div>
-        //     </div>
-        // </div>
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
             console.log(count)
+            $("<option/>").attr({id: `doc_${data[count].doc_id}`,value: data[count].doc_id}).appendTo(`#sel_doc`);
+            document.getElementById(`doc_${data[count].doc_id}`).textContent = data[count].doc_full_name;
             $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
@@ -337,12 +216,13 @@
                 }
             }
             else {
+                document.getElementById(`head_office_${count}`).textContent = `Кабинет не выбран`;
                 $("<div/>").attr({id: `records_${count}`, class: 'text-center'}).appendTo(`#col_${count}`);
                 $("<h5/>").attr({id: `not_record_h5_${count}`, class: 'mb-3'}).appendTo(`#records_${count}`);
                 document.getElementById(`not_record_h5_${count}`).textContent = 'Расписание отсутствует';
-                $("<button/>").attr({id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button'}).appendTo(`#records_${count}`);
+                $("<button/>").attr({id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
                 $("<i/>").attr({class: 'bx bx-calendar-edit'}).appendTo(`#not_record_button_${count}`);
-                document.getElementById(`not_record_button_${count}`).textContent = ' Добавить';
+                document.getElementById(`not_record_button_${count}`).textContent = 'Добавить';
             }
         }
     }
