@@ -19,9 +19,26 @@ bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 @bp_reception.route('/')
 @login_required
 def reception(): 
+
     return render_template('reception/reception.html')
 
 
+@bp_reception.route('/add_schedule', methods=["POST"])
+def add_schedule():
+    data = [[1, '2021-07-26', '16:30', 2], [1, '2021-07-26', '16:00', 2], [1, '2021-07-26', '13:30', 2], [1, '2021-07-26', '15:30', 2]]     # request.form['data']
+    is_added = False 
+    ##### debug ######
+    for i in data:
+        print(i)
+    ##################
+    for i in data:
+        record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3])
+        db.session.add(record)
+        db.session.commit()
+        is_added = True
+    return jsonify({'success': 'true'}) if is_added else jsonify({'success': 'flase'}) 
+        
+    
 @bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
     doctors = []

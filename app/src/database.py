@@ -102,19 +102,10 @@ class Record(db.Model):
     
     date = db.Column(db.String(255), index=True)
     time = db.Column(db.String(255), index=True)
-    trust = db.Column(db.Boolean, default=True)
     isActive = db.Column(db.Boolean, default=True)
-    reason = db.Column(db.String(255))
+    comment = db.Column(db.String(255))
     office = db.Column(db.Integer, index=True)
-
-class Schedule(db.Model):
-    __tablename__ = 'schedule'
-    id = db.Column(db.Integer, primary_key=True)
-    doctor_id = db.Column(db.Integer)
-    date = db.Column(db.String(255))
-    time = db.Column(db.String(255))    
-    is_active = db.Column(db.String(255))
-    office = db.Column(db.String(255), default=1)
+    
 
 
 @login.user_loader
