@@ -29,9 +29,6 @@ application.register_blueprint(bp_reception)
 from app.blocks.search import bp_search
 application.register_blueprint(bp_search)
 
-from app.blocks.schedule import bp_schedule
-application.register_blueprint(bp_schedule)
-
 from app.blocks.add_patient import bp_add
 application.register_blueprint(bp_add)
 
