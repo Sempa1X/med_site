@@ -21,28 +21,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form" action="/schedule/add_schedule" onsubmit="add_schedule(); return false;">
-                        <select name="doctor" class="form-select" aria-label="Пример выбора по умолчанию" required>
+                    <form id="form_modal" action="/schedule/add_schedule" onsubmit="add_schedule(); return false;">
+                        <select name="doctor" id='sel_doc' class="form-select" aria-label="Пример выбора по умолчанию" required>
                             <option value="none"disabled required>Выбор доктора...</option>
-                            {% for doctor in doctors %}
-                                <option value="{{ doctor.id }}">{{ doctor.first_name }} {{ doctor.last_name }} {{ doctor.surname }}</option>
-                            {% endfor %}
                         </select>
                         <br>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Номер кабинета</span>
-                            <input name="office" type="number" aria-label="First name" class="form-control" onkeypress="return event.charCode >= 48" min="1" max="24" required>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon2">Дата</span>
-                            <input name="calendar" type="date" class="form-control" name="date" placeholder="Дата">
+                            <input name="office" id='office' type="number" aria-label="First name" class="form-control" onkeypress="return event.charCode >= 48" min="1" max="24" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon3">Время</span>
                             <input id="after" type="number" aria-label="First name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control after" required>
                             <input id="before" type="number" aria-label="Last name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control before" required>
                         </div>
-                        <select onchange="test(this)" name="step" class="form-select" aria-label="Пример выбора по умолчанию" required>
+                        <select name="step" id='step' class="form-select" aria-label="Пример выбора по умолчанию" required>
                             <option value="0" disabled>Выберите промежуток</option>
                             <option value="15">15 мин</option>
                             <option value="30">30 мин</option>
@@ -65,12 +58,75 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
 
 <script>
+    after.oninput = function () {
+        if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+        }
+    }
+
+    before.oninput = function () {
+        if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+        }
+    }
+
+    function getSchedule(obj){
+        let start = document.getElementById("after").value;
+        let end = document.getElementById("before").value;
+        let _start = moment(start, 'HH:mm');
+        let _end = moment(end, 'HH:mm');
+        
+        let result = [];
+        
+        while (_start <= _end) {
+            result.push(_start.format('HH:mm'));
+            _start.add(obj.value, 'minutes');
+        }
+        console.log(result);
+        // return result;
+    }
+    function add_schedule() {
+        
+        var $form = $( '#form_modal' ),
+            doc_id = $form.find( "#sel_doc" ).val(),
+            office = $form.find( "#office" ).val(),
+            start = $form.find( "#after" ).val(),
+            end = $form.find( "#before" ).val(),
+            step = $form.find( "#step" ).val(),
+            url = $form.attr( "action" );
+        console.log(doc_id, office, start, end, step);
+        // getSchedule(step);
+        // console.log(test_list);
+        // Send the data using post
+        // var posting = $.post(url, { date: ["хуй"] } );
+    
+        // Put the results in a div
+        // posting.done(function( data ) {
+        //     if (data.success == "false") {
+        //         toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
+        //     }
+        //     else {
+        //         for (var a = 0; a < data.data.length; a++) {
+        //             createForm(data);
+        //             console.log(data.data[a].full_name + a)
+        //             console.log(data.data[a].trust_factor + a)
+        //             console.log(data.data[a].role + a)
+        //             console.log(data.data[a].comment + a)
+        //             console.log(data.data[a].phone + a)
+
+        //         }
+        //     }
+        // });
+    };
+</script>   
+
+<script>
     $(document).ready(function(){
       $("#myBtn").click(function(){
         $("#myModal").modal();
       });
     });
-    </script>
+</script>
     
 
 <script>
@@ -87,13 +143,8 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                // console.log(data.doctors);
                 toastr["success"]("Успешно!");
                 createForm(data.doctors);
-                // for (count in data.doctors) {
-                //     createForm(count, data.doctors[count])
-                //     console.log(data.doctors[count]);
-                // }
             }
         });
     };
@@ -147,40 +198,12 @@
     
     function createForm(data) {
         delBlock()
-        // <div class="col-sm-3" id='col_1'>
-        //     <div>
-        //         <p class="text-center mb-1">ФИО Врача</p>
-        //         <p class="text-center">Кабинет №1</p>
-        //     </div>
-        //     <div class="overflow-auto" id='scroll' style="max-height: 40vh; padding-right: 5px;">
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">08:00</span>
-        //             <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-        //             <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-        //         </div>
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">08:30</span>
-        //             <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-        //         </div>
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">09:00</span>
-        //             <input type="text" class="form-control" placeholder="Добавить" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-primary" type="button"><i class="bx bx-calendar-plus"></i></button>
-        //         </div>
-        //         <div class="input-group input-group-sm mb-2">
-        //             <span class="input-group-text btn-secondary text-white" id="addons">09:30</span>
-        //             <input type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="addons">
-        //             <button class="btn btn-outline-success" type="button"><i class="bx bx-calendar-check"></i></button>
-        //             <button class="btn btn-outline-danger" type="button"><i class="bx bx-calendar-x"></i></button>
-        //         </div>
-        //     </div>
-        // </div>
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
             console.log(count)
+            $("<option/>").attr({id: `doc_${data[count].doc_id}`,value: data[count].doc_id}).appendTo(`#sel_doc`);
+            document.getElementById(`doc_${data[count].doc_id}`).textContent = data[count].doc_full_name;
             $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
@@ -205,27 +228,6 @@
                 $("<button/>").attr({id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
                 $("<i/>").attr({class: 'bx bx-calendar-edit'}).appendTo(`#not_record_button_${count}`);
                 document.getElementById(`not_record_button_${count}`).textContent = 'Добавить';
-                // $("<div/>").attr({id: `#modal_${count}`, class: 'modal fade', tabindex: '-1', 'aria-labelledby': `modalLabel_${count}`, 'aria-hidden': 'true'}).appendTo(`#data_place`);
-                // $("<div/>").attr({id: `#dialog_${count}`, class: 'modal-dialog'}).appendTo(`#modal_${count}`);
-                // $("<div/>").attr({id: `#content_${count}`, class: 'modal-content'}).appendTo(`#dialog_${count}`);
-                // $("<div/>").attr({id: `#mheader_${count}`, class: 'modal-header'}).appendTo(`#content_${count}`);
-    //     <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    //     <div class="modal-dialog">
-    //       <div class="modal-content">
-    //         <div class="modal-header">
-    //           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-    //           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    //         </div>
-    //         <div class="modal-body">
-    //           ...
-    //         </div>
-    //         <div class="modal-footer">
-    //           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    //           <button type="button" class="btn btn-primary">Save changes</button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
             }
         }
     }
