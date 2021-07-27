@@ -107,6 +107,9 @@ class Record(db.Model):
     office = db.Column(db.Integer, index=True)
     
 
+class list_expectation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
 
 @login.user_loader
 def load_user(id):
