@@ -74,7 +74,7 @@
         }
     }
     var result = [];
-    var current_date = ""
+    var current_date = moment().format('YYYY-MM-DD')
 
     before.oninput = function () {
         if (this.value.length > 2) {
@@ -87,13 +87,13 @@
         let end = document.getElementById("before").value;
         let _start = moment(start, 'HH:mm');
         let _end = moment(end, 'HH:mm');
-        result = []
+        result = [];
         
         while (_start <= _end) {
             result.push(_start.format('HH:mm'));
             _start.add(obj.value, 'minutes');
         }
-        console.log(result)
+        console.log(result);
     }
     function add_schedule() {
         
@@ -105,13 +105,13 @@
             step = $form.find( "#step" ).val(),
             url = $form.attr( "action" );
 
-        let answer = []
+        var answer = [];
 
         for (let count_times = 0; count_times < result.length; count_times++) {
             answer.push([doc_id, current_date, result[count_times], office])
         }
 
-        console.log(answer)
+        console.log(answer);
 
         var posting = $.post(url, { 'data': answer } );
     
@@ -135,10 +135,10 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data['data'])
+                console.log(data['data']);
                 toastr["success"]("Успешно!");
                 for (let count = 0; count < data['data'].length; count++) {
-                    doctors[data['data'][count].doc_full_name] = data['data'][count].doc_id
+                    doctors[data['data'][count].doc_full_name] = data['data'][count].doc_id;
                 }
                 createForm(data['data']);
             }
@@ -158,29 +158,20 @@
 
     function showTestDate() {
         console.log($('#sandbox-container').datepicker('getFormattedDate'));
-
-        event.preventDefault();
+        current_date = $('#sandbox-container').datepicker('getFormattedDate');
     
-        var $form = $( '#searchFormtest' ),
-            term = $form.find( "#sandbosssx-container" ).val(),
-            url = $form.attr( "action" );
+        url = '/reception/get_doctors';
 
-        var posting = $.post(url, { date: $('#sandbox-container').datepicker('getFormattedDate') } );
-    
+        var posting = $.post(url, { date: current_date} );
+        
         posting.done(function( data ) {
             if (data.success == "false") {
                 toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
             }
             else {
-                for (var a = 0; a < data.data.length; a++) {
-                    // createForm(data);
-                    console.log(data.data[a].full_name + a)
-                    console.log(data.data[a].trust_factor + a)
-                    console.log(data.data[a].role + a)
-                    console.log(data.data[a].comment + a)
-                    console.log(data.data[a].phone + a)
-
-                }
+                console.log(data['data']);
+                toastr["success"]("Успешно!");
+                createForm(data['data']);
             }
         });
     };
@@ -196,7 +187,6 @@
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
-            console.log(count)
             $("<option/>").attr({id: `doc_${data[count].doc_id}`,value: data[count].doc_id}).appendTo(`#sel_doc`);
             document.getElementById(`doc_${data[count].doc_id}`).textContent = data[count].doc_full_name;
             $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
@@ -207,12 +197,12 @@
             if (data[count].records.length > 0) {
                 document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
                 $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
-                for (item_count = 0; item_count < data[count].records.length; item_count++) {
-                    $("<div/>").attr({id: `scroll_item_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
+                for (let item_count = 0; item_count < data[count].records.length; item_count++) {
+                    $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
                     // if (data[count].records.date == )
-                    $("<span/>").attr({id: `scroll_item_span_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${item_count}`);
-                    document.getElementById(`scroll_item_span_${item_count}`).textContent = 11;
-                    $("<input/>").attr({id: `scroll_item_input_${item_count}`, class: 'form-control', type: 'text', placeholder: 'фио', 'aria-describedby': `scroll_item_span_${item_count}`}).appendTo(`#scroll_item_${item_count}`);
+                    $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
+                    $("<input/>").attr({id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                 }
             }
             else {
