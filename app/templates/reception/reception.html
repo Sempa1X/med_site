@@ -55,9 +55,19 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>  
 
 <script>
+    $(document).ready(function(){
+      $("#myBtn").click(function(){
+        $("#myModal").modal();
+      });
+    });
+</script>
+    
+
+<script>
+    var doctors = {}
     after.oninput = function () {
         if (this.value.length > 2) {
             this.value = this.value.slice(0,2); 
@@ -98,12 +108,12 @@
         let answer = []
 
         for (let count_times = 0; count_times < result.length; count_times++) {
-            answer.push([office, current_date, result[count_times]])
+            answer.push([doc_id, current_date, result[count_times], office])
         }
 
         console.log(answer)
 
-        var posting = $.post(url, { data: answer } );
+        var posting = $.post(url, { 'data': answer } );
     
         posting.done(function( data ) {
             if (data.success == "false") {
@@ -111,18 +121,7 @@
             }
         });
     };
-</script>   
 
-<script>
-    $(document).ready(function(){
-      $("#myBtn").click(function(){
-        $("#myModal").modal();
-      });
-    });
-</script>
-    
-
-<script>
     $(document).ready(function() { 
         get_doctors(moment().format('YYYY-MM-DD'));
     });
@@ -136,10 +135,12 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                // current_date = data.doctors[0].current_date
                 console.log(data['data'])
                 toastr["success"]("Успешно!");
-                // createForm(data.doctors);
+                for (let count = 0; count < data['data'].length; count++) {
+                    doctors[data['data'][count].doc_full_name] = data['data'][count].doc_id
+                }
+                createForm(data['data']);
             }
         });
     };
@@ -154,6 +155,7 @@
         autoclose: true,
         todayHighlight: true,
     }).on('changeDate', showTestDate);
+
     function showTestDate() {
         console.log($('#sandbox-container').datepicker('getFormattedDate'));
 
@@ -162,18 +164,16 @@
         var $form = $( '#searchFormtest' ),
             term = $form.find( "#sandbosssx-container" ).val(),
             url = $form.attr( "action" );
-    
-        // Send the data using post
+
         var posting = $.post(url, { date: $('#sandbox-container').datepicker('getFormattedDate') } );
     
-        // Put the results in a div
         posting.done(function( data ) {
             if (data.success == "false") {
                 toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
             }
             else {
                 for (var a = 0; a < data.data.length; a++) {
-                    createForm(data);
+                    // createForm(data);
                     console.log(data.data[a].full_name + a)
                     console.log(data.data[a].trust_factor + a)
                     console.log(data.data[a].role + a)

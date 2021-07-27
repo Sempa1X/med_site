@@ -23,9 +23,9 @@ def reception():
 
 
 # Work
-@bp_reception.route('/add_schedule', methods=['get', "POST"])
+@bp_reception.route('/add_schedule', methods=["POST"])
 def add_schedule():
-    data = [[1, '2021-07-26', '16:30', 2], [1, '2021-07-26', '16:00', 2], [1, '2021-07-26', '13:30', 2], [1, '2021-07-26', '15:30', 2]]     # request.form['data']
+    data = request.form['data']
     is_added = False 
     for i in data:
         record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3])
