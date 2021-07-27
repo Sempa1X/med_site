@@ -38,30 +38,30 @@ def add_schedule():
     
 @bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
-#     data_list = []
-#     doctors = User.query.filter(and_(User.role == 'doctor'))
+    data_list = []
+    doctors = User.query.filter(and_(User.role == 'doctor'))
     
-#     for i in doctors:
-#         for o in i.records:
-#             date_obj = now.strptime(o.date, '%Y-%m-%d')
-#             if date_obj == current_date_obj:
-#                 data_list.append({'doc_full_name': i.full_name, 'office': o.office, 'date': o.date, 'time': o.time, 'patient_full_name': o.patient_full_name, 'id_patient': o.patient_id})
-#     return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
+    for i in doctors:
+        for o in i.records:
+            date_obj = now.strptime(o.date, '%Y-%m-%d')
+            if date_obj == current_date_obj:
+                data_list.append({'doc_full_name': i.full_name, 'office': o.office, 'date': o.date, 'time': o.time, 'patient_full_name': o.patient_full_name, 'id_patient': o.patient_id})
+    return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
    
-    doctors = []
-    res = User.query.filter(and_(User.role == 'doctor'))
-    records_list = []
-    for doctor in res:
-        for rec in doctor.records:
-            date = rec.date
-            date_obj = now.strptime(date, '%Y-%m-%d')
-            if date_obj == current_date_obj and doctor.id == rec.doctor_id:
-                print(doctor.id, rec.doctor_id)
-                records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
-                print(records_list)
-        doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
-        records_list = []
-    return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
+    # doctors = []
+    # res = User.query.filter(and_(User.role == 'doctor'))
+    # records_list = []
+    # for doctor in res:
+    #     for rec in doctor.records:
+    #         date = rec.date
+    #         date_obj = now.strptime(date, '%Y-%m-%d')
+    #         if date_obj == current_date_obj and doctor.id == rec.doctor_id:
+    #             print(doctor.id, rec.doctor_id)
+    #             records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
+    #             print(records_list)
+    #     doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
+    #     records_list = []
+    # return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
 
 
 # Work
