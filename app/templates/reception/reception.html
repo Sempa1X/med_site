@@ -124,12 +124,13 @@
 
 <script>
     $(document).ready(function() { 
-        get_doctors();
+        // console.log();
+        get_doctors(moment().format('YYYY-MM-DD'));
     });
 
-    function get_doctors() {
+    function get_doctors(date) {
         url = '/reception/get_doctors'
-        var posting = $.post( url );
+        var posting = $.post( url, {'date': date});
 
         posting.done(function( data ) {
             if (data.success == "false") {
@@ -137,7 +138,7 @@
             }
             else {
                 // current_date = data.doctors[0].current_date
-                console.log(data)
+                console.log(data['data'])
                 toastr["success"]("Успешно!");
                 // createForm(data.doctors);
             }
