@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from flask import Blueprint, render_template, redirect,\
     url_for, jsonify, request
@@ -24,7 +25,7 @@ def reception():
 
 
 # Work
-@bp_reception.route('/add_schedule', methods=["POST"])
+@bp_reception.route('/add_schedule', methods=['get', "POST"])
 def add_schedule():
     data = [[1, '2021-07-26', '16:30', 2], [1, '2021-07-26', '16:00', 2], [1, '2021-07-26', '13:30', 2], [1, '2021-07-26', '15:30', 2]]     # request.form['data']
     is_added = False 
@@ -36,34 +37,21 @@ def add_schedule():
     return jsonify({'success': 'true'}) if is_added else jsonify({'success': 'flase'}) 
         
     
-@bp_reception.route('/get_doctors', methods=["POST"])
+@bp_reception.route('/get_doctors', methods=['get',"POST"])
 def get_doctors():
     data_list = []
+    rec_data = []
     doctors = User.query.filter(and_(User.role == 'doctor'))
-    
+
     for i in doctors:
-        for o in i.records:
+        for o in i.records: 
             date_obj = now.strptime(o.date, '%Y-%m-%d')
-            if date_obj == current_date_obj:
-                data_list.append({'doc_full_name': i.full_name, 'office': o.office, 'date': o.date, 'time': o.time, 'patient_full_name': o.patient_full_name, 'id_patient': o.patient_id})
+            if date_obj == current_date_obj and i.id == o.doctor_id:
+                rec_data.append([o.id, o.office, o.date, o.time, o.patient_full_name, o.patient_id])  
+        data_list.append([i.id, i.full_name, rec_data]) 
+    print(data_list)
     return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
    
-    # doctors = []
-    # res = User.query.filter(and_(User.role == 'doctor'))
-    # records_list = []
-    # for doctor in res:
-    #     for rec in doctor.records:
-    #         date = rec.date
-    #         date_obj = now.strptime(date, '%Y-%m-%d')
-    #         if date_obj == current_date_obj and doctor.id == rec.doctor_id:
-    #             print(doctor.id, rec.doctor_id)
-    #             records_list.append({'patient_id': rec.patient_id, 'patient_full': rec.patient_full_name, 'date': rec.date, 'time': rec.time, 'office': rec.office})
-    #             print(records_list)
-    #     doctors.append({'doc_full_name': doctor.full_name, 'doc_id': doctor.id, 'records': records_list})
-    #     records_list = []
-    # return jsonify({'success': 'true', 'doctors': doctors}) if len(doctors) > 0 else jsonify({'success': 'false'})
-
-
 # Work
 @bp_reception.route('/reception_process', methods=["POST"])
 def reception_process():
