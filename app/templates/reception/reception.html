@@ -113,7 +113,7 @@
 
         console.log(answer)
 
-        var posting = $.post(url, { 'data': answer } );
+        var posting = $.post(url, { data: answer } );
     
         posting.done(function( data ) {
             if (data.success == "false") {
