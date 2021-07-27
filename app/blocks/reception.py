@@ -23,7 +23,7 @@ def reception():
 
 
 # Work
-@bp_reception.route('/add_schedule', methods=['get', "POST"])
+@bp_reception.route('/add_schedule', methods=["POST"])
 def add_schedule():
     data = request.form['data']
     is_added = False 
@@ -32,7 +32,7 @@ def add_schedule():
         db.session.add(record)
         db.session.commit()
         is_added = True
-    return jsonify({'success': 'true'}) if is_added else jsonify({'success': 'flase'}) 
+    return render_template('reception/reception.html') if is_added else jsonify({'success': 'flase'}) 
         
     
 @bp_reception.route('/get_doctors', methods=["POST"])
