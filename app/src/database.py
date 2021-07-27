@@ -12,8 +12,6 @@ current_date = str(now.strftime('%Y-%m-%d'))
 current_time = str(now.strftime('%H:%M'))
 
 
-
-
 class User(UserMixin, db.Model):
     __tablename__ = 'personal'
  
@@ -107,8 +105,13 @@ class Record(db.Model):
     office = db.Column(db.Integer, index=True)
     
 
-class list_expectation(db.Model):
+class List_expectation(db.Model):
+    __tablename__ = 'list_expectations'
     id = db.Column(db.Integer, primary_key=True)
+    is_pregnancy = db.Column(db.Boolean, default=False) # False ребенок
+    full_name = db.Column(db.String(255))
+    phone = db.Column(db.String(50))
+    date_request = db.Column(db.String(255), index=True, default=current_date + " " + current_time)
 
 
 @login.user_loader
