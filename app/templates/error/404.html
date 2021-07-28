@@ -3,14 +3,13 @@
 {% block title %}DEV{% endblock %}
 
 {% block content %}
-{% include 'base/style.html' %}
-{% include 'base/leftside.html' %}
-<div class="container h-100">
-    <div class="row align-items-center h-100">
-        <div class="col-6 mx-auto">
-            <div class="jumbotron">
-                <h1 class="text-center">404 Not Found</h1>
-                <p class="lead" align="justify">{{error}}</p>
+
+<div class="container d-flex justify-content-center align-items-center  h-100">
+    <div class="row w-100 h-100 ">
+        <div class="col-6 mx-auto ">
+            <div class="jumbotron ">
+                <h1 class="text-center">Страница не найдена</h1>
+                <p class="lead" align="justify">Данная страница не найдена, удалена или не обрабатывается сервером. Перейдите на главную страницу используя кнопку ниже.</p>
                 <a href="{{ url_for('receptions.reception') }}">
                     <div class="d-grid gap-2">
                         <button class="btn btn-primary">Вернуться назад</button>
