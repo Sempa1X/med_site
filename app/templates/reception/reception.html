@@ -6,7 +6,7 @@
 <div class="container" id='cont'>
     <div class="row mb-5">
         <div class="col">
-            <form id='searchFormtest' action="/reception/reception_process">
+            <form id='searchFormtest'>
                 <div id="sandbox-container" class="d-flex justify-content-center"></div>
             </form>
         </div>
@@ -21,11 +21,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_modal" action="/reception/add_schedule" onsubmit="add_schedule(); return false;">
-                        <!-- <select name="doctor" id='sel_doc' class="form-select" aria-label="Пример выбора по умолчанию" required>
-                            <option value="none" selected disabled required>Выбор доктора...</option>
-                        </select>
-                        <br> -->
+                    <form id="form_modal" onsubmit="add_schedule(); return false;">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Номер кабинета</span>
                             <input name="office" id='office' type="number" aria-label="First name" class="form-control" onkeypress="return event.charCode >= 48" min="1" max="24" required>
@@ -67,15 +63,16 @@
     
 
 <script>
-    var doc_select = ''
-    var doctors = {}
+    var doc_select = '';
+    var doctors = {};
+
     after.oninput = function () {
         if (this.value.length > 2) {
             this.value = this.value.slice(0,2); 
         }
     }
     var result = [];
-    var current_date = moment().format('YYYY-MM-DD')
+    var current_date = moment().format('YYYY-MM-DD');
 
     before.oninput = function () {
         if (this.value.length > 2) {
@@ -98,22 +95,18 @@
     }
     function add_schedule() {
         
-        var $form = $( '#form_modal' ),
-            office = $form.find( "#office" ).val(),
-            start = $form.find( "#after" ).val(),
-            end = $form.find( "#before" ).val(),
-            step = $form.find( "#step" ).val(),
-            url = $form.attr( "action" );
+        office = $( "#office" ).val();
+        url = '/reception/add_schedule';
 
         var answer = [];
 
         for (let count_times = 0; count_times < result.length; count_times++) {
-            answer.push([doc_select, current_date, result[count_times], office])
+            answer.push([doc_select, current_date, result[count_times], office, doctors[doc_select]]);
         }
 
         console.log(answer);
 
-        var posting = $.post(url, { 'data': answer } );
+        var posting = $.post(url, data = JSON.stringify({'data': answer}));
     
         posting.done(function( data ) {
             if (data.success == "false") {
@@ -139,8 +132,9 @@
                 console.log(data['data']);
                 toastr["success"]("Успешно!");
                 for (let count = 0; count < data['data'].length; count++) {
-                    doctors[data['data'][count].doc_full_name] = data['data'][count].doc_id;
+                    doctors[data['data'][count].doc_id] = data['data'][count].doc_full_name;
                 }
+                console.log(doctors);
                 createForm(data['data']);
             }
         });
@@ -188,8 +182,6 @@
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
-            // $("<option/>").attr({id: `doc_${data[count].doc_id}`,value: data[count].doc_id}).appendTo(`#sel_doc`);
-            // document.getElementById(`doc_${data[count].doc_id}`).textContent = data[count].doc_full_name;
             $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);

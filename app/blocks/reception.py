@@ -25,16 +25,15 @@ def reception():
 # Work
 @bp_reception.route('/add_schedule', methods=["POST"])
 def add_schedule():
-    if request.form['data']:
-        data = request.form['data']
-        is_added = False 
-        for i in data:
-            record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3])
-            db.session.add(record)
-            db.session.commit()
-            is_added = True
-    else:
-          jsonify({'success': 'false'}) 
+    for i in request.form:
+        data = json.loads(i)['data']
+    is_added = False 
+    print(data)
+    for i in data:
+        record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3], doctor_full_name=i[4])
+        db.session.add(record)
+        db.session.commit()
+        is_added = True
     return render_template('reception/reception.html') if is_added else jsonify({'success': 'false'}) 
         
     
@@ -55,23 +54,4 @@ def get_doctors():
             data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})
         return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
     return jsonify({'success': 'false'})
-
-
-
-
-# Work
-@bp_reception.route('/reception_process', methods=["POST"])
-def reception_process():
-    patient_info = []
-    if request.form['date']:
-        record = Record.query.filter(Record.date == request.form['date'])
-        for i in record:
-            if i.patient_id:
-                patient = Patient.query.get(i.patient_id)
-                print(patient)
-                patient_info.append({'full_name': patient.full_name, 'trust_factor': patient.trust_factor, 'role': patient.patient_role, 'comment': patient.comment, 'phone': patient.phone}) 
-    if len(patient_info) == 0:
-        return jsonify({'success': 'false'})
-    return jsonify({'success': 'true', 'data': patient_info})
-
 
