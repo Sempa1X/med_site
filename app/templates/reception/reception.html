@@ -54,19 +54,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>  
 
 <script>
+    var doc_select = '';
+    var user_select = '';
+    var doctors = {};
+    var patients = {};
+
     $(document).ready(function(){
       $("#myBtn").click(function(){
         $("#myModal").modal();
       });
     });
-</script>
-    
-
-<script>
-    var doc_select = '';
-    var user_select = '';
-    var doctors = {};
-    var patients = {};
 
     after.oninput = function () {
         if (this.value.length > 2) {
@@ -210,12 +207,6 @@
                                 $("<option/>").attr({value: all_data['patients'][patient_count].patient_full_name}).appendTo(`#scroll_item_datalist_${count}_${item_count}`);
                             }
                         }
-                        // <input list="patient" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
-                        // <datalist id="patient">
-                        //     {% for i in patients %}
-                        //     <option value="{{ i.full_name }}">
-                        //     {% endfor %}
-                        // </datalist>
                         if (data[count].records[item_count].patient_full_name) {
                             $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
@@ -283,4 +274,3 @@
 </script>
 
 {% endblock %}
-
