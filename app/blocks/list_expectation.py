@@ -28,11 +28,11 @@ def list_expectation():
 def list_record():
     records = []
     for i in List_expectation.query.all():
-        records.append({'id': i.id, 'is_pregnancy': i.is_pregnancy,'full_name': i.full_name, 'phone': i.phone, 'date': i.date_request})
+        records.append({'id': i.id, 'is_pregnancy': i.is_pregnancy, 'full_name': i.full_name, 'phone': i.phone, 'date': i.date_request})
     return jsonify({'success': 'true', 'records': records}) if len(records) > 0 else  jsonify({'success': 'false'})
 
 
-@bp_list_expectation.route('/add_list', methods=['get','POST'])
+@bp_list_expectation.route('/add_list', methods=['POST'])
 @login_required 
 def list_add(): 
     return jsonify({'success': 'true'})

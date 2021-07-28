@@ -4,18 +4,6 @@
 {% block content %}
 
 <div class="container" id='cont'>
-    <div class="accordion accordion-flush overflow-auto" id="accordionFlushExample" style="max-height: 30vh; padding-right: 5px;">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="flush-headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-              Accordion Item #1
-            </button>
-          </h2>
-          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-          </div>
-        </div>
-    </div>
 </div>
 
 
@@ -35,9 +23,80 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data)
+                console.log(data);
+                createForm(data['records']);
             }
         });
     };
+
+    function delBlock() {
+        if ($('#data_place').length) {
+            $("#data_place").empty();
+        }
+    }
+    function is_pregnancy(obj) {
+        url = '/list_expectation/is_pregnancy';
+
+        var posting = $.post(url, {'check': cb.checked});
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                toastr["success"]("Успешно!");
+                record_list();
+            }
+        });
+    }
+
+    function del_item(obj) {
+        url = '/list_expectation/del_list';
+
+        var posting = $.post(url, {'rec_id': obj.getAttribute('rec_id')});
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                toastr["success"]("Успешно!");
+                record_list();
+            }
+        });
+    }
+    
+    function createForm(data) {
+        delBlock();
+        $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
+        $("<div/>").attr({id: 'accordion', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_place');
+        for (let count = 0; count < data.length; count++) {
+            $("<div/>").attr({id: `accordion-item_${count}`, class: 'accordion-item'}).appendTo(`#accordion`);
+            $("<h2/>").attr({id: `flush_heading_${count}`, class: 'accordion-header'}).appendTo(`#accordion`);
+            $("<button/>").attr({id: `accordion_button_${count}`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}`}).appendTo(`#flush_heading_${count}`);
+            document.getElementById(`accordion_button_${count}`).textContent = data[count].full_name;
+            $("<div/>").attr({id: `flush_collapse_${count}`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}`, }).appendTo(`#accordion`);
+            $("<div/>").attr({id: `accordion_body_${count}`, class: 'accordion-body d-flex justify-content-between align-items-center'}).appendTo(`#flush_collapse_${count}`);
+            $("<div/>").attr({id: `col_1_${count}`, class: 'col'}).appendTo(`#accordion_body_${count}`);
+            $("<div/>").attr({id: `col_2_${count}`, class: 'col d-flex justify-content-end'}).appendTo(`#accordion_body_${count}`);
+            $("<div/>").attr({id: `form_check_${count}`, class: 'form-check'}).appendTo(`#col_1_${count}`);
+            if (!data[count].is_pregnancy) {
+                $("<input/>").attr({'rec_id': data[count].id, id: `is_pregnancy_${count}`, class: 'form-check-input', type: 'checkbox', 'onclick': 'is_pregnancy(this);'}).appendTo(`#form_check_${count}`);
+                $("<label/>").attr({id: `check_${count}`, class: 'form-check-label', for: `is_pregnancy_${count}`}).appendTo(`#form_check_${count}`);
+                document.getElementById(`check_${count}`).textContent = `Беременность`
+            }
+            else {
+                $("<input/>").attr({'rec_id': data[count].id, id: `is_pregnancy_${count}`, class: 'form-check-input', type: 'checkbox', 'checked': true, 'onclick': 'is_pregnancy(this);'}).appendTo(`#form_check_${count}`);
+                $("<label/>").attr({id: `check_${count}`, class: 'form-check-label', for: `is_pregnancy_${count}`}).appendTo(`#form_check_${count}`);
+                document.getElementById(`check_${count}`).textContent = `Беременность`
+            }
+            $("<span/>").attr({id: `phone_accordion_body_${count}`}).appendTo(`#col_1_${count}`);
+            $("<br/>").appendTo(`#col_1_${count}`);
+            $("<span/>").attr({id: `date_request_accordion_body_${count}`}).appendTo(`#col_1_${count}`);
+            document.getElementById(`phone_accordion_body_${count}`).textContent = `Номер телефона: ${data[count].phone}`;
+            document.getElementById(`date_request_accordion_body_${count}`).textContent = `Дата записи: ${data[count].date}`;
+            $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-dark bx bx-x', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}`);
+        }
+    }
 </script>
 {% endblock %}
