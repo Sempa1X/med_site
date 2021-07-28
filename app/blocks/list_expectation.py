@@ -22,15 +22,14 @@ def list_expectation():
     return render_template('list_expectation/list_expectation.html')
 
 
-@bp_list_expectation.route('/record_list', methods=['POST'])
+@bp_list_expectation.route('/record_list', methods=['get','POST'])
 @login_required 
-def list_get():
-    status = True
+def list_record():
     all_list_dict = []
     all_list = List_expectation.query.all()
     for i in all_list:
         all_list_dict.append(i)
-    return jsonify({'success': 'true', 'all_list': all_list_dict}) if status else  jsonify({'success': 'false'})
+    return jsonify({'success': 'true', 'all_list': all_list_dict}) if len(all_list_dict) > 0 else  jsonify({'success': 'false'})
 
 
 @bp_list_expectation.route('/add_list', methods=['POST'])

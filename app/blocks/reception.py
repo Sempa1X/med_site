@@ -76,7 +76,6 @@ def is_active():
 @login_required
 def record():
     try:
-        
         rec = Record.query.get(request.form['rec_id'])
         rec.patient_full_name = request.form['patient_full_name']
         rec.patient_id = request.form['patient_id']
