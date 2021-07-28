@@ -4,6 +4,30 @@
 {% block content %}
 
 <div class="container" id='cont'>
+    <form class="mb-5" onsubmit="send_form(); return false;">
+        <div class="row form-row">
+            <label for="fio" class="form-label">ФИО</label>
+            <div class="input-group mb-3">
+                <input type="text" name='full_name' class="form-control" id="fio" placeholder="Фамилия Имя Отчество" required>
+            </div>
+            <label for="phone" class="form-label">Номер телефона</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">+7</span>
+                <input id="phone" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+            </div>
+            <div class="input-group mb-3">
+                <div class="form-check">
+                <input class="form-check-input" name='is_pregnancy' type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Беременность
+                </label>
+                </div>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btl-lg">Отправить</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 
@@ -45,6 +69,26 @@
             }
             else {
                 toastr["success"]("Успешно!");
+            }
+        });
+    }
+
+    function send_form(obj) {
+        url = '/list_expectation/add_list';
+        fio = $('#fio').val();
+        phone = '+7' + $('#phone').val();
+        check = $('#gridCheck').is(':checked');
+        console.log(fio, phone)
+
+
+        var posting = $.post(url, {'check': check, 'full_name': fio, 'phone': phone});
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                record_list();
             }
         });
     }

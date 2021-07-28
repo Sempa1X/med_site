@@ -42,7 +42,14 @@ def list_record():
 @bp_list_expectation.route('/add_list', methods=['POST'])
 @login_required 
 def list_add(): 
-    return jsonify({'success': 'true'})
+    print(request.form)
+    if request.form['check'] == 'true':
+        list = List_expectation(is_pregnancy=1, full_name=request.form['full_name'], phone=request.form['phone'])
+    else:
+        list = List_expectation(is_pregnancy=0, full_name=request.form['full_name'], phone=request.form['phone'])
+    db.session.add(list)
+    db.session.commit()
+    return render_template('list_expectation/list_expectation.html')
 
 
 @bp_list_expectation.route('/del_list', methods=['POST'])
