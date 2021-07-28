@@ -40,25 +40,22 @@ def add_schedule():
 @bp_reception.route('/get_doctors', methods=["POST"])
 @login_required
 def get_doctors():
-    current_date = str(now.strftime('%Y-%m-%d'))
-    if 'date' in  request.form:
-        patient_data = []
-        current_date = request.form['date']
-        current_date_obj = now.strptime(current_date, '%Y-%m-%d')
-        data_list = []
-        doctors = User.query.filter(and_(User.role == 'doctor'))
-        all_patients = Patient.query.all()
-        for i in all_patients:
-            patient_data.append({ 'patient_full_name': i.full_name, 'patient_id': i.id})
-        for i in doctors:
-            rec_data = []
-            for o in i.records: 
-                date_obj = now.strptime(o.date, '%Y-%m-%d')
-                if date_obj == current_date_obj and i.id == o.doctor_id:
-                    rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
-            data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})
-        return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data}) if len(data_list) > 0 else jsonify({'success': 'false'})
-    return jsonify({'success': 'false'})
+    patient_data = []
+    current_date = request.form['date']
+    current_date_obj = now.strptime(current_date, '%Y-%m-%d')
+    data_list = []
+    doctors = User.query.filter(and_(User.role == 'doctor'))
+    all_patients = Patient.query.all()
+    for i in all_patients:
+        patient_data.append({ 'patient_full_name': i.full_name, 'patient_id': i.id})
+    for i in doctors:
+        rec_data = []
+        for o in i.records: 
+            date_obj = now.strptime(o.date, '%Y-%m-%d')
+            if date_obj == current_date_obj and i.id == o.doctor_id:
+                rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
+        data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})
+    return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data}) if len(data_list) > 0 else jsonify({'success': 'false'})
 
 
 @bp_reception.route('/is_active', methods=["POST"])
