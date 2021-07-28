@@ -194,18 +194,20 @@
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
                     $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
                     if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
-                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<span/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     else {
-                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<span/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                    $("<input/>").attr({'user_id': data[count].records[item_count].patient_id, 'doc_id': data[count].doc_id,  id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    $("<input/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                     if (data[count].records[item_count].patient_full_name) {
                         $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                         $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
-                        $("<button/>").attr({id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                        $("<button/>").attr({id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        if (data[count].records[item_count].is_active == 2) {
+                            $("<button/>").attr({'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            $("<button/>").attr({'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
                     }
                     else {
                         $("<button/>").attr({'onclick': 'addRecord(this);', id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
@@ -227,7 +229,27 @@
         doc_select = document.getElementById(obj.id).getAttribute('doctor_id');
     }
 
+    function is_active(obj, type) {
+        rec_id = document.getElementById(obj.id).getAttribute('rec_id');
+    
+        url = '/reception/is_active';
+
+        var posting = $.post(url, { 'rec_id': rec_id, 'type': type} );
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                console.log(data['data']);
+                toastr["success"]("Успешно!");
+                // createForm(data['data']);
+            }
+        });
+    };
+
     function addRecord(obj) {
+        rec_id = document.getElementById(obj.id).getAttribute('rec_id');
         doc_select = document.getElementById(obj.id).getAttribute('doc_id');
         user_select = document.getElementById(obj.id).getAttribute('user_id');
     
