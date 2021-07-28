@@ -113,6 +113,9 @@
             if (data.success == "false") {
                 toastr["error"]("Ошибка!");
             }
+            else {
+                get_doctors(current_date)
+            }
         });
     };
 
@@ -194,10 +197,10 @@
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
                     $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
                     if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
-                        $("<span/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     else {
-                        $("<span/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
                     $("<input/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
@@ -241,19 +244,19 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data['data']);
                 toastr["success"]("Успешно!");
-                // createForm(data['data']);
+                get_doctors(current_date)
             }
         });
     };
 
     function addRecord(obj) {
         rec_id = document.getElementById(obj.id).getAttribute('rec_id');
-        doc_select = document.getElementById(obj.id).getAttribute('doc_id');
-        user_select = document.getElementById(obj.id).getAttribute('user_id');
+        user_id = document.getElementById(obj.id).getAttribute('user_id');
+        user_full_name = $(`#${obj.id}`).val();
+        console.log(rec_id, user_id, user_full_name);
     
-        url = '/reception/add/info/record';
+        url = '/reception/record';
 
         var posting = $.post(url, { date: current_date} );
         
