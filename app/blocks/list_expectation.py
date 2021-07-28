@@ -41,5 +41,10 @@ def list_add():
 @bp_list_expectation.route('/del_list', methods=['POST'])
 @login_required
 def list_del(): 
-    return jsonify({'success': 'true'})
+    try:
+        list = List_expectation.query.get(request.form['rec_id']).delete()
+        db.session.commit()
+        return jsonify({'success': 'true'})
+    except Exception:
+        return jsonify({'success': 'false'})
 
