@@ -47,7 +47,7 @@ def get_doctors():
         doctors = User.query.filter(and_(User.role == 'doctor'))
         all_patients = Patient.query.all()
         for i in all_patients:
-            patient_data.append({ 'patient_full_name':i.patient_full_name, 'patient_id': i.patient_id})
+            patient_data.append({ 'patient_full_name': i.full_name, 'patient_id': i.id})
         for i in doctors:
             rec_data = []
             for o in i.records: 
@@ -63,7 +63,9 @@ def get_doctors():
 def is_active():
     if ['rec_id', 'type'] in request.form:
         rec = Record.query.get(request.form['rec_id'])
+        rec.isActive = '0'
         patient = Patient.query.get(rec.patient_id)
         patient.trust_factor = request.form['type']
         db.session.add(patient)
+        db.session.add(rec)
         db.session.commit()

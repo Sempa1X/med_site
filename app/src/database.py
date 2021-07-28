@@ -100,7 +100,7 @@ class Record(db.Model):
     
     date = db.Column(db.String(255), index=True)
     time = db.Column(db.String(255), index=True)
-    isActive = db.Column(db.Boolean, default=True)
+    isActive = db.Column(db.String(255), default='2')
     comment = db.Column(db.String(255))
     office = db.Column(db.Integer, index=True)
     
