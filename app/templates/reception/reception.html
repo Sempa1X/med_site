@@ -212,6 +212,7 @@
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                             $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'replace(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
                         else {
                             $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
@@ -261,6 +262,23 @@
         url = '/reception/record';
 
         var posting = $.post(url, { 'rec_id': rec_id, 'patient_full_name': user_full_name, 'patient_id': user_id} );
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                get_doctors(current_date);
+            }
+        });
+    };
+    function replace(obj) {
+        input_id = document.getElementById(obj.id).getAttribute('input_id');
+        rec_id = document.getElementById(input_id).getAttribute('rec_id');
+    
+        url = '/reception/replace';
+
+        var posting = $.post(url, { 'rec_id': rec_id} );
         
         posting.done(function( data ) {
             if (data.success == "false") {
