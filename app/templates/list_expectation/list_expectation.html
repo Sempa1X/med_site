@@ -78,7 +78,6 @@
         fio = $('#fio').val();
         phone = '+7' + $('#phone').val();
         check = $('#gridCheck').is(':checked');
-        console.log(fio, phone)
 
 
         var posting = $.post(url, {'check': check, 'full_name': fio, 'phone': phone});
