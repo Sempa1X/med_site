@@ -207,7 +207,7 @@
                     if (data[count].records[item_count].patient_full_name) {
                         $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                         $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
-                        if (data[count].records[item_count].is_active == 2) {
+                        if (data[count].records[item_count].is_active == 1) {
                             $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                             $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
