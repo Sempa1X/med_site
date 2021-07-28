@@ -96,3 +96,18 @@ def get_role():
         return jsonify({'success': 'true', 'role': current_user.role}) 
 
 
+@bp_reception.route('/replace', methods=["POST"])
+@login_required
+def replace():
+    try:
+        if 'rec_id' in request.data:
+            rec = Record.query.get(request.form['rec_id'])
+            rec.patient_full_name = ''
+            rec.patient_id = ''
+            db.session.commit()
+            return jsonify({'success': 'true'})
+        return jsonify({'success': 'false'})
+    except Exception as e:
+        return jsonify({'success': 'false'})
+
+
