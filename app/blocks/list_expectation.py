@@ -59,9 +59,9 @@ def is_pregnancy():
     status = True
     list = List_expectation.query.get(request.form['rec_id'])
     print(request.form['check'])
-    if request.form['check'] == True:
+    if request.form['check'] == 'true':
         list.is_pregnancy = True 
-    elif request.form['check'] == False:
+    elif request.form['check'] == 'false':
          list.is_pregnancy = False
          status = False
     db.session.commit()
