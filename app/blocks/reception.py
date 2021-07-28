@@ -57,8 +57,6 @@ def get_doctors():
     return jsonify({'success': 'false'})
 
 
-
-
 # Work
 @bp_reception.route('/reception_process', methods=["POST"])
 def reception_process():
@@ -68,7 +66,7 @@ def reception_process():
         for i in record:
             if i.patient_id:
                 patient = Patient.query.get(i.patient_id)
-                print(patient)
+
                 patient_info.append({'full_name': patient.full_name, 'trust_factor': patient.trust_factor, 'role': patient.patient_role, 'comment': patient.comment, 'phone': patient.phone}) 
     if len(patient_info) == 0:
         return jsonify({'success': 'false'})
