@@ -124,6 +124,13 @@
 
     $(document).ready(function() { 
         get_doctors(moment().format('YYYY-MM-DD'));
+        // console.log(moment());
+        // console.log(moment("01:20", 'HH:mm'));
+        // if (moment() > moment("01:20", 'HH:mm')) {
+        //     console.log(moment()+ " > " + moment("01:20", 'HH:mm'));
+        // } else {
+        //     console.log(moment() + " < " + moment("01:20", 'HH:mm'));
+        // }
     });
 
     function get_doctors(date) {
@@ -199,10 +206,22 @@
                 $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
                     $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
-                    // if (data[count].records.date == )
-                    $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
+                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    }
+                    else {
+                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    }
                     document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
                     $("<input/>").attr({id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    if (data[count].records[item_count].patient_full_name) {
+                        $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
+                        $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
+                    }
+                    else {
+                        $("<button/>").attr({id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    }
+                    // <button class="btn btn-outline-secondary" type="button">Button</button>
                 }
             }
             else {
