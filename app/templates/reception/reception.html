@@ -66,6 +66,7 @@
     var doc_select = '';
     var user_select = '';
     var doctors = {};
+    var patients = {};
 
     after.oninput = function () {
         if (this.value.length > 2) {
@@ -133,13 +134,15 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data['data']);
-                toastr["success"]("Успешно!");
                 for (let count = 0; count < data['data'].length; count++) {
                     doctors[data['data'][count].doc_id] = data['data'][count].doc_full_name;
                 }
-                console.log(doctors);
-                createForm(data['data']);
+                for (let count = 0; count < data['patients'].length; count++) {
+                    patients[data['patients'][count].patient_full_name] = data['patients'][count].patient_id;
+                }
+                
+                console.log(data);
+                createForm(data);
             }
         });
     };
@@ -181,12 +184,13 @@
         }
     }
     
-    function createForm(data) {
+    function createForm(all_data) {
+        data = all_data['data']
         delBlock()
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
-            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
+            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3 mt-5'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
             document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
@@ -195,25 +199,37 @@
                 document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
                 $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
-                    $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
-                    if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
-                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                    }
-                    else {
-                        $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                    }
-                    document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                    $("<input/>").attr({'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
-                    if (data[count].records[item_count].patient_full_name) {
-                        $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
-                        $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
-                        if (data[count].records[item_count].is_active == 1) {
+                    if (data[count].records[item_count].is_active == 1) {
+                        $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
+                        if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
+                            $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
+                        else {
+                            $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
+                        document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
+                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
+                            if (all_data['patients'][patient_count].patient_full_name) {
+                                $("<option/>").attr({value: all_data['patients'][patient_count].patient_full_name}).appendTo(`#scroll_item_datalist_${count}_${item_count}`);
+                            }
+                        }
+                        // <input list="patient" placeholder="Поиск пациента" type="search" id="q" class="form-control" aria-describedby="search-button">
+                        // <datalist id="patient">
+                        //     {% for i in patients %}
+                        //     <option value="{{ i.full_name }}">
+                        //     {% endfor %}
+                        // </datalist>
+                        if (data[count].records[item_count].patient_full_name) {
+                            $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
+                            $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                             $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
-                    }
-                    else {
-                        $("<button/>").attr({'onclick': 'addRecord(this);', id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        else {
+                            $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
                     }
                 }
             }
@@ -251,23 +267,22 @@
     };
 
     function addRecord(obj) {
-        rec_id = document.getElementById(obj.id).getAttribute('rec_id');
-        user_id = document.getElementById(obj.id).getAttribute('user_id');
-        user_full_name = $(`#${obj.id}`).val();
+        input_id = document.getElementById(obj.id).getAttribute('input_id');
+        rec_id = document.getElementById(input_id).getAttribute('rec_id');
+        user_full_name = $(`#${input_id}`).val();
+        user_id = patients[user_full_name];
         console.log(rec_id, user_id, user_full_name);
     
         url = '/reception/record';
 
-        var posting = $.post(url, { date: current_date} );
+        var posting = $.post(url, { 'rec_id': rec_id, 'patient_full_name': user_full_name, 'patient_id': user_id} );
         
         posting.done(function( data ) {
             if (data.success == "false") {
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data['data']);
-                toastr["success"]("Успешно!");
-                // createForm(data['data']);
+                get_doctors(current_date)
             }
         });
     };
