@@ -93,7 +93,6 @@
             result.push(_start.format('HH:mm'));
             _start.add(obj.value, 'minutes');
         }
-        console.log(result);
     }
     function add_schedule() {
         
@@ -106,7 +105,6 @@
             answer.push([doc_select, current_date, result[count_times], office, doctors[doc_select]]);
         }
 
-        console.log(answer);
 
         var posting = $.post(url, data = JSON.stringify({'data': answer}));
     
@@ -141,7 +139,6 @@
                     patients[data['patients'][count].patient_full_name] = data['patients'][count].patient_id;
                 }
                 
-                console.log(data);
                 createForm(data);
             }
         });
@@ -159,7 +156,6 @@
     }).on('changeDate', showTestDate);
 
     function showTestDate() {
-        console.log($('#sandbox-container').datepicker('getFormattedDate'));
         current_date = $('#sandbox-container').datepicker('getFormattedDate');
     
         url = '/reception/get_doctors';
@@ -171,7 +167,6 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data['data']);
                 toastr["success"]("Успешно!");
                 createForm(data);
             }
@@ -271,7 +266,6 @@
         rec_id = document.getElementById(input_id).getAttribute('rec_id');
         user_full_name = $(`#${input_id}`).val();
         user_id = patients[user_full_name];
-        console.log(rec_id, user_id, user_full_name);
     
         url = '/reception/record';
 
@@ -282,7 +276,7 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                get_doctors(current_date)
+                get_doctors(current_date);
             }
         });
     };
