@@ -217,10 +217,14 @@
                     if (data[count].records[item_count].patient_full_name) {
                         $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                         $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
+                        $("<button/>").attr({id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<button/>").attr({id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     else {
                         $("<button/>").attr({id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
+                    // if (data[count].records[item_count].patient_full_name) {
+                    // } 
                     // <button class="btn btn-outline-secondary" type="button">Button</button>
                 }
             }
