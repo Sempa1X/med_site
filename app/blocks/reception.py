@@ -56,19 +56,3 @@ def get_doctors():
         return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
     return jsonify({'success': 'false'})
 
-
-# Work
-@bp_reception.route('/reception_process', methods=["POST"])
-def reception_process():
-    patient_info = []
-    if request.form['date']:
-        record = Record.query.filter(Record.date == request.form['date'])
-        for i in record:
-            if i.patient_id:
-                patient = Patient.query.get(i.patient_id)
-                patient_info.append({'full_name': patient.full_name, 'trust_factor': patient.trust_factor, 'role': patient.patient_role, 'comment': patient.comment, 'phone': patient.phone}) 
-    if len(patient_info) == 0:
-        return jsonify({'success': 'false'})
-    return jsonify({'success': 'true', 'data': patient_info})
-
-
