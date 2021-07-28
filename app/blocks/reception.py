@@ -100,14 +100,13 @@ def get_role():
 @login_required
 def replace():
     try:
-        if 'rec_id' in request.data:
-            rec = Record.query.get(request.form['rec_id'])
-            rec.patient_full_name = ''
-            rec.patient_id = ''
-            db.session.commit()
-            return jsonify({'success': 'true'})
-        return jsonify({'success': 'false'})
+        rec = Record.query.get(request.form['rec_id'])
+        rec.patient_full_name = ''
+        rec.patient_id = ''
+        db.session.commit()
+        return jsonify({'success': 'true'})
     except Exception as e:
+        print(e)
         return jsonify({'success': 'false'})
 
 
