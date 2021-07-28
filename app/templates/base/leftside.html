@@ -8,38 +8,55 @@
             <div> 
                 <div class="nav_list">
                     {% if current_user.role == 'superadmin' %}
-                    <div class="nav_logo"> 
-                        <i class='bx bx-bell-plus nav_logo-icon'></i>
-                        <span class="nav_logo-name">Гл. Администратор</span>
-                    </div>
+                        <div class="nav_logo"> 
+                            <i class='bx bxs-user-rectangle nav_logo-icon'></i>
+                            <span class="nav_logo-name">Гл. Администратор</span>
+                        </div>
 
-                    <a href="{{ url_for('receptions.reception') }}" class="nav_logo"> 
-                        <i class='bx bx-home nav_logo-icon'></i>
-                        <span class="nav_logo-name">Главная</span>
-                    </a>
-                    <a href="{{ url_for('search.search') }}" class="nav_logo"> 
-                        <i class='bx bx-search nav_logo-icon'></i>
-                        <span class="nav_logo-name">Поиск пациента</span>
-                    </a>
-                    <a href="{{ url_for('list_expectation.list_expectation') }}" class="nav_logo"> 
-                        <i class='bx bx-list-ul nav_logo-icon'></i>
-                        <span class="nav_logo-name">Лист ожидания</span>
-                    </a>
-                    <a href="{{ url_for('add.add_patient') }}" class="nav_logo"> 
-                        <i class='bx bx-add-to-queue nav_logo-icon'></i>
-                        <span class="nav_logo-name">Добавить пациента</span>
-                    </a>
-                    <hr>
-                    <a href="{{ url_for('admin.index') }}" class="nav_logo"> 
-                        <i class='bx bx-code-block nav_logo-icon'></i>
-                        <span class="nav_logo-name">Панель Администратора</span>
-                    </a>
-                    {% else %}
-                    <div class="nav_logo"> 
-                        <i class='bx bx-bell-plus nav_logo-icon'></i>
-                        <span class="nav_logo-name">{{ current_user.role }}: {{ current_user.username }}</span>
-                    </div>
-                    
+                        <a href="{{ url_for('receptions.reception') }}" class="nav_logo"> 
+                            <i class='bx bx-home nav_logo-icon'></i>
+                            <span class="nav_logo-name">Главная</span>
+                        </a>
+                        <a href="{{ url_for('search.search') }}" class="nav_logo"> 
+                            <i class='bx bx-search nav_logo-icon'></i>
+                            <span class="nav_logo-name">Поиск пациента</span>
+                        </a>
+                        <a href="{{ url_for('list_expectation.list_expectation') }}" class="nav_logo"> 
+                            <i class='bx bx-list-ul nav_logo-icon'></i>
+                            <span class="nav_logo-name">Лист ожидания</span>
+                        </a>
+                        <a href="{{ url_for('add.add_patient') }}" class="nav_logo"> 
+                            <i class='bx bx-add-to-queue nav_logo-icon'></i>
+                            <span class="nav_logo-name">Добавить пациента</span>
+                        </a>
+                        <hr>
+                        <a href="{{ url_for('admin.index') }}" class="nav_logo"> 
+                            <i class='bx bx-code-block nav_logo-icon'></i>
+                            <span class="nav_logo-name">Панель Администратора</span>
+                        </a>
+
+                    {% elif current_user.role == 'admin' or current_user.role == 'doctor' %}
+                        <div class="nav_logo"> 
+                            <i class='bx bxs-user-rectangle nav_logo-icon'></i>
+                            <span class="nav_logo-name">Администратор</span>
+                        </div>
+
+                        <a href="{{ url_for('receptions.reception') }}" class="nav_logo"> 
+                            <i class='bx bx-home nav_logo-icon'></i>
+                            <span class="nav_logo-name">Главная</span>
+                        </a>
+                        <a href="{{ url_for('search.search') }}" class="nav_logo"> 
+                            <i class='bx bx-search nav_logo-icon'></i>
+                            <span class="nav_logo-name">Поиск пациента</span>
+                        </a>
+                        <a href="{{ url_for('list_expectation.list_expectation') }}" class="nav_logo"> 
+                            <i class='bx bx-list-ul nav_logo-icon'></i>
+                            <span class="nav_logo-name">Лист ожидания</span>
+                        </a>
+                        <a href="{{ url_for('add.add_patient') }}" class="nav_logo"> 
+                            <i class='bx bx-add-to-queue nav_logo-icon'></i>
+                            <span class="nav_logo-name">Добавить пациента</span>
+                        </a>
                     {% endif %}
                 </div>
             </div> 
