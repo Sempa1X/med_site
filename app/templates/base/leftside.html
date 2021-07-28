@@ -10,7 +10,7 @@
                     {% if current_user.role == 'superadmin'%}
                     <div class="nav_logo"> 
                         <i class='bx bx-bell-plus nav_logo-icon'></i>
-                        <span class="nav_logo-name">Супер Администратор: {{ current_user.username }}</span>
+                        <span class="nav_logo-name">{{ current_user.role }}: {{ current_user.username }}</span>
                     </div>
 
                     <a href="#" class="nav_logo"> 
@@ -22,7 +22,10 @@
                         <span class="nav_name">Пациенты</span>
                     </a>
                     {% else %}
-
+                    <div class="nav_logo"> 
+                        <i class='bx bx-bell-plus nav_logo-icon'></i>
+                        <span class="nav_logo-name">{{ current_user.role }}: {{ current_user.username }}</span>
+                    </div>
                     {% endif %}
                 </div>
             </div> 
