@@ -47,7 +47,7 @@ def get_doctors():
         doctors = User.query.filter(and_(User.role == 'doctor'))
         all_patients = Patient.query.all()
         for i in all_patients:
-            patient_data.append({ 'patient_full_name':o.patient_full_name, 'patient_id': o.patient_id})
+            patient_data.append({ 'patient_full_name':i.patient_full_name, 'patient_id': i.patient_id})
         for i in doctors:
             rec_data = []
             for o in i.records: 
