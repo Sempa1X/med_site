@@ -22,13 +22,14 @@ def list_expectation():
     return render_template('list_expectation/list_expectation.html')
 
 
-@bp_list_expectation.route('/record_list', methods=['POST'])
+@bp_list_expectation.route('/record_list', methods=['get','POST'])
 @login_required 
 def list_record():
-    records = []
-    for i in List_expectation.query.all():
-        records.append({'is_pregnancy': i.is_pregnancy, 'full_name': i.full_name, 'phone': i.phone, 'date_request': i.date_request})
-    return jsonify({'success': 'true', 'records': records}) if len(records) > 0 else  jsonify({'success': 'false'})
+    all_list_dict = []
+    all_list = List_expectation.query.all()
+    for i in all_list:
+        all_list_dict.append({'id': i.id})
+    return jsonify({'success': 'true', 'all_list': all_list_dict}) if len(all_list_dict) > 0 else  jsonify({'success': 'false'})
 
 
 @bp_list_expectation.route('/add_list', methods=['POST'])
