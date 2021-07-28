@@ -1,8 +1,10 @@
-from flask import Flask
+from flask import Flask, url_for, redirect
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_admin import Admin
+from flask_admin.menu import MenuLink
+
 from config import Config
 
 
@@ -48,3 +50,4 @@ admin = Admin(application, name='Medic', url='/admin', template_mode='bootstrap4
 admin.add_view(MyAdminView(Patient, db.session, name="Пациенты"))
 admin.add_view(MyAdminView(Record, db.session, name="Записи"))
 admin.add_view(MyAdminView(User, db.session, name="Персонал"))
+admin.add_link(MenuLink(name='Назад', url='/'))
