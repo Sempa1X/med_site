@@ -8,7 +8,5 @@ def before_request():
     pass
 
 
-@application.errorhandler(404)
-def error_404(error):
-    return render_template("error/404.html", error=error)
+
 
