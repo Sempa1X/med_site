@@ -24,7 +24,7 @@ def list_expectation():
     return render_template('list_expectation/list_expectation.html')
 
 
-@bp_list_expectation.route('/record_list', methods=['get','POST'])
+@bp_list_expectation.route('/record_list', methods=['POST'])
 @login_required 
 def list_record():
     records = []
@@ -43,10 +43,13 @@ def list_add():
 @login_required
 def list_del(): 
     try:
-        db.session.query(list_expectation).filter(list_expectation.id == request.form['rec_id']).delete()
+        list = List_expectation.query.get(request.form['rec_id'])
+        print(list.id)
+        db.session.delete(list)
         db.session.commit()
         return jsonify({'success': 'true'})
-    except Exception:
+    except Exception as e:
+        print(e)
         return jsonify({'success': 'false'})
 
 
@@ -55,9 +58,10 @@ def list_del():
 def is_pregnancy():
     status = True
     list = List_expectation.query.get(request.form['rec_id'])
+    print(request.form['check'])
     if request.form['check'] == True:
         list.is_pregnancy = True 
-    else:
+    elif request.form['check'] == False:
          list.is_pregnancy = False
          status = False
     db.session.commit()

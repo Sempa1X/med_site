@@ -108,7 +108,7 @@ class Record(db.Model):
 class List_expectation(db.Model):
     __tablename__ = 'list_expectations'
     id = db.Column(db.Integer, primary_key=True)
-    is_pregnancy = db.Column(db.Boolean, default=False) # False ребенок
+    is_pregnancy = db.Column(db.String(255)) # False ребенок
     full_name = db.Column(db.String(255))
     phone = db.Column(db.String(50))
     date_request = db.Column(db.String(255), index=True, default=current_date + " " + current_time)
