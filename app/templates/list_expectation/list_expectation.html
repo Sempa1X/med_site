@@ -23,7 +23,7 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data)
+                console.log(data);
                 createForm(data['records']);
             }
         });
@@ -44,7 +44,8 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data)
+                toastr["success"]("Успешно!");
+                record_list();
             }
         });
     }
@@ -59,31 +60,14 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                console.log(data)
+                toastr["success"]("Успешно!");
+                record_list();
             }
         });
-        console.log(obj.checked)
     }
     
     function createForm(data) {
-        delBlock()
-        // <div class="accordion accordion-flush overflow-auto" id="accordionFlushExample" style="max-height: 30vh; padding-right: 5px;">
-        //     <div class="accordion-item">
-        //     <h2 class="accordion-header" id="flush-headingOne">
-        //         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        //         Accordion Item #1
-        //         </button>
-        //     </h2>
-        //     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-        //         <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-        //     </div>
-        //     </div>
-        // </div>
-        // <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        // <label class="form-check-label" for="flexCheckDefault">
-        //     Default checkbox
-        // </label>
-        // <div class="d-flex justify-content-between">...</div>
+        delBlock();
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'accordion', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
@@ -111,54 +95,7 @@
             $("<span/>").attr({id: `date_request_accordion_body_${count}`}).appendTo(`#col_1_${count}`);
             document.getElementById(`phone_accordion_body_${count}`).textContent = `Номер телефона: ${data[count].phone}`;
             document.getElementById(`date_request_accordion_body_${count}`).textContent = `Дата записи: ${data[count].date}`;
-            $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-dark', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}`);
-            document.getElementById(`del_button_${count}`).textContent = `Удалить`;
-            
-            // $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
-            // document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
-            // $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
-            // if (data[count].records.length > 0) {
-            //     document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
-            //     $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
-            //     for (let item_count = 0; item_count < data[count].records.length; item_count++) {
-            //         if (data[count].records[item_count].is_active == 1) {
-            //             $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
-            //             if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
-            //                 $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //             }
-            //             else {
-            //                 $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //             }
-            //             document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-            //             $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //             $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //             for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
-            //                 if (all_data['patients'][patient_count].patient_full_name) {
-            //                     $("<option/>").attr({value: all_data['patients'][patient_count].patient_full_name}).appendTo(`#scroll_item_datalist_${count}_${item_count}`);
-            //                 }
-            //             }
-            //             if (data[count].records[item_count].patient_full_name) {
-            //                 $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
-            //                 $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
-            //                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'replace(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //             }
-            //             else {
-            //                 $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-            //             }
-            //         }
-            //     }
-            // }
-            // else {
-            //     document.getElementById(`head_office_${count}`).textContent = `Кабинет не выбран`;
-            //     $("<div/>").attr({id: `records_${count}`, class: 'text-center'}).appendTo(`#col_${count}`);
-            //     $("<h5/>").attr({id: `not_record_h5_${count}`, class: 'mb-3'}).appendTo(`#records_${count}`);
-            //     document.getElementById(`not_record_h5_${count}`).textContent = 'Расписание отсутствует';
-            //     $("<button/>").attr({'doctor_id': data[count].doc_id, 'onclick': 'get_select_doc(this);', id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
-            //     $("<i/>").attr({class: 'bx bx-calendar-edit'}).appendTo(`#not_record_button_${count}`);
-            //     document.getElementById(`not_record_button_${count}`).textContent = 'Добавить';
-            // }
+            $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-dark bx bx-x', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}`);
         }
     }
 </script>
