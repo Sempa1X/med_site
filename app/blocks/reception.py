@@ -103,5 +103,3 @@ def replace():
     except Exception as e:
         print(e)
         return jsonify({'success': 'false'})
-
-
