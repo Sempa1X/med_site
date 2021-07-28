@@ -69,6 +69,8 @@
     function createForm(data) {
         delBlock();
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
+        $("<h4/>").attr({id: 'h4_data', class: 'text-center mb-5'}).appendTo('#data_place');
+        document.getElementById(`h4_data`).textContent = "Срочный лист"
         $("<div/>").attr({id: 'accordion', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
             $("<div/>").attr({id: `accordion-item_${count}`, class: 'accordion-item'}).appendTo(`#accordion`);
