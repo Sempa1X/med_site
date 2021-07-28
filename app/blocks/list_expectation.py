@@ -1,4 +1,6 @@
+import re
 from sqlalchemy.sql.expression import false
+from werkzeug.datastructures import RequestCacheControl
 from app.blocks.reception import record
 import datetime, json
 
@@ -27,9 +29,14 @@ def list_expectation():
 @bp_list_expectation.route('/record_list', methods=['POST'])
 @login_required 
 def list_record():
+    buffer = []
     records = []
     for i in List_expectation.query.all():
-        records.append({'id': i.id, 'is_pregnancy': i.is_pregnancy, 'full_name': i.full_name, 'phone': i.phone, 'date': i.date_request})
+        buffer.append([i.id, i.is_pregnancy, i.full_name, i.phone, i.date_request])
+    buffer = list(sorted(buffer, key=lambda i: int(i[0]), reverse=True))
+    # list(sorted(records, key=lambda i: int(i[1]), reverse=True))
+    for i in buffer:
+        records.append({'id': i[0], 'is_pregnancy': i[1], 'full_name': i[2], 'phone': i[3], 'date': i[4]})
     return jsonify({'success': 'true', 'records': records}) if len(records) > 0 else  jsonify({'success': 'false'})
 
 
