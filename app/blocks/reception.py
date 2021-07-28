@@ -39,18 +39,20 @@ def add_schedule():
 @bp_reception.route('/get_doctors', methods=["POST"])
 def get_doctors():
     current_date = str(now.strftime('%Y-%m-%d'))
-    if request.form['date']:
+    if 'date' in  request.form:
         current_date = request.form['date']
         current_date_obj = now.strptime(current_date, '%Y-%m-%d')
         data_list = []
         doctors = User.query.filter(and_(User.role == 'doctor'))
         for i in doctors:
             rec_data = []
+            patient_data = []
             for o in i.records: 
                 date_obj = now.strptime(o.date, '%Y-%m-%d')
                 if date_obj == current_date_obj and i.id == o.doctor_id:
-                    rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time, 'patient_full_name':o.patient_full_name, 'patient_id': o.patient_id})  
-            data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})
+                    patient_data.append({ 'patient_full_name':o.patient_full_name, 'patient_id': o.patient_id})
+                    rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time})  
+            data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data, 'patients': patient_data})
         return jsonify({'success': 'true', 'data': data_list}) if len(data_list) > 0 else jsonify({'success': 'false'})
     return jsonify({'success': 'false'})
 
