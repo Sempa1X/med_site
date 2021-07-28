@@ -1,3 +1,4 @@
+from sqlalchemy.sql.expression import false
 from app.blocks.reception import record
 import datetime, json
 
@@ -42,10 +43,19 @@ def list_add():
 @login_required
 def list_del(): 
     try:
-        List_expectation.query.get(request.form['rec_id']).delete()
+        db.session.query(list_expectation).get(request.form['rec_id']).delete()
         db.session.commit()
         return jsonify({'success': 'true'})
-    except Exception as e:
-        print(e)
+    except Exception:
         return jsonify({'success': 'false'})
 
+
+@bp_list_expectation.route('/is_pregnancy', methods=['POST'])
+@login_required
+def is_pregnancy():
+    list = List_expectation.query.get(request.form['rec_id'])
+    list.is_pregnancy = True if request.form['check'] == True else list.is_pregnancy = False
+    db.session.commit()
+        
+    
+    return jsonify({'success': 'false'})
