@@ -52,4 +52,5 @@ def list_del():
 @bp_list_expectation.route('/is_pregnancy', methods=['POST'])
 @login_required
 def is_pregnancy():
+    if request.form['check'] == True
     return jsonify({'success': 'false'})
