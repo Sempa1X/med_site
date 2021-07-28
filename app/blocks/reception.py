@@ -61,11 +61,11 @@ def get_doctors():
 
 @bp_reception.route('/is_active', methods=["POST"])
 def is_active():
-    if ['rec_id', 'type'] in request.form:
-        rec = Record.query.get(request.form['rec_id'])
-        rec.isActive = '0'
-        patient = Patient.query.get(rec.patient_id)
-        patient.trust_factor = request.form['type']
-        db.session.add(patient)
-        db.session.add(rec)
-        db.session.commit()
+    print(request.form['rec_id']+ "                            " +request.form['type'])
+    rec = Record.query.get(request.form['rec_id'])
+    rec.isActive = '0'
+    patient = Patient.query.get(rec.patient_id)
+    patient.trust_factor = request.form['type']
+    db.session.add(patient)
+    db.session.add(rec)
+    db.session.commit()
