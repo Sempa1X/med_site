@@ -66,9 +66,27 @@ def is_active():
         rec.isActive = '0'
         patient = Patient.query.get(rec.patient_id)
         patient.trust_factor = int(request.form['type'])
-        db.session.add(patient)
-        db.session.add(rec)
+        #db.session.add(patient)
+        #db.session.add(rec)
         db.session.commit()
         return jsonify({'success': 'true'})
     except Exception as e:
-        return jsonify({'success': 'false', 'text': e})
+        return jsonify({'success': 'false'})
+
+
+@bp_reception.route('/record', methods=["POST"])
+def record():
+    try:
+        record = Record.query.get(request.form['rec_id'])
+        record.patient_full_name = request.form['patient_full_name']
+        record.patient_id = request.form['patient_id']
+        db.session.commit()
+        return jsonify({'success': 'true'})
+    except Exception as e:
+        return jsonify({'success': 'false'})
+
+
+
+
+
+

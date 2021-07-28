@@ -38,6 +38,11 @@ application.register_blueprint(bp_add)
 from app.blocks.list_expectation import bp_list_expectation
 application.register_blueprint(bp_list_expectation)
 
+from app.blocks.errors import bp_error
+application.register_blueprint(bp_error)
+
+
+
 
 from app.src.admin import MyIndexView, MyAdminView
 from app.src.database import Record, User, Patient
