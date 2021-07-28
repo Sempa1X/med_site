@@ -3,7 +3,7 @@ import json
 
 from flask import Blueprint, render_template, redirect,\
     url_for, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from sqlalchemy import or_, and_
 
 from app import db
@@ -24,6 +24,7 @@ def reception():
 
 # Work
 @bp_reception.route('/add_schedule', methods=["POST"])
+@login_required
 def add_schedule():
     for i in request.form:
         data = json.loads(i)['data']
@@ -37,6 +38,7 @@ def add_schedule():
         
     
 @bp_reception.route('/get_doctors', methods=["POST"])
+@login_required
 def get_doctors():
     current_date = str(now.strftime('%Y-%m-%d'))
     if 'date' in  request.form:
@@ -60,6 +62,7 @@ def get_doctors():
 
 
 @bp_reception.route('/is_active', methods=["POST"])
+@login_required
 def is_active():
     try:
         rec = Record.query.get(request.form['rec_id'])
@@ -73,6 +76,7 @@ def is_active():
 
 
 @bp_reception.route('/record', methods=["POST"])
+@login_required
 def record():
     try:
         if 'patient_id' in request.data:
@@ -85,5 +89,10 @@ def record():
     except Exception as e:
         return jsonify({'success': 'false'})
 
+
+@bp_reception.route('/get_role', methods=["POST"])
+@login_required
+def get_role():
+        return jsonify({'success': 'true', 'role': current_user.role}) 
 
 

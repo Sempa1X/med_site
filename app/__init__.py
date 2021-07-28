@@ -29,9 +29,6 @@ application.register_blueprint(bp_reception)
 from app.blocks.search import bp_search
 application.register_blueprint(bp_search)
 
-from app.blocks.schedule import bp_schedule
-application.register_blueprint(bp_schedule)
-
 from app.blocks.add_patient import bp_add
 application.register_blueprint(bp_add)
 
@@ -47,7 +44,7 @@ application.register_blueprint(bp_error)
 from app.src.admin import MyIndexView, MyAdminView
 from app.src.database import Record, User, Patient
 
-admin = Admin(application, name='Medic', url='/reception', template_mode='bootstrap4', index_view=MyIndexView(name='Добавление персонала'))
+admin = Admin(application, name='Medic', url='/admin', template_mode='bootstrap4', index_view=MyIndexView(name='Добавление персонала'))
 admin.add_view(MyAdminView(Patient, db.session, name="Пациенты"))
 admin.add_view(MyAdminView(Record, db.session, name="Записи"))
 admin.add_view(MyAdminView(User, db.session, name="Персонал"))
