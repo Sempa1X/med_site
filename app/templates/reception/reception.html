@@ -64,6 +64,7 @@
 
 <script>
     var doc_select = '';
+    var user_select = '';
     var doctors = {};
 
     after.oninput = function () {
@@ -199,7 +200,7 @@
                         $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                    $("<input/>").attr({'user_id': data[count].records[item_count].patient_id,  id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    $("<input/>").attr({'user_id': data[count].records[item_count].patient_id, 'doc_id': data[count].doc_id,  id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                     if (data[count].records[item_count].patient_full_name) {
                         $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                         $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
@@ -207,10 +208,8 @@
                         $("<button/>").attr({id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     else {
-                        $("<button/>").attr({id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<button/>").attr({'onclick': 'addRecord(this);', id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
-                    // if (data[count].records[item_count].patient_full_name) {
-                    // } 
                 }
             }
             else {
@@ -218,15 +217,35 @@
                 $("<div/>").attr({id: `records_${count}`, class: 'text-center'}).appendTo(`#col_${count}`);
                 $("<h5/>").attr({id: `not_record_h5_${count}`, class: 'mb-3'}).appendTo(`#records_${count}`);
                 document.getElementById(`not_record_h5_${count}`).textContent = 'Расписание отсутствует';
-                $("<button/>").attr({'doctor_id': data[count].doc_id, 'onclick': 'press(this);', id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
+                $("<button/>").attr({'doctor_id': data[count].doc_id, 'onclick': 'get_select_doc(this);', id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
                 $("<i/>").attr({class: 'bx bx-calendar-edit'}).appendTo(`#not_record_button_${count}`);
                 document.getElementById(`not_record_button_${count}`).textContent = 'Добавить';
             }
         }
     }
-    function press(obj) {
+    function get_select_doc(obj) {
         doc_select = document.getElementById(obj.id).getAttribute('doctor_id');
     }
+
+    function addRecord(obj) {
+        doc_select = document.getElementById(obj.id).getAttribute('doc_id');
+        user_select = document.getElementById(obj.id).getAttribute('user_id');
+    
+        url = '/reception/add/info/record';
+
+        var posting = $.post(url, { date: current_date} );
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                console.log(data['data']);
+                toastr["success"]("Успешно!");
+                // createForm(data['data']);
+            }
+        });
+    };
 </script>
 
 {% endblock %}
