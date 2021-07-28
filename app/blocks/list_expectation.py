@@ -42,9 +42,10 @@ def list_add():
 @login_required
 def list_del(): 
     try:
-        list = List_expectation.query.get(request.form['rec_id']).delete()
+        List_expectation.query.get(request.form['rec_id']).delete()
         db.session.commit()
         return jsonify({'success': 'true'})
-    except Exception:
+    except Exception as e:
+        print(e)
         return jsonify({'success': 'false'})
 

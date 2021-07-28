@@ -37,7 +37,7 @@
     function is_pregnancy(obj) {
         url = '/list_expectation/is_pregnancy';
 
-        var posting = $.post(url, {'check': cb.checked});
+        var posting = $.post(url, {'check': obj.checked, 'rec_id': obj.getAttribute('rec_id')});
         
         posting.done(function( data ) {
             if (data.success == "false") {
