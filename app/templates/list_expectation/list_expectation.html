@@ -4,6 +4,27 @@
 {% block content %}
 
 <div class="container" id='cont'>
+    <form action="/list_expectation/add_list" method="post">
+        <div class="row form-row">
+            <div class="col-xs-3 form-group">
+                <label for="inputAddress">ФИО</label>
+                <input type="text" name='full_name' class="form-control" id="inputAddress" placeholder="Фамилия Имя Отчество">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress2">Номер телефона</label>
+                <input type="tel" name="phone" class="form-control" id="inputAddress2" placeholder="+7(912)-123-12-12">
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                <input class="form-check-input" name='is_pregnancy' type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Беременная?
+                </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
+    </form>
 </div>
 
 
