@@ -43,7 +43,7 @@ def list_add():
 @login_required
 def list_del(): 
     try:
-        db.session.query(list_expectation).get(request.form['rec_id']).delete()
+        db.session.query(list_expectation).filter(list_expectation.id == request.form['rec_id']).delete()
         db.session.commit()
         return jsonify({'success': 'true'})
     except Exception:
@@ -53,9 +53,12 @@ def list_del():
 @bp_list_expectation.route('/is_pregnancy', methods=['POST'])
 @login_required
 def is_pregnancy():
+    status = True
     list = List_expectation.query.get(request.form['rec_id'])
-    list.is_pregnancy = True if request.form['check'] == True else list.is_pregnancy = False
+    if request.form['check'] == True:
+        list.is_pregnancy = True 
+    else:
+         list.is_pregnancy = False
+         status = False
     db.session.commit()
-        
-    
-    return jsonify({'success': 'false'})
+    return jsonify({'success': status})
