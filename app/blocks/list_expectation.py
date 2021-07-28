@@ -28,7 +28,7 @@ def list_record():
     all_list_dict = []
     all_list = List_expectation.query.all()
     for i in all_list:
-        all_list_dict.append({'id': i.id})
+        all_list_dict.append({'id': i.id, 'is_pregnancy': i.is_pregnancy, 'full_name': i.full_name, 'phone': i.phone, 'date_request': i.date_request})
     return jsonify({'success': 'true', 'all_list': all_list_dict}) if len(all_list_dict) > 0 else  jsonify({'success': 'false'})
 
 
