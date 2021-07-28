@@ -86,11 +86,19 @@ a {
 
 .nav_logo,
 .nav_link {
+    text-decoration: none;
     display: grid;
     grid-template-columns: max-content max-content;
     align-items: center;
     column-gap: 1rem;
-    padding: .5rem 0 .5rem 1.5rem
+    padding: .5rem 0 .5rem 1.5rem;
+    transition: .3s;
+}
+
+.nav_logo:hover,
+.nav_link:hover {
+    font-size: 1.05rem;
+    transition: .5s;
 }
 
 .nav_logo {
@@ -173,10 +181,10 @@ a {
     }
 
     .show-nav {
-        width: calc(var(--nav-width) + 156px)
+        width: calc(var(--nav-width) + 220px)
     }
 
     .body-pd {
-        padding-left: calc(var(--nav-width) + 188px)
+        padding-left: calc(var(--nav-width) + 248px)
     }
 }
