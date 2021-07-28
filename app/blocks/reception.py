@@ -25,16 +25,14 @@ def reception():
 # Work
 @bp_reception.route('/add_schedule', methods=["POST"])
 def add_schedule():
-    if request.form['data']:
-        data = request.form['data']
-        is_added = False 
-        for i in data:
-            record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3])
-            db.session.add(record)
-            db.session.commit()
-            is_added = True
-    else:
-          jsonify({'success': 'false'}) 
+    for i in request.form:
+        data = json.loads(i)['data']
+    is_added = False 
+    for i in data:
+        record = Record(doctor_id=i[0], date=i[1], time=i[2], office=i[3], doctor_full_name=i[4])
+        db.session.add(record)
+        db.session.commit()
+        is_added = True
     return render_template('reception/reception.html') if is_added else jsonify({'success': 'false'}) 
         
     
