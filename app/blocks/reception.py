@@ -79,13 +79,11 @@ def is_active():
 @login_required
 def record():
     try:
-        if 'patient_id' in request.data:
-            rec = Record.query.get(request.form['rec_id'])
-            rec.patient_full_name = request.form['patient_full_name']
-            rec.patient_id = request.form['patient_id']
-            db.session.commit()
-            return jsonify({'success': 'true'})
-        return jsonify({'success': 'false'})
+        rec = Record.query.get(request.form['rec_id'])
+        rec.patient_full_name = request.form['patient_full_name']
+        rec.patient_id = request.form['patient_id']
+        db.session.commit()
+        return jsonify({'success': 'true'})
     except Exception as e:
         return jsonify({'success': 'false'})
 
