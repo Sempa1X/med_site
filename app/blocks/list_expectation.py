@@ -28,7 +28,7 @@ def list_expectation():
 def list_record():
     records = []
     for i in List_expectation.query.all():
-        records.append({'id': i.id, 'is_pregnancy': i.is_pregnancy}, 'full_name': i.full_name, 'phone': i.phone, 'date': i.date_request})
+        records.append({'id': i.id, 'is_pregnancy': i.is_pregnancy, 'full_name': i.full_name, 'phone': i.phone, 'date': i.date_request})
     return jsonify({'success': 'true', 'records': records}) if len(records) > 0 else  jsonify({'success': 'false'})
 
 
