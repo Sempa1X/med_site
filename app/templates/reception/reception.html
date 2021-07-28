@@ -22,10 +22,10 @@
                 </div>
                 <div class="modal-body">
                     <form id="form_modal" action="/reception/add_schedule" onsubmit="add_schedule(); return false;">
-                        <select name="doctor" id='sel_doc' class="form-select" aria-label="Пример выбора по умолчанию" required>
+                        <!-- <select name="doctor" id='sel_doc' class="form-select" aria-label="Пример выбора по умолчанию" required>
                             <option value="none" selected disabled required>Выбор доктора...</option>
                         </select>
-                        <br>
+                        <br> -->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Номер кабинета</span>
                             <input name="office" id='office' type="number" aria-label="First name" class="form-control" onkeypress="return event.charCode >= 48" min="1" max="24" required>
@@ -67,6 +67,7 @@
     
 
 <script>
+    var doc_select = ''
     var doctors = {}
     after.oninput = function () {
         if (this.value.length > 2) {
@@ -98,7 +99,6 @@
     function add_schedule() {
         
         var $form = $( '#form_modal' ),
-            doc_id = $form.find( "#sel_doc" ).val(),
             office = $form.find( "#office" ).val(),
             start = $form.find( "#after" ).val(),
             end = $form.find( "#before" ).val(),
@@ -108,7 +108,7 @@
         var answer = [];
 
         for (let count_times = 0; count_times < result.length; count_times++) {
-            answer.push([doc_id, current_date, result[count_times], office])
+            answer.push([doc_select, current_date, result[count_times], office])
         }
 
         console.log(answer);
@@ -124,13 +124,7 @@
 
     $(document).ready(function() { 
         get_doctors(moment().format('YYYY-MM-DD'));
-        // console.log(moment());
-        // console.log(moment("01:20", 'HH:mm'));
-        // if (moment() > moment("01:20", 'HH:mm')) {
-        //     console.log(moment()+ " > " + moment("01:20", 'HH:mm'));
-        // } else {
-        //     console.log(moment() + " < " + moment("01:20", 'HH:mm'));
-        // }
+
     });
 
     function get_doctors(date) {
@@ -173,7 +167,7 @@
         
         posting.done(function( data ) {
             if (data.success == "false") {
-                toastr["warning"]("Не найдены записи на сегодня.", "Предупреждение!");
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
                 console.log(data['data']);
@@ -194,8 +188,8 @@
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place');
         for (let count = 0; count < data.length; count++) {
-            $("<option/>").attr({id: `doc_${data[count].doc_id}`,value: data[count].doc_id}).appendTo(`#sel_doc`);
-            document.getElementById(`doc_${data[count].doc_id}`).textContent = data[count].doc_full_name;
+            // $("<option/>").attr({id: `doc_${data[count].doc_id}`,value: data[count].doc_id}).appendTo(`#sel_doc`);
+            // document.getElementById(`doc_${data[count].doc_id}`).textContent = data[count].doc_full_name;
             $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
@@ -213,7 +207,7 @@
                         $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                     }
                     document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                    $("<input/>").attr({id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                    $("<input/>").attr({'user_id': data[count].records[item_count].patient_id,  id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                     if (data[count].records[item_count].patient_full_name) {
                         $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                         $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
@@ -225,7 +219,6 @@
                     }
                     // if (data[count].records[item_count].patient_full_name) {
                     // } 
-                    // <button class="btn btn-outline-secondary" type="button">Button</button>
                 }
             }
             else {
@@ -233,11 +226,14 @@
                 $("<div/>").attr({id: `records_${count}`, class: 'text-center'}).appendTo(`#col_${count}`);
                 $("<h5/>").attr({id: `not_record_h5_${count}`, class: 'mb-3'}).appendTo(`#records_${count}`);
                 document.getElementById(`not_record_h5_${count}`).textContent = 'Расписание отсутствует';
-                $("<button/>").attr({id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
+                $("<button/>").attr({'doctor_id': data[count].doc_id, 'onclick': 'press(this);', id: `not_record_button_${count}`, class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo(`#records_${count}`);
                 $("<i/>").attr({class: 'bx bx-calendar-edit'}).appendTo(`#not_record_button_${count}`);
                 document.getElementById(`not_record_button_${count}`).textContent = 'Добавить';
             }
         }
+    }
+    function press(obj) {
+        doc_select = document.getElementById(obj.id).getAttribute('doctor_id');
     }
 </script>
 
