@@ -34,7 +34,6 @@ def list_record():
     for i in List_expectation.query.all():
         buffer.append([i.id, i.is_pregnancy, i.full_name, i.phone, i.date_request])
     buffer = list(sorted(buffer, key=lambda i: int(i[0]), reverse=True))
-    # list(sorted(records, key=lambda i: int(i[1]), reverse=True))
     for i in buffer:
         records.append({'id': i[0], 'is_pregnancy': i[1], 'full_name': i[2], 'phone': i[3], 'date': i[4]})
     return jsonify({'success': 'true', 'records': records}) if len(records) > 0 else  jsonify({'success': 'false'})
