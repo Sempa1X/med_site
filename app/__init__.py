@@ -35,6 +35,9 @@ application.register_blueprint(bp_schedule)
 from app.blocks.add_patient import bp_add
 application.register_blueprint(bp_add)
 
+from app.blocks.list_expectation import bp_list_expectation
+application.register_blueprint(bp_list_expectation)
+
 
 from app.src.admin import MyIndexView, MyAdminView
 from app.src.database import Record, User, Patient
