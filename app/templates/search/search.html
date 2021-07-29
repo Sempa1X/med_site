@@ -93,6 +93,8 @@
         document.getElementById('card_text_phone').textContent = `Номер телефона: ${data.phone}`;
         $("<li/>").attr({id: 'card_text_phone2', class: 'list-group-item'}).appendTo('#card_body_col_1');
         document.getElementById('card_text_phone2').textContent = `Дополнительный номер телефона: ${data.phone2}`;
+        $("<li/>").attr({id: 'card_text_address', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        document.getElementById('card_text_address').textContent = `Адрес: ${data.address}`;
         
         $("<h3/>").attr({id: 'data_info', class: 'text-center lead'}).appendTo('#card_body_col_2');
         if (data.role == 'default') {
