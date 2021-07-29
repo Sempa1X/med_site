@@ -12,6 +12,7 @@ from app.src import age
 
 now = datetime.datetime.now()
 current_date = str(now.strftime('%Y-%m-%d'))
+obj_current_date = now.strptime(current_date, '%Y-%m-%d')
 current_time = str(now.strftime('%H:%M'))
 bp_search = Blueprint('search', __name__, url_prefix='/search')
 
@@ -33,7 +34,8 @@ def search_process():
         patients_search = Patient.query.filter(or_(Patient.full_name.contains(search), Patient.phone.contains(search), Patient.phone2.contains(search)))
         for i in patients_search:
             for o in i.records:
-                if o.date > current_date:
+                obj_date = now.strptime(o.date, '%Y-%m-%d')
+                if obj_date >= obj_current_date:
                     future_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
                 else:
                     lost_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
