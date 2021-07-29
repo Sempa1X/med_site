@@ -200,7 +200,7 @@
                             $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
                         document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].patient_full_name}).appendTo(`#scroll_item_${count}_${item_count}`);
                         $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                         for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
                             if (all_data['patients'][patient_count].patient_full_name) {
@@ -210,9 +210,11 @@
                         if (data[count].records[item_count].patient_full_name) {
                             $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
-                            $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                            $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                            $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'replace(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            if (all_data['role'] == 'doctor') {
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'replace(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            }
                         }
                         else {
                             $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);

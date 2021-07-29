@@ -55,7 +55,7 @@ def get_doctors():
             if date_obj == current_date_obj and i.id == o.doctor_id:
                 rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
         data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})
-    return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data}) if len(data_list) > 0 else jsonify({'success': 'false'})
+    return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data, 'role': current_user.role}) if len(data_list) > 0 else jsonify({'success': 'false'})
 
 
 @bp_reception.route('/is_active', methods=["POST"])
@@ -83,12 +83,6 @@ def record():
         return jsonify({'success': 'true'})
     except Exception as e:
         return jsonify({'success': 'false'})
-
-
-@bp_reception.route('/get_role', methods=["POST"])
-@login_required
-def get_role():
-        return jsonify({'success': 'true', 'role': current_user.role}) 
 
 
 @bp_reception.route('/replace', methods=["POST"])
