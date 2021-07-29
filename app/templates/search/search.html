@@ -141,7 +141,7 @@
         }
         $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-primary'}).appendTo('#card_main');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
-        if (data.lost_records.length > 0 && data.future_records.length > 0) {
+        if (data.lost_records.length > 0 || data.future_records.length > 0) {
             if (data.lost_records.length > 0) {
                 $("<div/>").attr({id: 'col_1', class: 'col'}).appendTo('#row');
                 $("<label/>").attr({id: 'old_label', class: 'form-label', for: 'old_record'}).appendTo('#col_1');
