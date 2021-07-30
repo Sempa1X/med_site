@@ -9,7 +9,7 @@
         <br>
         <div class="row">
             <div class="col">
-                <label for="username" class="form-label">Имя пользователя</label>
+                <label for="username" class="form-label">Логин</label>
                 <input type="text" name='username' id='username' class="form-control" required>
             </div>
             <div class="col">
@@ -22,12 +22,12 @@
         <br>
         <div class="row">
             <div class="col">
-                <label for="f_name" class="form-label">Имя</label>
-                <input type="text" name='f_name' id='f_name' class="form-control" required>
-            </div>
-            <div class="col">
                 <label for="l_name" class="form-label">Фамилия</label>
                 <input type="text" name='l_name' id='l_name' class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="f_name" class="form-label">Имя</label>
+                <input type="text" name='f_name' id='f_name' class="form-control" required>
             </div>
             <div class="col">
                 <label for="s_name" class="form-label">Отчество</label>
@@ -65,7 +65,7 @@
                 <label for="phone2" class="form-label">Запасной номер телефона</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">+7</span>
-                    <input id="phone2" name="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                    <input id="phone2" name="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
                 </div>
             </div>
         </div>
@@ -85,10 +85,10 @@
             </div>
             <div class="col">
                 <label for="certificate" class="form-label">Сертификат</label>
-                <input type="text" id='certificate' name='certificate' class="form-control" required>
+                <input type="text" id='certificate' name='certificate' class="form-control">
             </div>
             <div class="col">
-                <label for="role" class="form-label">Сертификат</label>
+                <label for="role" class="form-label">Роль пользователя</label>
                 <select class="form-select" id="role" name="role" required>
                     <option value="none" selected disabled>Выберите роль пользователя</option>
                     <option value="superadmin">Супер администратор</option>
