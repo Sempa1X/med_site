@@ -36,11 +36,6 @@ class MyIndexView(AdminIndexView):
 
                     db.session.add(u)
                     db.session.commit()
-                    flash(f"Работник {request.form['s_name']} {request.form['f_name']} {request.form['l_name']} добавлен. Роль: {request.form['role']}")
-                else:
-                    flash(f"Работник {request.form['username']} найден, и не может быть добавлен!")
-            else:
-                flash('Ошибка')
             return self.render('admin/index.html')
         return self.render('admin/index.html')
 
