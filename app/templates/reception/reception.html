@@ -28,8 +28,8 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon3">Время</span>
-                            <input id="after" type="number" aria-label="First name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control after" required>
-                            <input id="before" type="number" aria-label="Last name" onkeypress="return event.charCode >= 48" min="1" max="24" class="form-control before" required>
+                            <input id="after" type="text" class="form-control after" required>
+                            <input id="before" type="text" class="form-control before" required>
                         </div>
                         <select onchange="test(this);" name="step" id='step' class="form-select" aria-label="Пример выбора по умолчанию" required>
                             <option value="0" selected disabled>Выберите промежуток</option>
@@ -65,19 +65,11 @@
       });
     });
 
-    after.oninput = function () {
-        if (this.value.length > 2) {
-            this.value = this.value.slice(0,2); 
-        }
-    }
+
     var result = [];
     var current_date = moment().format('YYYY-MM-DD');
 
-    before.oninput = function () {
-        if (this.value.length > 2) {
-            this.value = this.value.slice(0,2); 
-        }
-    }
+
 
     function test(obj){
         let start = document.getElementById("after").value;
