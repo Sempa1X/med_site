@@ -87,11 +87,17 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
+                clearData();
                 record_list();
             }
         });
     }
+    function clearData() {
+        $('#fio').val('');
+        $('#phone').val('');
+        $('#gridCheck').prop('checked', false);
 
+    }
     function del_item(obj) {
         url = '/list_expectation/del_list';
 
