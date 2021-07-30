@@ -28,10 +28,6 @@ def added():
         refer=data_replace[5][1], address=data_replace[6][1], phone=data_replace[7][1], phone2=data_replace[8][1], lr_surname=data_replace[9][1],\
         lr_f_name=data_replace[10][1], lr_l_name=data_replace[11][1], lr_status=data_replace[12][1], lr_pass_num=data_replace[13][1], lr_pass_serial=data_replace[14][1],\
         lr_pass_date=data_replace[15][1], lr_pass_issued=data_replace[16][1], num_fetus=data_replace[17][1], estimated_birthday=data_replace[18][1], comment=data_replace[19][1])
-   
     db.session.add(patient)
     db.session.commit()
     return jsonify({'success': 'True'})
-
-
-
