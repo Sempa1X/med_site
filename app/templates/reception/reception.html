@@ -67,7 +67,7 @@
 
 
     var result = [];
-    var current_date = moment().format('YYYY-MM-DD');
+    var current_date = moment().format('DD.MM.YYYY');
 
 
 
@@ -108,7 +108,7 @@
     };
 
     $(document).ready(function() { 
-        get_doctors(moment().format('YYYY-MM-DD'));
+        get_doctors(moment().format('DD.MM.YYYY'));
 
     });
 
@@ -134,7 +134,7 @@
     };
 
     $('#sandbox-container').datepicker({
-        format: "yyyy-mm-dd",
+        format: "dd.mm.yyyy",
         startView: 2,
         maxViewMode: 2,
         todayBtn: "linked",
@@ -146,7 +146,7 @@
 
     function showTestDate() {
         current_date = $('#sandbox-container').datepicker('getFormattedDate');
-    
+        console.log(current_date)
         url = '/reception/get_doctors';
 
         var posting = $.post(url, { date: current_date} );

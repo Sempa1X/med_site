@@ -42,7 +42,7 @@ def add_schedule():
 def get_doctors():
     patient_data = []
     current_date = request.form['date']
-    current_date_obj = now.strptime(current_date, '%Y-%m-%d')
+    current_date_obj = now.strptime(current_date, '%d.%m.%Y')
     data_list = []
     doctors = User.query.filter(and_(User.role == 'doctor'))
     all_patients = Patient.query.all()
@@ -51,7 +51,7 @@ def get_doctors():
     for i in doctors:
         rec_data = []
         for o in i.records: 
-            date_obj = now.strptime(o.date, '%Y-%m-%d')
+            date_obj = now.strptime(o.date, '%d.%m.%Y')
             if date_obj == current_date_obj and i.id == o.doctor_id:
                 rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
         data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})

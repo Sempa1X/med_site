@@ -264,16 +264,16 @@
     function add_user() {
         var $form = $( '#form' ),
             url = $form.attr( "action" );
-        if ($('#role').val() == 'default') {
+            if ($('#role').val() == 'default') {
             var full_data = {
                 'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'how_think': $form.find( "#how_think" ).val(),
                 'address': $form.find( "#address" ).val(),
-                'phone': '+7 ' + $form.find( "#phone_m" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
                 'lr_surname': false,
                 'lr_f_name': false,
@@ -281,7 +281,7 @@
                 'lr_s': false,
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
-                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': false,
                 'estimated_date': false,
@@ -294,10 +294,10 @@
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'how_think': $form.find( "#how_think" ).val(),
                 'address': $form.find( "#address" ).val(),
-                'phone': '+7 ' + $form.find( "#phone_m" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
                 'lr_surname': false,
                 'lr_f_name': false,
@@ -305,10 +305,10 @@
                 'lr_s': false,
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
-                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': $form.find( "#num_fetus" ).val(),
-                'estimated_date': $form.find( "#estimated_date" ).val(),
+                'estimated_date': moment($form.find( "#estimated_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'comment': $form.find( "#comment" ).val()
             }
         }
@@ -318,10 +318,10 @@
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'how_think': $form.find( "#how_think" ).val(),
                 'address': $form.find( "#address" ).val(),
-                'phone': '+7 ' + $form.find( "#phone_m" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
                 'lr_surname': $form.find( "#lr_surname" ).val(),
                 'lr_f_name': $form.find( "#lr_f_name" ).val(),
@@ -329,13 +329,14 @@
                 'lr_s': $form.find( "#lr_s" ).val(),
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
-                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': false,
                 'estimated_date': false,
                 'comment': $form.find( "#comment" ).val()
             }
         }
+        console.log(full_data['birthday'])
         var posting = $.post( url, {data: full_data} );
 
         posting.done(function( data ) {
@@ -375,20 +376,20 @@
             $("#data_place").empty();
         }
     }
-    function is_pregnancy(obj) {
-        url = '/list_expectation/is_pregnancy';
+    // function is_pregnancy(obj) {
+    //     url = '/list_expectation/is_pregnancy';
 
-        var posting = $.post(url, {'check': obj.checked, 'rec_id': obj.getAttribute('rec_id')});
+    //     var posting = $.post(url, {'check': obj.checked, 'rec_id': obj.getAttribute('rec_id')});
         
-        posting.done(function( data ) {
-            if (data.success == "false") {
-                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
-            }
-            else {
-                toastr["success"]("Успешно!");
-            }
-        });
-    }
+    //     posting.done(function( data ) {
+    //         if (data.success == "false") {
+    //             toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+    //         }
+    //         else {
+    //             toastr["success"]("Успешно!");
+    //         }
+    //     });
+    // }
 
     function send_form(obj) {
         url = '/list_expectation/add_list';
@@ -446,17 +447,17 @@
             $("<div/>").attr({id: `accordion_body_${count}`, class: 'accordion-body d-flex justify-content-between align-items-center'}).appendTo(`#flush_collapse_${count}`);
             $("<div/>").attr({id: `col_1_${count}`, class: 'col'}).appendTo(`#accordion_body_${count}`);
             $("<div/>").attr({id: `col_2_${count}`, class: 'col d-flex justify-content-end'}).appendTo(`#accordion_body_${count}`);
-            $("<div/>").attr({id: `form_check_${count}`, class: 'form-check'}).appendTo(`#col_1_${count}`);
+            // $("<div/>").attr({id: `form_check_${count}`, class: 'form-check'}).appendTo(`#col_1_${count}`);
             if (!data[count].is_pregnancy) {
-                $("<input/>").attr({'rec_id': data[count].id, id: `is_pregnancy_${count}`, class: 'form-check-input', type: 'checkbox', 'onclick': 'is_pregnancy(this);'}).appendTo(`#form_check_${count}`);
-                $("<label/>").attr({id: `check_${count}`, class: 'form-check-label', for: `is_pregnancy_${count}`}).appendTo(`#form_check_${count}`);
-                document.getElementById(`check_${count}`).textContent = `Беременность`
+                // $("<input/>").attr({'rec_id': data[count].id, id: `is_pregnancy_${count}`, class: 'form-check-input', type: 'checkbox', 'onclick': 'is_pregnancy(this);'}).appendTo(`#form_check_${count}`);
+                // $("<label/>").attr({id: `check_${count}`, class: 'form-check-label', for: `is_pregnancy_${count}`}).appendTo(`#form_check_${count}`);
+                // document.getElementById(`check_${count}`).textContent = `Беременность`
                 document.getElementById(`accordion_button_${count}`).textContent = `⚪️ ${data[count].full_name}`;
             }
             else {
-                $("<input/>").attr({'rec_id': data[count].id, id: `is_pregnancy_${count}`, class: 'form-check-input', type: 'checkbox', 'checked': true, 'onclick': 'is_pregnancy(this);'}).appendTo(`#form_check_${count}`);
-                $("<label/>").attr({id: `check_${count}`, class: 'form-check-label', for: `is_pregnancy_${count}`}).appendTo(`#form_check_${count}`);
-                document.getElementById(`check_${count}`).textContent = `Беременность`
+                // $("<input/>").attr({'rec_id': data[count].id, id: `is_pregnancy_${count}`, class: 'form-check-input', type: 'checkbox', 'checked': true, 'onclick': 'is_pregnancy(this);'}).appendTo(`#form_check_${count}`);
+                // $("<label/>").attr({id: `check_${count}`, class: 'form-check-label', for: `is_pregnancy_${count}`}).appendTo(`#form_check_${count}`);
+                // document.getElementById(`check_${count}`).textContent = `Беременность`
                 document.getElementById(`accordion_button_${count}`).textContent = `🔴 ${data[count].full_name}`;
             }
             $("<span/>").attr({id: `phone_accordion_body_${count}`}).appendTo(`#col_1_${count}`);

@@ -202,7 +202,7 @@
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'how_think': $form.find( "#how_think" ).val(),
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
@@ -213,7 +213,7 @@
                 'lr_s': false,
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
-                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': false,
                 'estimated_date': false,
@@ -226,7 +226,7 @@
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'how_think': $form.find( "#how_think" ).val(),
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
@@ -237,10 +237,10 @@
                 'lr_s': false,
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
-                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': $form.find( "#num_fetus" ).val(),
-                'estimated_date': $form.find( "#estimated_date" ).val(),
+                'estimated_date': moment($form.find( "#estimated_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'comment': $form.find( "#comment" ).val()
             }
         }
@@ -250,7 +250,7 @@
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
-                'birthday': $form.find( "#birthday" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'how_think': $form.find( "#how_think" ).val(),
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
@@ -261,13 +261,14 @@
                 'lr_s': $form.find( "#lr_s" ).val(),
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
-                'lr_pass_date': $form.find( "#lr_pass_date" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': false,
                 'estimated_date': false,
                 'comment': $form.find( "#comment" ).val()
             }
         }
+
         var posting = $.post( url, {data: full_data} );
 
         posting.done(function( data ) {
