@@ -183,8 +183,14 @@
         }
         else {
             $("<h3/>").attr({id: 'footer_text', class: 'text-center lead'}).appendTo('#row');
+            $("<button>Добавить</button>").attr({type: 'button', id: 'footer_btn', class: 'btn-primary', }).appendTo('#row');
             document.getElementById('footer_text').textContent = 'У данного пациента отсутствуют записи!';
         }
+
+        
+        $('#footer_btn').click(function(){
+            /// Some code here
+        });
     }
 
 

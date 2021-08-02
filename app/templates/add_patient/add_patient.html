@@ -19,11 +19,11 @@
                 </div>
                 <div class="col">
                     <label for="name" class="form-label">Имя</label>
-                    <input id="name" type="text" class="form-control" required>
+                    <input id="name" type="text" class="form-control" >
                 </div>
                 <div class="col">
                     <label for="middlename" class="form-label">Отчество</label>
-                    <input id="middlename" type="text" class="form-control" required>
+                    <input id="middlename" type="text" class="form-control" >
                 </div>
             </div>
             <br>
@@ -33,11 +33,11 @@
             <div class="row" id="info">
                 <div class="col">
                     <label for="birthday" class="form-label">День рождения</label>
-                    <input id="birthday" type="date" class="form-control" max="3000-01-01" required>
+                    <input id="birthday" type="date" class="form-control" max="3000-01-01" >
                 </div>
                 <div class="col">
                     <label for="how_think" class="form-label">Как узнал?</label>
-                    <select class="form-select" id="how_think" required>
+                    <select class="form-select" id="how_think" >
                         <option value="none" disabled>Выберите тип рекламы</option>
                         <option value="secret">Неизвестно</option>
                         <option value="sundress">Сарафан</option>
@@ -46,12 +46,12 @@
                 </div>
                 <div class="col">
                     <label for="address" class="form-label">Адрес</label>
-                    <input id="address" type="text" class="form-control input" required>
+                    <input id="address" type="text" class="form-control input">
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col">
+                <div class="col-sm">
                     <label for="phone" class="form-label">Номер телефона</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">+7</span>
@@ -105,8 +105,9 @@
                     'lr_pass_serial': 'Серия паспорта',
                     'lr_pass_date': 'Дата получения паспорта',
                     'lr_pass_issued': 'Место получения паспорта',
-                    'num_fetus': 'Кол-во плодов',
-                    'estimated_date': 'ПДР'
+                    'estimated_date': 'ПДР',
+                    'num_fetus': 'Кол-во плодов'
+                    
                 })
             }
             for (var i = 0; i < data_list.length; i++) {
@@ -123,10 +124,10 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "3000-01-01"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', max: "3000-01-01"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     counter += 1
                 }
@@ -160,10 +161,10 @@
                     $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
                     if (data_list[i][0].includes('date')) {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', 'required': true, max: "3000-01-01"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date',  max: "3000-01-01"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
                     else if (data_list[i][0].includes('select')) {
-                        $("<select/>").attr({class: 'form-select', id: 'lr_s', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<select/>").attr({class: 'form-select', id: 'lr_s'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                         var lr_select = ['Мать', 'Отец', 'Дед']
                         let disabled_status = new Option('Выберите тип представителя', 0);
                         disabled_status.disabled = true
@@ -174,7 +175,7 @@
                         }
                     }
                     else {
-                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', 'required': true}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', }).appendTo('#' + row_id + '_col_' + data_list[i][0]);
                     }
 
                     counter += 1
@@ -277,6 +278,8 @@
             }
             else {
                 toastr["success"]("Пациент занесен в базу данных", "Успешно!");
+                var delay = 2000;
+                setTimeout("document.location.href='http://127.0.0.1:5000/'", delay);
             }
         });
     };

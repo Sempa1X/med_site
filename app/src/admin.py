@@ -9,6 +9,7 @@ from app.src.database import User
 
 
 class MyAdminView(ModelView):
+    excluded_list_columns = ['password_hash']
     def is_accessible(self):
         if current_user.is_authenticated == False:
             return redirect(url_for('login.login'))

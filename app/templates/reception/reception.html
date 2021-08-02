@@ -178,8 +178,10 @@
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
             document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
+            $("<p/>").attr({id: `head_div_doc_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             if (data[count].records.length > 0) {
+                document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].div_doc}`;
                 document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
                 $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {

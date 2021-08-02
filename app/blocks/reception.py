@@ -54,7 +54,7 @@ def get_doctors():
             date_obj = now.strptime(o.date, '%d.%m.%Y')
             if date_obj == current_date_obj and i.id == o.doctor_id:
                 rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
-        data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'records': rec_data})
+        data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'div_doc': i.division, 'records': rec_data})
     return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data, 'role': current_user.role}) if len(data_list) > 0 else jsonify({'success': 'false'})
 
 

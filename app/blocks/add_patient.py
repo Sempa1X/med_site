@@ -34,4 +34,4 @@ def added():
         lr_pass_date=data_replace[15][1], lr_pass_issued=data_replace[16][1], num_fetus=data_replace[17][1], estimated_birthday=data_replace[18][1], comment=data_replace[19][1])
     db.session.add(patient)
     db.session.commit()
-    return jsonify({'success': 'True'})
+    return render_template('reception/reception.html')
