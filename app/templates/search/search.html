@@ -26,12 +26,166 @@
             </button>
         </div>
     </form>
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_label">Пациент</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id='cont'>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <form id='searchFormtest'>
+                                <div id="sandbox-container" class="d-flex justify-content-center"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
  
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>  
+
+<script>
+    var doc_select = '';
+    var user_select = '';
+    var doctors = {};
+    var patients = {};
+    var current_date = moment().format('DD.MM.YYYY');
+    $('#sandbox-container').datepicker({
+        format: "dd.mm.yyyy",
+        startView: 2,
+        maxViewMode: 2,
+        todayBtn: "linked",
+        language: "ru",
+        autoclose: true,
+        todayHighlight: true,
+    }).on('changeDate', showTestDate);
 
 
-    <script>
+    function get_doctors(date) {
+        url = '/reception/get_doctors'
+        var posting = $.post( url, {'date': date});
+
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                for (let count = 0; count < data['data'].length; count++) {
+                    doctors[data['data'][count].doc_id] = data['data'][count].doc_full_name;
+                }
+                for (let count = 0; count < data['patients'].length; count++) {
+                    patients[data['patients'][count].patient_full_name] = data['patients'][count].patient_id;
+                }
+                
+                createForm(data);
+            }
+        });
+    };
+
+
+    function createForm(all_data) {
+        data = all_data['data']
+        delBlock2()
+        $("<div/>").attr({id: 'data_place2'}).appendTo('#cont');
+        $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place2');
+        for (let count = 0; count < data.length; count++) {
+            if (data[count].records.length > 0) {
+                $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3 mt-5'}).appendTo(`#row`);
+                $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
+                $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
+                document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
+                $("<p/>").attr({id: `head_div_doc_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
+                $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
+                document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].div_doc}`;
+                document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
+                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
+                for (let item_count = 0; item_count < data[count].records.length; item_count++) {
+                    if (data[count].records[item_count].is_active == 1) {
+                        $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
+                        if (moment() > moment(data[count].records[item_count].time, 'HH:mm')) {
+                            $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-secondary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
+                        else {
+                            $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
+                        document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
+                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].patient_full_name}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
+                            if (all_data['patients'][patient_count].patient_full_name) {
+                                $("<option/>").attr({value: all_data['patients'][patient_count].patient_full_name}).appendTo(`#scroll_item_datalist_${count}_${item_count}`);
+                            }
+                        }
+                        if (data[count].records[item_count].patient_full_name) {
+                            $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
+                            $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
+                        }
+                        else {
+                            $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function showTestDate() {
+        current_date = $('#sandbox-container').datepicker('getFormattedDate');
+        console.log(current_date)
+        url = '/reception/get_doctors';
+
+        var posting = $.post(url, { date: current_date} );
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                toastr["success"]("Успешно!");
+                createForm(data);
+            }
+        });
+    };
+
+    function addRecord(obj) {
+        input_id = document.getElementById(obj.id).getAttribute('input_id');
+        rec_id = document.getElementById(input_id).getAttribute('rec_id');
+        user_full_name = $(`#${input_id}`).val();
+        user_id = patients[user_full_name];
+    
+        url = '/reception/record';
+
+        var posting = $.post(url, { 'rec_id': rec_id, 'patient_full_name': user_full_name, 'patient_id': user_id} );
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                get_doctors(current_date);
+            }
+        });
+    };
+
+
+
+
+
+
+
+
+    function delBlock2() {
+        if ($('#data_place2').length) {
+            $("#data_place2").empty();
+        }
+    }
 
     function delBlock() {
         if ($('#data_place').length) {
@@ -52,6 +206,7 @@
                 outputData(data.patients[0]);
                 console.log(data.patients);
                 toastr["success"]("Успешно!");
+                get_doctors(moment().format('DD.MM.YYYY'));
             }
         });
     };
@@ -183,14 +338,15 @@
         }
         else {
             $("<h3/>").attr({id: 'footer_text', class: 'text-center lead'}).appendTo('#row');
-            $("<button>Добавить</button>").attr({type: 'button', id: 'footer_btn', class: 'btn-primary', }).appendTo('#row');
+            $("<button/>").attr({id: 'footer_btn', class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo('#row');
             document.getElementById('footer_text').textContent = 'У данного пациента отсутствуют записи!';
+            document.getElementById('footer_btn').textContent = 'Добавить';
         }
 
         
-        $('#footer_btn').click(function(){
-            /// Some code here
-        });
+        // $('#footer_btn').click(function(){
+        //     /// Some code here
+        // });
     }
 
 
