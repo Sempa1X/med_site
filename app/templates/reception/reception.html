@@ -40,7 +40,7 @@
                         </select>
                         <br>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-dark">Создать</button>
+                            <button id='myBtn' type="submit" class="btn btn-dark">Создать</button>
                         </div>
                     </div>
                 </form>
@@ -59,17 +59,19 @@
     var doctors = {};
     var patients = {};
 
-    $(document).ready(function(){
-      $("#myBtn").click(function(){
-        $("#myModal").modal();
-      });
+    $("#myBtn").click(function(){
+        $("#modal").modal('hide');
     });
 
 
     var result = [];
     var current_date = moment().format('DD.MM.YYYY');
 
-
+    function clearModal() {
+        $('#office').val('');
+        $('#after').val('');
+        $('#before').val('');
+    }
 
     function test(obj){
         let start = document.getElementById("after").value;
@@ -102,7 +104,8 @@
                 toastr["error"]("Ошибка!");
             }
             else {
-                get_doctors(current_date)
+                get_doctors(current_date);
+                clearModal();
             }
         });
     };
@@ -141,6 +144,7 @@
         language: "ru",
         autoclose: true,
         todayHighlight: true,
+        daysOfWeekHighlighted: "0"
     }).on('changeDate', showTestDate);
 
     function showTestDate() {
@@ -179,8 +183,8 @@
             document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
             $("<p/>").attr({id: `head_div_doc_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
+            document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].div_doc}`;
             if (data[count].records.length > 0) {
-                document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].div_doc}`;
                 document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
                 $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
@@ -216,7 +220,7 @@
                 }
             }
             else {
-                document.getElementById(`head_office_${count}`).textContent = `Кабинет не выбран`;
+                // document.getElementById(`head_office_${count}`).textContent = `Кабинет не выбран`;
                 $("<div/>").attr({id: `records_${count}`, class: 'text-center'}).appendTo(`#col_${count}`);
                 $("<h5/>").attr({id: `not_record_h5_${count}`, class: 'mb-3'}).appendTo(`#records_${count}`);
                 document.getElementById(`not_record_h5_${count}`).textContent = 'Расписание отсутствует';
