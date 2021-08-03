@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<style>
+<!-- <style>
 .collapse {
   overflow: auto;
   width: auto;
@@ -10,7 +10,7 @@
   max-height: 50vh;
   max-width: 100%;
 }
-</style>
+</style> -->
 
 <div class="container" id='main'>
     <form id="form" action="/search/search_process" onsubmit="find_user(); return false;">
@@ -57,6 +57,7 @@
     var doctors = {};
     var patients = {};
     var current_date = moment().format('DD.MM.YYYY');
+
     $('#sandbox-container').datepicker({
         format: "dd.mm.yyyy",
         startView: 2,
@@ -94,10 +95,10 @@
         data = all_data['data']
         delBlock2()
         $("<div/>").attr({id: 'data_place2'}).appendTo('#cont');
-        $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#data_place2');
+        $("<div/>").attr({id: 'row2', class: 'row'}).appendTo('#data_place2');
         for (let count = 0; count < data.length; count++) {
             if (data[count].records.length > 0) {
-                $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3 mt-5'}).appendTo(`#row`);
+                $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3 mt-5'}).appendTo(`#row2`);
                 $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
                 $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
                 document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
@@ -169,7 +170,7 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                get_doctors(current_date);
+                find_user();
             }
         });
     };
@@ -213,13 +214,13 @@
 
     function getTrustFactor(factor) {
         if (factor)
-        return "Положительный"
+            return "Положительный"
         else
-        return "Отрицательный"
+            return "Отрицательный"
     }
 
     function outputData(data) {
-        delBlock()
+        delBlock();
         translate = {
             'default': 'Обычный',
             'child': 'Ребенок',
@@ -300,11 +301,11 @@
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
         if (data.lost_records.length > 0 || data.future_records.length > 0) {
             if (data.lost_records.length > 0) {
-                $("<div/>").attr({id: 'col_1', class: 'col'}).appendTo('#row');
-                $("<label/>").attr({id: 'old_label', class: 'form-label', for: 'old_record'}).appendTo('#col_1');
+                $("<div/>").attr({id: 'col_1_data', class: 'col'}).appendTo('#row');
+                $("<label/>").attr({id: 'old_label', class: 'form-label', for: 'old_record'}).appendTo('#col_1_data');
                 $("<b/>").attr({id: 'b_old_label'}).appendTo('#old_label');
                 document.getElementById('b_old_label').textContent = 'Прошедшие записи';
-                $("<div/>").attr({id: 'old_record', class: 'accordion accordion-flush'}).appendTo('#col_1');
+                $("<div/>").attr({id: 'old_record', class: 'accordion accordion-flush'}).appendTo('#col_1_data');
                 for (let i = 0; i < data.lost_records.length; i++) {
                     $("<div/>").attr({id: 'old_accordion_item' + i, class: 'accordion-item'}).appendTo('#old_record');
                     $("<h2/>").attr({id: 'old_accordion_item_header' + i, class: 'accordion-header'}).appendTo('#old_accordion_item' + i);
@@ -318,12 +319,13 @@
                 }
             }
             if (data.future_records.length > 0) {
-                $("<div/>").attr({id: 'col_2', class: 'col'}).appendTo('#row');
-                $("<label/>").attr({id: 'future_label', class: 'form-label', for: 'future_record'}).appendTo('#col_2');
+                $("<div/>").attr({id: 'col_2_data', class: 'col'}).appendTo('#row');
+                $("<label/>").attr({id: 'future_label', class: 'form-label', for: 'future_record'}).appendTo('#col_2_data');
                 $("<b/>").attr({id: 'b_future_label'}).appendTo('#future_label');
                 document.getElementById('b_future_label').textContent = 'Текущие записи';
-                $("<div/>").attr({id: 'future_record', class: 'accordion accordion-flush'}).appendTo('#col_2');
+                $("<div/>").attr({id: 'future_record', class: 'accordion accordion-flush'}).appendTo('#col_2_data');
                 for (let i = 0; i < data.future_records.length; i++) {
+                    console.log(data.future_records[i].date)
                     $("<div/>").attr({id: 'future_accordion_item' + i, class: 'accordion-item'}).appendTo('#future_record');
                     $("<h2/>").attr({id: 'future_accordion_item_header' + i, class: 'accordion-header'}).appendTo('#future_accordion_item' + i);
                     $("<button/>").attr({id: 'future_btn_' + i, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': '#future_text_' + i, 'aria-expanded': 'false', 'aria-controls': 'future_text_' + i}).appendTo('#future_accordion_item_header' + i);
@@ -338,15 +340,10 @@
         }
         else {
             $("<h3/>").attr({id: 'footer_text', class: 'text-center lead'}).appendTo('#row');
-            $("<button/>").attr({id: 'footer_btn', class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo('#row');
             document.getElementById('footer_text').textContent = 'У данного пациента отсутствуют записи!';
+            $("<button/>").attr({id: 'footer_btn', class: 'btn btn-outline-primary', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`}).appendTo('#row');
             document.getElementById('footer_btn').textContent = 'Добавить';
         }
-
-        
-        // $('#footer_btn').click(function(){
-        //     /// Some code here
-        // });
     }
 
 
