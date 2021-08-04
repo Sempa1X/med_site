@@ -117,7 +117,7 @@
                             $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
                         document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].patient_full_name}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<input/>").attr({ list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].full_name}).appendTo(`#scroll_item_${count}_${item_count}`);
                         $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                         for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
                             if (all_data['patients'][patient_count].patient_full_name) {
