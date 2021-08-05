@@ -66,6 +66,28 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label for="card_number" class="form-label">Номер карты</label>
+                    <div class="input-group mb-3">
+                        <input id="card_number" type="text" class="form-control" aria-describedby="basic-addon1" required>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group mb-3">
+                        <input id="email" type="text" class="form-control" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-sm-5 d-flex justify-content-center align-items-center">
+                    <div class="input-group">
+                        <div class="form-check">
+                            <input class="form-check-input" name='out_of_town' type="checkbox" id="out_of_town">
+                            <label class="form-check-label" for="out_of_town">Иногородний</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>
@@ -208,6 +230,9 @@
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'card_number': $form.find( "#address" ).val(),
+                'email': $form.find( "#address" ).val(),
+                'out_of_town': $form.find( "#address" ).val(),
                 'lr_surname': false,
                 'lr_f_name': false,
                 'lr_l_name': false,
@@ -232,6 +257,9 @@
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'card_number': $form.find( "#address" ).val(),
+                'email': $form.find( "#address" ).val(),
+                'out_of_town': $form.find( "#address" ).val(),
                 'lr_surname': false,
                 'lr_f_name': false,
                 'lr_l_name': false,
@@ -256,6 +284,9 @@
                 'address': $form.find( "#address" ).val(),
                 'phone': '+7 ' + $form.find( "#phone" ).val(),
                 'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'card_number': $form.find( "#address" ).val(),
+                'email': $form.find( "#address" ).val(),
+                'out_of_town': $form.find( "#address" ).val(),
                 'lr_surname': $form.find( "#lr_surname" ).val(),
                 'lr_f_name': $form.find( "#lr_f_name" ).val(),
                 'lr_l_name': $form.find( "#lr_l_name" ).val(),
