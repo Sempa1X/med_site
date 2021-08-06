@@ -84,6 +84,9 @@ class Patient(db.Model):
 
     speed = db.Column(db.Boolean, default=False)
     comment = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    card_number = db.Column(db.Integer)
+    out_to_town = db.Column(db.String(255))
 
     records = db.relationship('Record', backref='patient')
 
