@@ -44,8 +44,7 @@ def calculate_age(birth_year, birth_month, birth_day):  # Расчет "Полн
     if full_year > 0:  # Полных лет
         age = str(full_year) + year_suffix(full_year)
     elif full_year == 0:  # Полных месяцев
-        full_month = today.month - born.month - (today.day < born.day)
-
+        full_month = today.month - born.month
         if full_month > 0:
             age = str(full_month) + ' мес.'
         elif full_month < 0:
@@ -53,6 +52,8 @@ def calculate_age(birth_year, birth_month, birth_day):  # Расчет "Полн
         elif full_month == 0:  # Полных дней
             if today.day - born.day > 0:
                 age = str(today.day - born.day) + ' дн.'
+            elif today.day - born.day == 0:
+                age = '0 дн.'
             else:
                 age = 'Эмбрион???'
         else:
@@ -62,7 +63,7 @@ def calculate_age(birth_year, birth_month, birth_day):  # Расчет "Полн
     return age
 
 # --- Тестове данные
-# birth_year = 2021
-# birth_month = 7
+# birth_year = 2020
+# birth_month = 6
 # birth_day = 1
 # print(calculate_age(birth_year, birth_month, birth_day))
