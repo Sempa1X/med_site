@@ -105,16 +105,16 @@ class Record(db.Model):
     time = db.Column(db.String(255), index=True)
     isActive = db.Column(db.String(255), default='1')
     comment = db.Column(db.String(255))
-    office = db.Column(db.Integer(), db.ForeignKey('offices.id'))
+    office = db.Column(db.Integer())
 
     
 
-class office(db.Model):
+class Office(db.Model):
     __tablename__ = 'offices'
     id = db.Column(db.Integer, primary_key=True)   
     number = db.Column(db.Integer)
     name = db.Column(db.String(255))
-    records = db.relationship('Record', backref='office_record')
+    date = db.Column(db.String(255), index=True)
 
 
 class List_expectation(db.Model):

@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import or_, and_
 
 from app import db
-from app.src.database import User, Patient, Record
+from app.src.database import User, Patient, Record, Office
 
 
 now = datetime.datetime.now()
@@ -35,27 +35,42 @@ def add_schedule():
         db.session.commit()
         is_added = True
     return render_template('reception/reception.html') if is_added else jsonify({'success': 'false'}) 
-        
     
+
+
+    
+# @bp_reception.route('/get_doctors', methods=["POST"])
+# @login_required
+# def get_doctors():
+#     patient_data = []
+#     current_date = request.form['date']
+#     current_date_obj = now.strptime(current_date, '%d.%m.%Y')
+#     data_list = []
+#     doctors = User.query.filter(and_(User.role == 'doctor'))
+#     all_patients = Patient.query.all()
+#     for i in all_patients:
+#         patient_data.append({ 'patient_full_name': i.full_name, 'patient_id': i.id})
+#     for i in doctors:
+#         rec_data = []
+#         for o in i.records: 
+#             date_obj = now.strptime(o.date, '%d.%m.%Y')
+#             if date_obj == current_date_obj and i.id == o.doctor_id:
+#                 rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
+#         data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'div_doc': i.division, 'records': rec_data})
+#     return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data, 'role': current_user.role}) if len(data_list) > 0 else jsonify({'success': 'false'})
+
+
 @bp_reception.route('/get_doctors', methods=["POST"])
 @login_required
 def get_doctors():
-    patient_data = []
-    current_date = request.form['date']
-    current_date_obj = now.strptime(current_date, '%d.%m.%Y')
-    data_list = []
-    doctors = User.query.filter(and_(User.role == 'doctor'))
-    all_patients = Patient.query.all()
-    for i in all_patients:
-        patient_data.append({ 'patient_full_name': i.full_name, 'patient_id': i.id})
-    for i in doctors:
-        rec_data = []
-        for o in i.records: 
-            date_obj = now.strptime(o.date, '%d.%m.%Y')
-            if date_obj == current_date_obj and i.id == o.doctor_id:
-                rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
-        data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'div_doc': i.division, 'records': rec_data})
-    return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data, 'role': current_user.role}) if len(data_list) > 0 else jsonify({'success': 'false'})
+    # request.form['date']
+    for record in Record.query.filter_by(date='05.08.2021'):
+        print(record)
+    for office in Office.query.filter_by(date='03.08.2021'):
+        print(office)
+    return jsonify({'success': 'true'})
+
+
 
 
 @bp_reception.route('/is_active', methods=["POST"])

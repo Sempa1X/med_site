@@ -50,8 +50,8 @@ application.register_blueprint(bp_list_expectation)
 from app.blocks.errors import bp_error
 application.register_blueprint(bp_error)
 
-
-
+from app.blocks.office import bp_office
+application.register_blueprint(bp_office)
 
 from app.src.admin import MyIndexView, MyAdminView
 from app.src.database import Record, User, Patient
