@@ -1,0 +1,42 @@
+{
+    'office_id': 1,
+    'office_name': 'test',
+    'office_number': 1,
+    'doctor_data': 
+        {
+            'doc_id': 2,
+            'doc_full_name': 'Азанов Игорь Евгеньевич',
+            'div_doc': 'Хирург', 
+            'records': []
+        },
+        {
+            'doc_id': 3,
+            'doc_full_name': 'Киркоров Дмитрий Иванович',
+            'div_doc': 'АУЕ',
+            'records': []
+            },
+            {
+                'doc_id': 4,
+                'doc_full_name': 'Иванов Кирилл Константинович',
+                'div_doc': 'Хирург',
+                'records': []
+                }, 
+            {
+                'doc_id': 5,
+                'doc_full_name': 'Тест доктор 2', 
+                'div_doc': None, 
+                'records': []
+            },
+            {
+            'doc_id': 6,
+            'doc_full_name': 'Тест доктор 1',
+            'div_doc': None, 
+            'records': []
+            },
+            {
+                'doc_id': 7,
+                'doc_full_name': 'Иванович Трунов Дмитрий',
+                'div_doc': 'Нейрохирург',
+                'records': []
+                }
+            }   

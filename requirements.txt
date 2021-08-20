@@ -8,3 +8,7 @@ flask_wtf
 email_validator
 cloudipsp
 sqlalchemy
+flask-mail
+
+
+

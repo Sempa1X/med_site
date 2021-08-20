@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_admin import Admin
 from flask_admin.menu import MenuLink
+from flask_mail import Mail
 
 from config import Config
 
@@ -12,6 +13,9 @@ from config import Config
 # Инициализация приложения Flask
 application = Flask(__name__)
 application.config.from_object(Config)
+
+# Инициализация и настройка почты
+mail = Mail(application)
 
 # Инициализация пользователей и авторизация и регистрация
 login = LoginManager(application)

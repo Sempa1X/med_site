@@ -116,7 +116,7 @@
     });
 
     function get_doctors(date) {
-        url = '/reception/get_doctors'
+        url = '/reception/get_data'
         var posting = $.post( url, {'date': date});
 
         posting.done(function( data ) {

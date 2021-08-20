@@ -13,6 +13,10 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     
+    # Настройка почты
+    YANDEX_MAIL = 'sempa1x@yandex.ru'
+    YANDEX_PASS = 'asdasdss228'
+
     # Search
     ELASTICSEARCH_URL = \
         os.environ.get('ELASTICSEARCH_URL') # Устанавливаем значение для поиска

@@ -11,7 +11,8 @@ from app.src.database import User, Patient, Record, Office
 
 
 now = datetime.datetime.now()
-current_time = str(now.strftime('%H:%M'))
+current_time = str(now.strftime('%H:%M:%S'))
+current_date = str(now.strftime('%d.%m.%Y'))
 bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 
 
@@ -43,8 +44,7 @@ def add_schedule():
 # @login_required
 # def get_doctors():
 #     patient_data = []
-#     current_date = request.form['date']
-#     current_date_obj = now.strptime(current_date, '%d.%m.%Y')
+ 
 #     data_list = []
 #     doctors = User.query.filter(and_(User.role == 'doctor'))
 #     all_patients = Patient.query.all()
@@ -60,17 +60,30 @@ def add_schedule():
 #     return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data, 'role': current_user.role}) if len(data_list) > 0 else jsonify({'success': 'false'})
 
 
-@bp_reception.route('/get_doctors', methods=["POST"])
+@bp_reception.post('/get_data')
 @login_required
-def get_doctors():
+def get_data():
     # request.form['date']
-    for record in Record.query.filter_by(date='05.08.2021'):
-        print(record)
-    for office in Office.query.filter_by(date='03.08.2021'):
-        print(office)
+    all_patients = []
+    all_office = []
+    all_doctor = []
+    doctor_record = []
+    patient_record = []
+    all_data = []
+
+    for patient in Patient.query.all():
+        all_patients.append({ 'patient_full_name': patient.full_name, 'patient_id': patient.id})
+    for office in Office.query.all():
+        all_office.append([office.id, office.name, office.number])
+    for doctor in User.query.filter_by():
+        all_doctor.append([doctor.id, doctor.full_name, doctor.division, doctor.records])
+    for record in doctor.records:
+        doctor_record.append([record.office, record.date, record.time])
+    for patient in record.patient:
+        patient_record.append([patient.id, patient.full_name])
+            
+    print(all_doctor)
     return jsonify({'success': 'true'})
-
-
 
 
 @bp_reception.route('/is_active', methods=["POST"])
