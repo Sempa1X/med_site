@@ -67,17 +67,20 @@ def get_data():
     all_data = {}
     all_data['amount'] = Office.query.count()
     all_patient = []
+    doctors = []
+    for doctor in User.query.filter_by(role='doctor'):
+        doctors.append({'name': doctor.full_name, 'id': doctor.id})
 
     for patient in Patient.query.all():
         all_patient.append({'patient_full_name': patient.full_name, 'patient_id': patient.id})
     
     for office in Office.query.all():
-        all_data[office.number] = []
-    
+        all_data[str(office.number)] = {'doctor': {}, 'records': [], 'name': office.name}
     for _ in Record.query.filter_by(date=request.form['date']):
-        all_data[_.office].append({'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'isActive': _.isActive})
+        all_data[str(_.office)]['doctor'] = {'doctor_full_name': _.doctor_full_name, 'doc_id': _.doctor_id}
+        all_data[str(_.office)]['records'].append({'rec_id': _.id, 'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'is_active': _.isActive, 'date': _.date})
     print(all_data)
-    return jsonify({'success': 'true'})
+    return jsonify({'success': 'true', 'data': all_data, 'patients': all_patient, 'doctors': doctors, 'role': current_user.role})
 
 
 @bp_reception.route('/is_active', methods=["POST"])
