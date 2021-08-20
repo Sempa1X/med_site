@@ -64,25 +64,19 @@ def add_schedule():
 @login_required
 def get_data():
     # request.form['date']
-    all_patients = []
-    all_office = []
-    all_doctor = []
-    doctor_record = []
-    patient_record = []
-    all_data = []
+    all_data = {}
+    all_data['amount'] = Office.query.count()
+    all_patient = []
 
     for patient in Patient.query.all():
-        all_patients.append({ 'patient_full_name': patient.full_name, 'patient_id': patient.id})
+        all_patient.append({'patient_full_name': patient.full_name, 'patient_id': patient.id})
+    
     for office in Office.query.all():
-        all_office.append([office.id, office.name, office.number])
-    for doctor in User.query.filter_by():
-        all_doctor.append([doctor.id, doctor.full_name, doctor.division, doctor.records])
-    for record in doctor.records:
-        doctor_record.append([record.office, record.date, record.time])
-    for patient in record.patient:
-        patient_record.append([patient.id, patient.full_name])
-            
-    print(all_doctor)
+        all_data[office.number] = []
+    
+    for _ in Record.query.filter_by(date=request.form['date']):
+        all_data[_.office].append({'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'isActive': _.isActive})
+    print(all_data)
     return jsonify({'success': 'true'})
 
 
