@@ -79,10 +79,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_modal" onsubmit="replace(); return false;">
+                    <form id="form_modal_2" onsubmit="replace(); return false;">
                         <div class="row">
                             <div class="col-md-6">
-                                <button id='myBtn_accept' type="submit" class="btn btn-outline-success col-md-12">
+                                <button id='myBtn_accept' type="submit" data-bs-dismiss="modal" class="btn btn-outline-success col-md-12">
                                     <i class="far fa-check-circle"></i>
                                     Подтвердить
                                 </button>
@@ -111,13 +111,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <button id='myBtn_accept' type="button" class="btn btn-outline-success col-md-12">
+                            <button id='myBtn_accept' type="button" data-bs-dismiss="modal" onclick="is_active(1);" class="btn btn-outline-success col-md-12">
                                 <i class="far fa-check-circle"></i>
                                 Пришел
                             </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
+                            <button type="button" onclick="is_active(0);" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
                                 <i class="far fa-window-close"></i>    
                                 Не пришел
                             </button>
@@ -267,7 +267,7 @@
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row align-items-stretch'}).appendTo('#data_place');
         for (let count = 1; count < office_amount; count++) {
-            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer'}).appendTo(`#row`);
+            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer', style: 'min-height: 25vh;'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
             $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
             document.getElementById(`head_fio_${count}`).textContent = data[count].doctor.doctor_full_name;
@@ -308,13 +308,9 @@
                                 $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
                             }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
-                            if (all_data['role'] == 'doctor') {
-                                // 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`
-                                // $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                                // $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                                
-                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-history', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_came`}).appendTo(`#scroll_item_${count}_${item_count}`);
-                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_accept`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            if (all_data['role'] == 'doctor') {        
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-warning bx bx-history', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_came`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_accept`}).appendTo(`#scroll_item_${count}_${item_count}`);
                             }
                         }
                         else {
@@ -351,12 +347,11 @@
         rec_id = document.getElementById(obj.id).getAttribute('rec_id');
     }
 
-    function is_active(obj, type) {
-        rec_id = document.getElementById(obj.id).getAttribute('rec_id');
+    function is_active(type) {
     
         url = '/reception/is_active';
 
-        var posting = $.post(url, { 'rec_id': rec_id, 'type': type} );
+        var posting = $.post(url, {'rec_id': rec_id, 'type': type} );
         
         posting.done(function( data ) {
             if (data.success == "false") {

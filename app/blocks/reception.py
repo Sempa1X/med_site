@@ -71,6 +71,7 @@ def is_active():
         db.session.commit()
         return jsonify({'success': 'true'})
     except Exception as e:
+        print(e)
         return jsonify({'success': 'false'})
 
 
