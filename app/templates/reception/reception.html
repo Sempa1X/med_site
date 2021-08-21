@@ -100,6 +100,34 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal_came" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_label">Подтверждение действия</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button id='myBtn_accept' type="button" class="btn btn-outline-success col-md-12">
+                                <i class="far fa-check-circle"></i>
+                                Пришел
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
+                                <i class="far fa-window-close"></i>    
+                                Не пришел
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -267,9 +295,6 @@
                             }
                         }
                         if (data[count].records[item_count].patient_full_name) {
-                            // trust_factor[data[count].records[item_count].patient_full_name]
-                            // 'style': 'color: red;'
-                            // console.log(trust_factor);
                             if (!trust[data[count].records[item_count].patient_full_name]) {
                                 $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
                             }
@@ -284,8 +309,11 @@
                             }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             if (all_data['role'] == 'doctor') {
-                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                // 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`
+                                // $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                // $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-history', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_came`}).appendTo(`#scroll_item_${count}_${item_count}`);
                                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_accept`}).appendTo(`#scroll_item_${count}_${item_count}`);
                             }
                         }
