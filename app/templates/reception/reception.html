@@ -35,7 +35,7 @@
         </div>
     </div>
       
-      <!-- Modal -->
+      <!-- Модальное окно добавления расписания -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -69,6 +69,37 @@
             </div>
         </div>
     </div>
+
+        <!-- Модальное окно подтверждения -->
+    <div class="modal fade" id="modal_accept" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_label">Подтверждение действия</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_modal" onsubmit="replace(); return false;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id='myBtn_accept' type="submit" class="btn btn-outline-success col-md-12">
+                                    <i class="far fa-check-circle"></i>
+                                    Подтвердить
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
+                                    <i class="far fa-window-close"></i>    
+                                    Отменить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -79,13 +110,18 @@
     var doc_select = '';
     var office_select = '';
     var user_select = '';
+    var rec_id = ''
     var doctors = {};
     var patients = {};
+    var trust = {}
 
     $("#myBtn").click(function(){
         $("#modal").modal('hide');
     });
 
+    $("#myBtn_accept").click(function(){
+        $("#modal_accept").modal('hide');
+    });
 
     var result = [];
     var current_date = moment().format('DD.MM.YYYY');
@@ -153,6 +189,7 @@
                 }
                 for (let count = 0; count < data['patients'].length; count++) {
                     patients[data['patients'][count].patient_full_name] = data['patients'][count].patient_id;
+                    trust[data['patients'][count].patient_full_name] = data['patients'][count].trust_factor;
                 }
                 console.log(data);
                 createForm(data);
@@ -230,14 +267,26 @@
                             }
                         }
                         if (data[count].records[item_count].patient_full_name) {
-                            // 'data-toggle': 'tooltip', 'data-placement': 'right', 'title': 'текст всплывающей подсказки'
-                            // 'data-toggle': 'tooltip', 'data-placement': 'right', 'title': data[count].records[item_count].phone
-                            $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            // trust_factor[data[count].records[item_count].patient_full_name]
+                            // 'style': 'color: red;'
+                            // console.log(trust_factor);
+                            if (!trust[data[count].records[item_count].patient_full_name]) {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            }
+                            else if (data[count].records[item_count].is_true == 1) {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            }
+                            else if (data[count].records[item_count].is_true == 2) {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: MediumSeaGreen;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            }
+                            else if (data[count].records[item_count].is_true == 0) {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             if (all_data['role'] == 'doctor') {
                                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
                                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 0);', id: `scroll_item_button_not_come_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-x', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
-                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'replace(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-dark bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_accept`}).appendTo(`#scroll_item_${count}_${item_count}`);
                             }
                         }
                         else {
@@ -268,6 +317,10 @@
     
     function get_select_office(obj) {
         office_select = document.getElementById(obj.id).getAttribute('office_id');
+    }
+
+    function get_rec_id(obj) {
+        rec_id = document.getElementById(obj.id).getAttribute('rec_id');
     }
 
     function is_active(obj, type) {
@@ -307,8 +360,7 @@
             }
         });
     };
-    function replace(obj) {
-        rec_id = document.getElementById(obj.id).getAttribute('rec_id');
+    function replace() {
     
         url = '/reception/replace';
 

@@ -50,14 +50,13 @@ def get_data():
         doctors.append({'name': doctor.full_name, 'id': doctor.id})
 
     for patient in Patient.query.all():
-        all_patient.append({'patient_full_name': patient.full_name, 'patient_id': patient.id})
+        all_patient.append({'patient_full_name': patient.full_name, 'patient_id': patient.id, 'trust_factor': patient.trust_factor})
     
     for office in Office.query.all():
         all_data[str(office.number)] = {'doctor': {}, 'records': [], 'name': office.name}
     for _ in Record.query.filter_by(date=request.form['date']):
         all_data[str(_.office)]['doctor'] = {'doctor_full_name': _.doctor_full_name, 'doc_id': _.doctor_id}
-        all_data[str(_.office)]['records'].append({'phone': _.patient_phone, 'rec_id': _.id, 'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'is_active': _.isActive, 'date': _.date})
-    print(all_data)
+        all_data[str(_.office)]['records'].append({'is_true': _.is_true, 'phone': _.patient_phone, 'rec_id': _.id, 'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'is_active': _.isActive, 'date': _.date})
     return jsonify({'success': 'true', 'data': all_data, 'patients': all_patient, 'doctors': doctors, 'role': current_user.role})
 
 
@@ -80,6 +79,7 @@ def is_active():
 def record():
     try:
         patient = Patient.query.filter_by(id=request.form['patient_id']).first()
+        print(request.form['patient_id'])
         rec = Record.query.get(request.form['rec_id'])
         rec.patient_full_name = request.form['patient_full_name']
         rec.patient_id = request.form['patient_id']
