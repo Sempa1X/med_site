@@ -1,11 +1,9 @@
-from flask import render_template
-
 from app import application, db, login
+from app.src.email import send_emails
 
-
-@application.before_request
+@application.before_app_request
 def before_request():
-    pass
+    send_emails()
 
 
 

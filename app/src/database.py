@@ -4,9 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-
-
-
 now = datetime.datetime.now()
 current_date = str(now.strftime('%Y-%m-%d'))
 current_time = str(now.strftime('%H:%M'))
@@ -108,15 +105,14 @@ class Record(db.Model):
     comment = db.Column(db.String(255))
     office = db.Column(db.Integer())
     is_true = db.Column(db.Integer(), default=1)
-    
+    is_send = db.Column(db.String(255), index=True)
+    is_interview = db.Column(db.String(255), index=True)
 
 class Office(db.Model):
     __tablename__ = 'offices'
     id = db.Column(db.Integer, primary_key=True)   
     number = db.Column(db.Integer)
     name = db.Column(db.String(255))
-
-
 
 
 class List_expectation(db.Model):

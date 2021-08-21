@@ -1,3 +1,5 @@
+from threading import Lock
+
 from flask import Flask
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
@@ -27,6 +29,7 @@ metadata = MetaData(
 )
 db = SQLAlchemy(application, metadata=metadata)
 migrate = Migrate(application, db, render_as_batch=True)
+db.create_all() 
 
 # Инициализация пользователей и авторизация и регистрация
 login = LoginManager(application)
@@ -63,6 +66,29 @@ application.register_blueprint(bp_error)
 
 from app.blocks.office import bp_office
 application.register_blueprint(bp_office)
+
+from app.blocks.interview import bp_inter
+application.register_blueprint(bp_inter)
+
+bp_login._before_request_lock = Lock()
+bp_reception._before_request_lock = Lock()
+bp_search._before_request_lock = Lock()
+bp_add._before_request_lock = Lock()
+bp_list_expectation._before_request_lock = Lock()
+bp_error._before_request_lock = Lock()
+bp_office._before_request_lock = Lock()
+bp_inter._before_request_lock = Lock()
+
+bp_login._got_first_request = False
+bp_reception._got_first_request = False
+bp_search._got_first_request = False
+bp_add._got_first_request = False
+bp_list_expectation._got_first_request = False
+bp_error._got_first_request = False
+bp_office._got_first_request = False
+bp_inter._got_first_request = False
+
+
 
 from app.src.admin import MyIndexView, MyAdminView
 from app.src.database import Record, User, Patient
