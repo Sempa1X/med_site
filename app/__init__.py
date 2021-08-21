@@ -14,13 +14,6 @@ from config import Config
 application = Flask(__name__)
 application.config.from_object(Config)
 
-# Инициализация и настройка почты
-mail = Mail(application)
-
-# Инициализация пользователей и авторизация и регистрация
-login = LoginManager(application)
-login.login_view = 'login.login'
-login.login_message = "Доступ закрыт, войдите!"
 
 # Инициализация базы данных
 metadata = MetaData(
@@ -34,6 +27,20 @@ metadata = MetaData(
 )
 db = SQLAlchemy(application, metadata=metadata)
 migrate = Migrate(application, db, render_as_batch=True)
+
+# Инициализация пользователей и авторизация и регистрация
+login = LoginManager(application)
+login.login_view = 'login.login'
+login.login_message = "Доступ закрыт, войдите!"
+
+
+# Инициализация и настройка почты
+mail = Mail(application)
+with application.app_context():
+    from app.src.email import send_emails
+    send_emails()
+
+
 
 # BP
 from app.blocks.login import bp_login
@@ -65,3 +72,5 @@ admin.add_view(MyAdminView(Patient, db.session, name="Пациенты"))
 admin.add_view(MyAdminView(Record, db.session, name="Записи"))
 admin.add_view(MyAdminView(User, db.session, name="Персонал"))
 admin.add_link(MenuLink(name='Назад', url='/'))
+
+from app import blocks, src 

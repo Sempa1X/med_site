@@ -3,15 +3,15 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
-from app import db
-from app import login
+
+
 
 
 now = datetime.datetime.now()
 current_date = str(now.strftime('%Y-%m-%d'))
 current_time = str(now.strftime('%H:%M'))
 
-
+from app import db
 class User(UserMixin, db.Model):
     __tablename__ = 'personal'
  
@@ -127,7 +127,7 @@ class List_expectation(db.Model):
     phone = db.Column(db.String(50))
     date_request = db.Column(db.String(255), index=True, default=current_date + " " + current_time)
 
-
+from app import login
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
