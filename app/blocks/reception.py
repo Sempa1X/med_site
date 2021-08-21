@@ -38,28 +38,6 @@ def add_schedule():
     return render_template('reception/reception.html') if is_added else jsonify({'success': 'false'}) 
     
 
-
-    
-# @bp_reception.route('/get_doctors', methods=["POST"])
-# @login_required
-# def get_doctors():
-#     patient_data = []
- 
-#     data_list = []
-#     doctors = User.query.filter(and_(User.role == 'doctor'))
-#     all_patients = Patient.query.all()
-#     for i in all_patients:
-#         patient_data.append({ 'patient_full_name': i.full_name, 'patient_id': i.id})
-#     for i in doctors:
-#         rec_data = []
-#         for o in i.records: 
-#             date_obj = now.strptime(o.date, '%d.%m.%Y')
-#             if date_obj == current_date_obj and i.id == o.doctor_id:
-#                 rec_data.append({'rec_id': o.id, 'is_active': o.isActive, 'office': o.office, 'date': o.date, 'time': o.time,  'patient_full_name': o.patient_full_name, 'patient_id': o.patient_id})  
-#         data_list.append({'doc_id': i.id, 'doc_full_name': i.full_name, 'div_doc': i.division, 'records': rec_data})
-#     return jsonify({'success': 'true', 'data': data_list, 'patients': patient_data, 'role': current_user.role}) if len(data_list) > 0 else jsonify({'success': 'false'})
-
-
 @bp_reception.post('/get_data')
 @login_required
 def get_data():
@@ -67,17 +45,20 @@ def get_data():
     all_data = {}
     all_data['amount'] = Office.query.count()
     all_patient = []
+    doctors = []
+    for doctor in User.query.filter_by(role='doctor'):
+        doctors.append({'name': doctor.full_name, 'id': doctor.id})
 
     for patient in Patient.query.all():
         all_patient.append({'patient_full_name': patient.full_name, 'patient_id': patient.id})
     
     for office in Office.query.all():
-        all_data[office.number] = []
-    
+        all_data[str(office.number)] = {'doctor': {}, 'records': [], 'name': office.name}
     for _ in Record.query.filter_by(date=request.form['date']):
-        all_data[_.office].append({'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'isActive': _.isActive})
+        all_data[str(_.office)]['doctor'] = {'doctor_full_name': _.doctor_full_name, 'doc_id': _.doctor_id}
+        all_data[str(_.office)]['records'].append({'phone': _.patient_phone, 'rec_id': _.id, 'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'is_active': _.isActive, 'date': _.date})
     print(all_data)
-    return jsonify({'success': 'true'})
+    return jsonify({'success': 'true', 'data': all_data, 'patients': all_patient, 'doctors': doctors, 'role': current_user.role})
 
 
 @bp_reception.route('/is_active', methods=["POST"])
@@ -101,6 +82,7 @@ def record():
         rec = Record.query.get(request.form['rec_id'])
         rec.patient_full_name = request.form['patient_full_name']
         rec.patient_id = request.form['patient_id']
+        rec.patient_phone = Patient.query.filter_by(id=request.form['patient_id']).phone
         db.session.commit()
         return jsonify({'success': 'true'})
     except Exception as e:
