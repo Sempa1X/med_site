@@ -40,7 +40,6 @@ class User(UserMixin, db.Model):
 
     records = db.relationship('Record', backref='doctor')
     is_active = db.Column(db.Boolean, default=True)
-    office = db.Column(db.Integer())
 
     # метод для установки пароля пользователю
     def set_password(self, password):
@@ -101,6 +100,7 @@ class Record(db.Model):
     
     patient_full_name = db.Column(db.String(255))
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
+    patient_phone = db.Column(db.String(50))
     
     date = db.Column(db.String(255), index=True)
     time = db.Column(db.String(255), index=True)
@@ -115,7 +115,6 @@ class Office(db.Model):
     id = db.Column(db.Integer, primary_key=True)   
     number = db.Column(db.Integer)
     name = db.Column(db.String(255))
-    date = db.Column(db.String(255), index=True)
 
 
 

@@ -136,6 +136,10 @@
 
     $(document).ready(function() { 
         get_doctors(moment().format('DD.MM.YYYY'));
+        $('[data-bs-toggle="tooltip"]').tooltip({
+            animation: true,
+            delay: { show: 500, hide: 100 }
+        });
 
     });
 
@@ -222,10 +226,17 @@
                             $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
                         document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].patient_full_name}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                         $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
+                            if (all_data['patients'][patient_count].patient_full_name) {
+                                $("<option/>").attr({value: all_data['patients'][patient_count].patient_full_name}).appendTo(`#scroll_item_datalist_${count}_${item_count}`);
+                            }
+                        }
                         if (data[count].records[item_count].patient_full_name) {
-                            $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
+                            // 'data-toggle': 'tooltip', 'data-placement': 'right', 'title': 'текст всплывающей подсказки'
+                            // 'data-toggle': 'tooltip', 'data-placement': 'right', 'title': data[count].records[item_count].phone
+                            $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].phone});
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             if (all_data['role'] == 'doctor') {
                                 $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'is_active(this, 1);', id: `scroll_item_button_come_${count}_${item_count}`, class: 'btn btn-success bx bx-calendar-check', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
@@ -253,7 +264,6 @@
         }
         for (let doctor_count = 0; doctor_count < all_data.doctors.length; doctor_count++) {
             if (all_data.doctors[doctor_count].name) {
-                console.log(all_data.doctors[doctor_count].name)
                 $("<option/>").attr({value: all_data.doctors[doctor_count].id, id: `doc_${doctor_count}`}).appendTo(`#doctor`);
                 document.getElementById(`doc_${doctor_count}`).textContent = all_data.doctors[doctor_count].name;
             }
