@@ -107,7 +107,7 @@ class Record(db.Model):
     isActive = db.Column(db.String(255), default='1')
     comment = db.Column(db.String(255))
     office = db.Column(db.Integer())
-    is_send = db.Column(db.Integer())
+    is_true = db.Column(db.Integer(), default=1)
     
 
 class Office(db.Model):
