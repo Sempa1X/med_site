@@ -79,13 +79,15 @@ def is_active():
 @login_required
 def record():
     try:
+        patient = Patient.query.filter_by(id=request.form['patient_id']).first()
         rec = Record.query.get(request.form['rec_id'])
         rec.patient_full_name = request.form['patient_full_name']
         rec.patient_id = request.form['patient_id']
-        rec.patient_phone = Patient.query.filter_by(id=request.form['patient_id']).phone
+        rec.patient_phone = patient.phone
         db.session.commit()
         return jsonify({'success': 'true'})
     except Exception as e:
+        print(e)
         return jsonify({'success': 'false'})
 
 
