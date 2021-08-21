@@ -13,9 +13,12 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     
-    # Настройка почты
-    YANDEX_MAIL = 'sempa1x@yandex.ru'
-    YANDEX_PASS = 'asdasdss228'
+    # Mail settings
+    MAIL_USERNAME = 'iazanov471@gmail.com'
+    MAIL_PASS = 'asdasdss228'
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
 
     # Search
     ELASTICSEARCH_URL = \
