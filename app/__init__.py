@@ -71,7 +71,8 @@ application.register_blueprint(bp_error)
 from app.blocks.office import bp_office
 application.register_blueprint(bp_office)
 
-
+from app.blocks.doc import bp_doc
+application.register_blueprint(bp_doc)
 
 bp_login._before_request_lock = Lock()
 bp_reception._before_request_lock = Lock()
@@ -80,7 +81,7 @@ bp_add._before_request_lock = Lock()
 bp_list_expectation._before_request_lock = Lock()
 bp_error._before_request_lock = Lock()
 bp_office._before_request_lock = Lock()
-
+bp_doc._before_request_lock = Lock()
 
 bp_login._got_first_request = False
 bp_reception._got_first_request = False
@@ -89,7 +90,7 @@ bp_add._got_first_request = False
 bp_list_expectation._got_first_request = False
 bp_error._got_first_request = False
 bp_office._got_first_request = False
-
+bp_doc._got_first_request = False
 
 
 from app.src.admin import MyIndexView, MyAdminView
