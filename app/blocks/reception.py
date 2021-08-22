@@ -22,6 +22,7 @@ bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 
 
 def get_records(date):
+    time = now.strptime(date, dt_fmt)
     records = {'today': [], 'next': []}
     for record in Record.query.filter_by(isActive='1'):
         obj_data = datetime.datetime.strptime(record.date, '%d.%m.%Y').date()
