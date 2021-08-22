@@ -36,21 +36,21 @@
     </div>
     <div class="row p-3 mb-2 bg-light rounded">
         <div class="col-sm-2 d-flex justify-content-center">
-            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" class="btn btn-outline-secondary">Список на обзвон</button>
+            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" onclick="getCallList();" class="btn btn-outline-secondary">Список на обзвон</button>
         </div>
     </div>
       
     <!-- Модальное окно обзвон -->
     <div class="modal fade" id="modal_for_call" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal_label">Подтверждение действия</h5>
+                    <h5 class="modal-title" id="modal_label">Списочек  :)</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="form_modal_3"">
-                        <div class="row">
+                        <!-- <div class="row" id='row_call'>
                             <div class="col-md-6 mb-3">
                                 <button id='myBtn_accept1' type="submit" class="btn btn-outline-success col-md-12">
                                     <i class="far fa-check-circle"></i>
@@ -63,7 +63,7 @@
                                     Отменить
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
                 </div>
@@ -242,7 +242,8 @@
         get_doctors(moment().format('DD.MM.YYYY'));
         $("body").tooltip({
             selector: '[data-bs-toggle=tooltip]',
-            delay: { "show": 250, "hide": 50 }
+            delay: { "show": 250, "hide": 50 },
+            html: true
         });
 
     });
@@ -298,9 +299,95 @@
         });
     };
 
+    function getCallList() {
+
+        url = '/reception/get_list';
+
+        var posting = $.post(url, {'date': current_date});
+        
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                toastr["success"]("Успешно!");
+                console.log(data);
+                createListCall(data);
+            }
+        });
+    };
+
     function delBlock() {
         if ($('#data_place').length) {
             $("#data_place").empty();
+        }
+    }
+    
+    function delBlock2() {
+        if ($('#data_place2').length) {
+            $("#data_place2").empty();
+        }
+    }
+
+    function createListCall(data) {
+        delBlock2();
+        $("<div/>").attr({id: 'data_place2'}).appendTo('#form_modal_3');
+        $("<div/>").attr({id: 'row_call', class: 'row'}).appendTo('#data_place2');
+        $("<div/>").attr({id: 'data_col_1', class: 'col-md-6 mb-3'}).appendTo('#row_call');
+        $("<div/>").attr({id: 'data_col_2', class: 'col-md-6 mb-3'}).appendTo('#row_call');
+        if (data['records']['today'].length) {
+            for (let count = 0; count < data['records']['today'].length; count++) {
+                $("<div/>").attr({id: 'accordion', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_col_1');
+                $("<div/>").attr({id: `accordion-item_${count}`, class: 'accordion-item'}).appendTo(`#accordion`);
+                $("<h2/>").attr({id: `flush_heading_${count}`, class: 'accordion-header'}).appendTo(`#accordion`);
+                $("<button/>").attr({id: `accordion_button_${count}`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}`}).appendTo(`#flush_heading_${count}`);
+                document.getElementById(`accordion_button_${count}`).textContent = data['records']['today'][count].patient_full_name;
+                $("<div/>").attr({id: `flush_collapse_${count}`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}`, }).appendTo(`#accordion`);
+                $("<div/>").attr({id: `accordion_body_${count}`, class: 'accordion-body d-flex justify-content-between align-items-center'}).appendTo(`#flush_collapse_${count}`);
+                $("<div/>").attr({id: `col_1_${count}`, class: 'col'}).appendTo(`#accordion_body_${count}`);
+                $("<div/>").attr({id: `col_2_${count}`, class: 'col d-flex justify-content-end'}).appendTo(`#accordion_body_${count}`);
+                
+                $("<span/>").attr({id: `phone_accordion_body_${count}`, class: 'mb-2'}).appendTo(`#col_1_${count}`);
+                $("<span/>").attr({id: `date_request_accordion_body_${count}`, class: 'mb-2'}).appendTo(`#col_1_${count}`);
+                $("<span/>").attr({id: `office_accordion_body_${count}`, class: 'mb-2'}).appendTo(`#col_1_${count}`);
+                $("<span/>").attr({id: `doctor_accordion_body_${count}`, class: 'mb-2'}).appendTo(`#col_1_${count}`);
+                document.getElementById(`phone_accordion_body_${count}`).textContent = `Номер телефона: ${data['records']['today'][count].phone}`;
+                document.getElementById(`date_request_accordion_body_${count}`).textContent = `Время записи: ${data['records']['today'][count].time}`;
+                document.getElementById(`office_accordion_body_${count}`).textContent = `Кабинет: №${data['records']['today'][count].office}`;
+                document.getElementById(`doctor_accordion_body_${count}`).textContent = `Врач: №${data['records']['today'][count].doctor_full_name}`;
+                // $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-outline-danger bx bx-x mx-2', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}`);
+                // $("<button/>").attr({'user': data[count].full_name, 'phone': data[count].phone, id: `add_button_${count}`, class: 'btn btn-outline-primary bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`, 'onclick': 'update_modal(this);'}).appendTo(`#col_2_${count}`);
+            }
+        }
+        else {
+            $("<h5/>").attr({id: 'h5_call_next', class: 'text-center'}).appendTo('#data_col_1');
+            document.getElementById(`h5_call_next`).textContent = `Нет записей на сегодня`;
+        }
+        if (data['records']['next'].length) {
+            for (let count = 0; count < data['records']['next'].length; count++) {
+                $("<div/>").attr({id: 'accordion', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_col_2');
+                $("<div/>").attr({id: `accordion-item_${count}`, class: 'accordion-item'}).appendTo(`#accordion`);
+                $("<h2/>").attr({id: `flush_heading_${count}`, class: 'accordion-header'}).appendTo(`#accordion`);
+                $("<button/>").attr({id: `accordion_button_${count}`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}`}).appendTo(`#flush_heading_${count}`);
+                // document.getElementById(`accordion_button_${count}`).textContent = data[count].full_name;
+                $("<div/>").attr({id: `flush_collapse_${count}`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}`, }).appendTo(`#accordion`);
+                $("<div/>").attr({id: `accordion_body_${count}`, class: 'accordion-body d-flex justify-content-between align-items-center'}).appendTo(`#flush_collapse_${count}`);
+                $("<div/>").attr({id: `col_1_${count}`, class: 'col'}).appendTo(`#accordion_body_${count}`);
+                $("<div/>").attr({id: `col_2_${count}`, class: 'col d-flex justify-content-end'}).appendTo(`#accordion_body_${count}`);
+                // $("<div/>").attr({id: `form_check_${count}`, class: 'form-check'}).appendTo(`#col_1_${count}`);
+                
+                $("<span/>").attr({id: `phone_accordion_body_${count}`}).appendTo(`#col_1_${count}`);
+                $("<br/>").appendTo(`#col_1_${count}`);
+                $("<span/>").attr({id: `date_request_accordion_body_${count}`}).appendTo(`#col_1_${count}`);
+                // document.getElementById(`phone_accordion_body_${count}`).textContent = `Номер телефона: ${data[count].phone}`;
+                // document.getElementById(`date_request_accordion_body_${count}`).textContent = `Дата записи: ${data[count].date}`;
+                // $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-outline-danger bx bx-x mx-2', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}`);
+                // $("<button/>").attr({'user': data[count].full_name, 'phone': data[count].phone, id: `add_button_${count}`, class: 'btn btn-outline-primary bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`, 'onclick': 'update_modal(this);'}).appendTo(`#col_2_${count}`);
+            }
+        }
+        else {
+            $("<h5/>").attr({id: 'h5_call_next', class: 'text-center'}).appendTo('#data_col_2');
+            document.getElementById(`h5_call_next`).textContent = `Нет записей на ближайщие дни`;
         }
     }
 
@@ -340,22 +427,22 @@
                         }
                         if (data[count].records[item_count].patient_full_name) {
                             if (trust[data[count].records[item_count].patient_full_name]) {
-                                trust_factor_name = '"Надежный"'
+                                trust_factor_name = 'Надежный'
                             } 
                             else {
-                                trust_factor_name = '"Не надежный"'
+                                trust_factor_name = 'Не надежный'
                             }
                             if (!trust[data[count].records[item_count].patient_full_name]) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
                             }
                             if (data[count].records[item_count].is_true == 1) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
                             }
                             else if (data[count].records[item_count].is_true == 2) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: MediumSeaGreen;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: MediumSeaGreen;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
                             }
                             else if (data[count].records[item_count].is_true == 0) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
                             }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             if (all_data['role'] == 'doctor') {        
@@ -366,6 +453,8 @@
                         else {
                             if (moment() < moment(data[count].records[item_count].time, 'HH:mm')) {
                                 $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            } else {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`});
                             }
                         }
                     }

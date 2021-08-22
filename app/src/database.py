@@ -106,7 +106,7 @@ class Record(db.Model):
     office = db.Column(db.Integer())
     is_true = db.Column(db.Integer(), default=1)
     is_send = db.Column(db.String(255), index=True, default='0')
-    is_interview = db.Column(db.String(255), index=True)
+    is_interview = db.Column(db.Integer(), default=0)
 
 class Office(db.Model):
     __tablename__ = 'offices'
