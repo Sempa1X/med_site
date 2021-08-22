@@ -16,7 +16,7 @@ def index():
 
 @bp_doc.route('/sender')
 def sender():
-    filename = create_doc()
-    path = os.path.abspath(os.path.dirname('app')) + f"app/static/documents/created/{filename}.docx"
-    return send_file(path, attachment_filename=f'{filename}.docx', as_attachment=True)
+    path = create_doc()
+    filename = path.split('/')[-1]
+    return send_file(path, attachment_filename=filename, as_attachment=True)
 

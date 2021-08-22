@@ -27,11 +27,11 @@ def get_records():
         obj_data = datetime.datetime.strptime(record.date, '%d.%m.%Y').date()
         if record.patient_id:
             if obj_data == current_date2:
-                records['today'].append([record.date, record.time, record.patient_phone,\
-                                         record.patient.full_name, record.doctor.full_name, record.office])
+                records['today'].append([{'date': record.date, 'time': record.time, 'patient_phone': record.patient_phone,\
+                                         'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office}])
             if obj_data < current_date2 + datetime.timedelta(days=3) and obj_data > current_date2:
-                records['next'].append([record.date, record.time, record.patient_phone,\
-                                         record.patient.full_name, record.doctor.full_name, record.office])
+                records['next'].append([{'date': record.date,'time': record.time,'patient_phone': record.patient_phone,\
+                                         'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office}])
     return records 
 
 
