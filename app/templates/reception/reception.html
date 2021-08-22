@@ -27,15 +27,51 @@
 }
 </style>
 <div class="container" id='cont'>
-    <div class="row mb-5">
+    <div class="row mb-3">
         <div class="col">
             <form id='searchFormtest'>
                 <div id="sandbox-container" class="d-flex justify-content-center"></div>
             </form>
         </div>
     </div>
+    <div class="row p-3 mb-2 bg-light rounded">
+        <div class="col-sm-2 d-flex justify-content-center">
+            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" class="btn btn-outline-secondary">Список на обзвон</button>
+        </div>
+    </div>
       
-      <!-- Модальное окно добавления расписания -->
+    <!-- Модальное окно обзвон -->
+    <div class="modal fade" id="modal_for_call" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_label">Подтверждение действия</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_modal_3"">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button id='myBtn_accept1' type="submit" class="btn btn-outline-success col-md-12">
+                                    <i class="far fa-check-circle"></i>
+                                    Подтвердить
+                                </button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <button type="button" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
+                                    <i class="far fa-window-close"></i>    
+                                    Отменить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления расписания -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -81,13 +117,13 @@
                 <div class="modal-body">
                     <form id="form_modal_2" onsubmit="replace(); return false;">
                         <div class="row">
-                            <div class="col-md-6">
-                                <button id='myBtn_accept' type="submit" data-bs-dismiss="modal" class="btn btn-outline-success col-md-12">
+                            <div class="col-md-6 mb-3">
+                                <button id='myBtn_accept' type="submit" class="btn btn-outline-success col-md-12">
                                     <i class="far fa-check-circle"></i>
                                     Подтвердить
                                 </button>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <button type="button" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
                                     <i class="far fa-window-close"></i>    
                                     Отменить
@@ -101,6 +137,7 @@
         </div>
     </div>
 
+        <!-- Модальное окно пришел/не пришел -->
     <div class="modal fade" id="modal_came" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -110,13 +147,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <button id='myBtn_accept' type="button" data-bs-dismiss="modal" onclick="is_active(1);" class="btn btn-outline-success col-md-12">
                                 <i class="far fa-check-circle"></i>
                                 Пришел
                             </button>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <button type="button" onclick="is_active(0);" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
                                 <i class="far fa-window-close"></i>    
                                 Не пришел
@@ -149,6 +186,10 @@
 
     $("#myBtn_accept").click(function(){
         $("#modal_accept").modal('hide');
+    });
+
+    $("#myBtn_for_call").click(function(){
+        $("#modal_for_call").modal('hide');
     });
 
     var result = [];
@@ -197,9 +238,13 @@
         });
     };
 
-    $(document).ready(function() { 
+    $(document).ready(function() {
+        // $("body").tooltip({ selector: '[data-toggle=tooltip]' });
         get_doctors(moment().format('DD.MM.YYYY'));
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        $("body").tooltip({
+            selector: '[data-bs-toggle=tooltip]',
+            delay: { "show": 250, "hide": 50 }
+        });
 
     });
 
@@ -295,17 +340,23 @@
                             }
                         }
                         if (data[count].records[item_count].patient_full_name) {
-                            if (!trust[data[count].records[item_count].patient_full_name]) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            if (trust[data[count].records[item_count].patient_full_name]) {
+                                trust_factor_name = '"Надежный"'
+                            } 
+                            else {
+                                trust_factor_name = '"Не надежный"'
                             }
-                            else if (data[count].records[item_count].is_true == 1) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                            if (!trust[data[count].records[item_count].patient_full_name]) {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
+                            }
+                            if (data[count].records[item_count].is_true == 1) {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
                             }
                             else if (data[count].records[item_count].is_true == 2) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: MediumSeaGreen;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: MediumSeaGreen;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
                             }
                             else if (data[count].records[item_count].is_true == 0) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-toggle': 'tooltip', 'title': data[count].records[item_count].phone});
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `${data[count].records[item_count].phone} ${trust_factor_name}`});
                             }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             if (all_data['role'] == 'doctor') {        
@@ -314,7 +365,9 @@
                             }
                         }
                         else {
-                            $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            if (moment() < moment(data[count].records[item_count].time, 'HH:mm')) {
+                                $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            }
                         }
                     }
                 }
