@@ -42,7 +42,7 @@ def get_records():
 @login_required
 def interview_post():
     records = get_records()
-    if records['today'] == '[]' and records['next'] == '[]':
+    if records['today'] and records['next']:
         return jsonify({'success': 'false'})
     return jsonify({'success': 'true', 'records': records})
 
