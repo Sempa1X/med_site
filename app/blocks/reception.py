@@ -21,15 +21,15 @@ bp_reception = Blueprint('receptions', __name__, url_prefix='/reception')
 
 
 
-def get_records():
+def get_records(date):
     records = {'today': [], 'next': []}
     for record in Record.query.filter_by(isActive='1'):
         obj_data = datetime.datetime.strptime(record.date, '%d.%m.%Y').date()
         if record.patient_id:
-            if obj_data == current_date2:
+            if obj_data == date:
                 records['today'].append([{'date': record.date, 'time': record.time, 'patient_phone': record.patient_phone,\
                                          'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office}])
-            if obj_data < current_date2 + datetime.timedelta(days=3) and obj_data > current_date2:
+            if obj_data < date + datetime.timedelta(days=3) and obj_data > date:
                 records['next'].append([{'date': record.date,'time': record.time,'patient_phone': record.patient_phone,\
                                          'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office}])
     return records 
@@ -41,7 +41,7 @@ def get_records():
 @bp_reception.post('/get_list')
 @login_required
 def interview_post():
-    records = get_records()
+    records = get_records(request.form['date'])
     if records['today'] and records['next']:
         return jsonify({'success': 'false'})
     return jsonify({'success': 'true', 'records': records})
