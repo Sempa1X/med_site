@@ -64,14 +64,14 @@ def send_emails():
                         record.is_send = True
                         db.session.commit()
                         print(f'[-] Email success sending [{record.patient.email}]')
-                        time.sleep(3)
+                        time.sleep(15)
                         pass
                     except  Exception as e:
                         print(e)
                         print(f'[-] Email not sending [{record.patient.email}]')
         
         print('[-] Email end sending')
-        time.sleep(3)
+        time.sleep(500)
         break
 
 
