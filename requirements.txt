@@ -9,6 +9,5 @@ email_validator
 cloudipsp
 sqlalchemy
 flask-mail
-
-
-
+flask_apscheduler
+docxtpl

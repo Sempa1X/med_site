@@ -39,6 +39,43 @@ def search_process():
                     future_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
                 else:
                     lost_rec.append({'id': o.id, 'is_active': o.isActive, 'doctor_full_name':o.doctor_full_name, 'date':o.date, 'time':o.time, 'office':o.office,  'doctor_id':o.doctor_id})
-            patient_info.append({'address': i.address, 'estimated_birthday': i.estimated_birthday, 'num_fetus': i.num_fetus, 'lr_pass_issued': i.lr_pass_issued, 'lr_pass_date': i.lr_pass_date, 'lr_pass_num': i.lr_pass_num, 'lr_pass_serial': i.lr_pass_serial, 'lr_status': i.lr_status, 'lr_full_name':"{} {} {}".format(i.lr_surname, i.lr_f_name, i.lr_l_name),'is_reception': i.is_reception,'birthday': i.birthday, 'full_name': i.full_name, 'comment': i.comment,'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone, 'phone2': i.phone2, 'lost_records': lost_rec, 'future_records': future_rec, 'age': age.calculate_age(int(i.birthday.split(".")[2]), int(i.birthday.split(".")[1]), int(i.birthday.split(".")[0]))}) 
+            patient_info.append({'id': i.id,'address': i.address, 'estimated_birthday': i.estimated_birthday, 'num_fetus': i.num_fetus, 'lr_pass_issued': i.lr_pass_issued, 'lr_pass_date': i.lr_pass_date, 'lr_pass_num': i.lr_pass_num, 'lr_pass_serial': i.lr_pass_serial, 'lr_status': i.lr_status, 'lr_full_name':"{} {} {}".format(i.lr_surname, i.lr_f_name, i.lr_l_name),'is_reception': i.is_reception,'birthday': i.birthday, 'full_name': i.full_name, 'comment': i.comment,'trust_factor': i.trust_factor, 'role': i.patient_role, 'phone': i.phone, 'phone2': i.phone2, 'lost_records': lost_rec, 'future_records': future_rec, 'age': age.calculate_age(int(i.birthday.split(".")[2]), int(i.birthday.split(".")[1]), int(i.birthday.split(".")[0]))}) 
         return jsonify({'success': 'false', 'text': 'Нет пациента'}) if len(patient_info) == 0 else jsonify({'success': 'true', 'patients': patient_info})
     return jsonify({'success': 'false', 'text': 'Нет пациента'})
+
+
+@bp_search.post('/edit_patient')
+def edit_patient():
+    try:
+        for patient in Patient.query.get(request.form['id']):
+            patient.patient_role = request.form['type']
+            patient.birthday = request.form['birthday']
+            patient.trust_factor = request.form['trust']
+            patient.phone = request.form['phone']
+            patient.phone2 = request.form['phone2']
+            patient.first_name = request.form['first_name']
+            patient.last_name = request.form['last_name']
+            patient.surname = request.form['surname']
+            patient.full_name = request.form['full_name']
+            patient.address = request.form['address']
+            patient.comment = request.form['comment']
+            patient.email = request.form['email']
+            patient.card_number = request.form['card_number']
+            patient.out_to_town = request.form['out_to_town']
+            patient.lr_pass_serial = request.form['lr_pass_serial']
+            patient.lr_pass_num = request.form['lr_pass_num']
+            patient.lr_pass_date = request.form['lr_pass_date']
+            patient.lr_pass_issued = request.form['lr_pass_issued']
+            if patient.patient_role == 'pregnant':
+                patient.estimated_birthday = request.form['estimated_birthday']
+                patient.num_fetus = request.form['num_fetus']
+            elif patient.patient_role == 'child':
+                patient.lr_f_name = request.form['lr_f_name']
+                patient.lr_l_name = request.form['lr_l_name']
+                patient.lr_surname = request.form['lr_surname']
+                patient.lr_status = request.form['lr_status']
+            db.session.commit()
+            return jsonify({'success': 'true'})
+    except Exception as e:
+        return jsonify({'success': 'false'})
+
