@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_admin import Admin
 from flask_admin.menu import MenuLink
 from flask_mail import Mail
+from flask_apscheduler import APScheduler
 
 from config import Config
 
@@ -16,6 +17,8 @@ from config import Config
 application = Flask(__name__)
 application.config.from_object(Config)
 
+# Настройка многопотока
+scheduler = APScheduler()
 
 # Инициализация базы данных
 metadata = MetaData(
@@ -39,10 +42,11 @@ login.login_message = "Доступ закрыт, войдите!"
 
 # Инициализация и настройка почты
 mail = Mail(application)
-with application.app_context():
+
+@scheduler.task("cron", id="sender_mail", minute="*")
+def sender_mail():
     from app.src.email import send_emails
     send_emails()
-
 
 
 # BP
@@ -67,8 +71,7 @@ application.register_blueprint(bp_error)
 from app.blocks.office import bp_office
 application.register_blueprint(bp_office)
 
-from app.blocks.interview import bp_inter
-application.register_blueprint(bp_inter)
+
 
 bp_login._before_request_lock = Lock()
 bp_reception._before_request_lock = Lock()
@@ -77,7 +80,7 @@ bp_add._before_request_lock = Lock()
 bp_list_expectation._before_request_lock = Lock()
 bp_error._before_request_lock = Lock()
 bp_office._before_request_lock = Lock()
-bp_inter._before_request_lock = Lock()
+
 
 bp_login._got_first_request = False
 bp_reception._got_first_request = False
@@ -86,7 +89,6 @@ bp_add._got_first_request = False
 bp_list_expectation._got_first_request = False
 bp_error._got_first_request = False
 bp_office._got_first_request = False
-bp_inter._got_first_request = False
 
 
 

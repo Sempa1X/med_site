@@ -1,7 +1,5 @@
-from flask import Blueprint, render_template, redirect,\
-    url_for, request, flash, jsonify
-from sqlalchemy import or_
-from flask_login import current_user, login_required
+from flask import Blueprint, render_template
+from flask_login import login_required
 
 from app import application
 

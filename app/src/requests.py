@@ -1,10 +1,5 @@
-from app import application, db, login
-from app.src.email import send_emails
+from app import application, db, login, executor
 
-@application.before_app_request
+@application.before_app_first_request
 def before_request():
-    send_emails()
-
-
-
-
+    pass
