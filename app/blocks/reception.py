@@ -29,10 +29,10 @@ def get_records(date):
     while just_date < obj_data + datetime.timedelta(days=3):
         just_date = obj_data + datetime.timedelta(days=count)
         rec_date = str(just_date).split('-')
-        for record in Record.query.filter(and_(Record.isActive=='1', Record.date==f'{rec_date[2]}.{rec_date[1]}.{rec_date[0]}', Record.is_interview==0)):
-            print(record)
+        true_date = f'{rec_date[2]}.{rec_date[1]}.{rec_date[0]}'
+        print(true_date)
+        for record in Record.query.filter(and_(Record.isActive=='1', Record.date==true_date, Record.is_interview==0)):
             if record.patient_id and record.doctor_id:
-                print(record)
                 if count == 0:
                     records['today'].append({'date': record.date, 'time': record.time, 'patient_phone': record.patient_phone,\
                                             'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office})
