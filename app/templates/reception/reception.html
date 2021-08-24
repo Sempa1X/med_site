@@ -336,28 +336,27 @@
         $("<div/>").attr({id: 'data_col_1', class: 'col-md-6 mb-3'}).appendTo('#row_call');
         $("<div/>").attr({id: 'data_col_2', class: 'col-md-6 mb-3'}).appendTo('#row_call');
         if (data['records']['today'].length) {
-            $("<div/>").attr({id: 'accordion_today', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_col_1');
+            $("<div/>").attr({id: 'accordion_today', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 60vh'}).appendTo('#data_col_1');
             for (let count = 0; count < data['records']['today'].length; count++) {
-                $("<div/>").attr({id: `accordion-item_${count}`, class: 'accordion-item'}).appendTo(`#data_col_1`);
-                $("<div/>").attr({id: 'accordion_today', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_col_1');
-                $("<h2/>").attr({id: `flush_heading_${count}_today`, class: 'accordion-header'}).appendTo(`#accordion_today`);
-                $("<button/>").attr({id: `accordion_button_${count}_today`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}`}).appendTo(`#flush_heading_${count}_today`);
+                $("<div/>").attr({id: `accordion_item_${count}_today`, class: 'accordion-item'}).appendTo(`#accordion_today`);
+                $("<h2/>").attr({id: `flush_heading_${count}_today`, class: 'accordion-header'}).appendTo(`#accordion_item_${count}_today`);
+                $("<button/>").attr({id: `accordion_button_${count}_today`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}_today`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}_today`}).appendTo(`#flush_heading_${count}_today`);
                 document.getElementById(`accordion_button_${count}_today`).textContent = data['records']['today'][count].patient_full_name;
-                $("<div/>").attr({id: `flush_collapse_${count}_today`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}_today`, }).appendTo(`#accordion_today`);
+                $("<div/>").attr({id: `flush_collapse_${count}_today`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}_today`, }).appendTo(`#accordion_item_${count}_today`);
                 $("<div/>").attr({id: `accordion_body_${count}_today`, class: 'accordion-body d-flex justify-content-between align-items-center'}).appendTo(`#flush_collapse_${count}_today`);
-                $("<div/>").attr({id: `col_1_${count}_today`, class: 'col'}).appendTo(`#accordion_body_${count}_today`);
-                $("<div/>").attr({id: `col_2_${count}_today`, class: 'col d-flex justify-content-end'}).appendTo(`#accordion_body_${count}_today`);
+                $("<div/>").attr({id: `col_1_${count}_today`, class: 'col-md-8'}).appendTo(`#accordion_body_${count}_today`);
+                $("<div/>").attr({id: `col_2_${count}_today`, class: 'col-md-4 d-flex justify-content-end'}).appendTo(`#accordion_body_${count}_today`);
                 
-                $("<span/>").attr({id: `phone_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
-                $("<span/>").attr({id: `date_request_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
-                $("<span/>").attr({id: `office_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
-                $("<span/>").attr({id: `doctor_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
-                document.getElementById(`phone_accordion_body_${count}_today`).textContent = `Номер телефона: ${data['records']['today'][count].phone}`;
+                $("<p/>").attr({id: `phone_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
+                $("<p/>").attr({id: `date_request_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
+                $("<p/>").attr({id: `office_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
+                $("<p/>").attr({id: `doctor_accordion_body_${count}_today`, class: 'mb-2'}).appendTo(`#col_1_${count}_today`);
+                document.getElementById(`phone_accordion_body_${count}_today`).textContent = `Номер телефона: ${data['records']['today'][count].patient_phone}`;
                 document.getElementById(`date_request_accordion_body_${count}_today`).textContent = `Время записи: ${data['records']['today'][count].time}`;
                 document.getElementById(`office_accordion_body_${count}_today`).textContent = `Кабинет: №${data['records']['today'][count].office}`;
-                document.getElementById(`doctor_accordion_body_${count}_today`).textContent = `Врач: №${data['records']['today'][count].doctor_full_name}`;
-                // $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-outline-danger bx bx-x mx-2', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}_today`);
-                // $("<button/>").attr({'user': data[count].full_name, 'phone': data[count].phone, id: `add_button_${count}`, class: 'btn btn-outline-primary bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`, 'onclick': 'update_modal(this);'}).appendTo(`#col_2_${count}_today`);
+                document.getElementById(`doctor_accordion_body_${count}_today`).textContent = `Врач: ${data['records']['today'][count].doctor_full_name}`;
+                $("<button/>").attr({id: `not_came_button_${count}_today`, class: 'btn btn-outline-success bx bx-calendar-check mx-2', type: 'button'}).appendTo(`#col_2_${count}_today`);
+                $("<button/>").attr({id: `came_button_${count}_today`, class: 'btn btn-outline-danger bx bx-calendar-x', type: 'button'}).appendTo(`#col_2_${count}_today`);
             }
         }
         else {
@@ -365,27 +364,29 @@
             document.getElementById(`h5_call_today`).textContent = `Нет записей на сегодня`;
         }
         if (data['records']['next'].length) {
+            $("<div/>").attr({id: 'accordion_next', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 60vh'}).appendTo('#data_col_2');
             for (let count = 0; count < data['records']['next'].length; count++) {
-                $("<div/>").attr({id: `accordion-item_${count}`, class: 'accordion-item'}).appendTo(`#data_col_2`);
-                $("<div/>").attr({id: 'accordion_next', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 35vh'}).appendTo('#data_col_2');
-                $("<h2/>").attr({id: `flush_heading_${count}_next`, class: 'accordion-header'}).appendTo(`#accordion_next`);
-                $("<button/>").attr({id: `accordion_button_${count}_next`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}`}).appendTo(`#flush_heading_${count}_next`);
-                document.getElementById(`accordion_button_${count}_next`).textContent = data['records']['today'][count].patient_full_name;
-                $("<div/>").attr({id: `flush_collapse_${count}_next`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}_next`, }).appendTo(`#accordion_next`);
+                $("<div/>").attr({id: `accordion_item_${count}_next`, class: 'accordion-item'}).appendTo(`#accordion_next`);
+                $("<h2/>").attr({id: `flush_heading_${count}_next`, class: 'accordion-header'}).appendTo(`#accordion_item_${count}_next`);
+                $("<button/>").attr({id: `accordion_button_${count}_next`, class: 'accordion-button collapsed', type: 'button', 'data-bs-toggle': 'collapse', 'data-bs-target': `#flush_collapse_${count}_next`, 'aria-expanded': 'false', 'aria-controls': `flush_collapse_${count}_next`}).appendTo(`#flush_heading_${count}_next`);
+                document.getElementById(`accordion_button_${count}_next`).textContent = data['records']['next'][count].patient_full_name;
+                $("<div/>").attr({id: `flush_collapse_${count}_next`, class: 'accordion-collapse collapse', 'aria-labelledby': `flush_heading_${count}_next`, }).appendTo(`#accordion_item_${count}_next`);
                 $("<div/>").attr({id: `accordion_body_${count}_next`, class: 'accordion-body d-flex justify-content-between align-items-center'}).appendTo(`#flush_collapse_${count}_next`);
-                $("<div/>").attr({id: `col_1_${count}_next`, class: 'col'}).appendTo(`#accordion_body_${count}_next`);
-                $("<div/>").attr({id: `col_2_${count}_next`, class: 'col d-flex justify-content-end'}).appendTo(`#accordion_body_${count}_next`);
+                $("<div/>").attr({id: `col_1_${count}_next`, class: 'col-md-8'}).appendTo(`#accordion_body_${count}_next`);
+                $("<div/>").attr({id: `col_2_${count}_next`, class: 'col-md-4 d-flex justify-content-end'}).appendTo(`#accordion_body_${count}_next`);
                 
-                $("<span/>").attr({id: `phone_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
-                $("<span/>").attr({id: `date_request_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
-                $("<span/>").attr({id: `office_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
-                $("<span/>").attr({id: `doctor_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
-                document.getElementById(`phone_accordion_body_${count}_next`).textContent = `Номер телефона: ${data['records']['next'][count].phone}`;
+                $("<p/>").attr({id: `phone_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
+                $("<p/>").attr({id: `date_request_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
+                $("<p/>").attr({id: `office_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
+                $("<p/>").attr({id: `doctor_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
+                $("<p/>").attr({id: `date_accordion_body_${count}_next`, class: 'mb-2'}).appendTo(`#col_1_${count}_next`);
+                document.getElementById(`phone_accordion_body_${count}_next`).textContent = `Номер телефона: ${data['records']['next'][count].patient_phone}`;
                 document.getElementById(`date_request_accordion_body_${count}_next`).textContent = `Время записи: ${data['records']['next'][count].time}`;
                 document.getElementById(`office_accordion_body_${count}_next`).textContent = `Кабинет: №${data['records']['next'][count].office}`;
-                document.getElementById(`doctor_accordion_body_${count}_next`).textContent = `Врач: №${data['records']['next'][count].doctor_full_name}`;
-                // $("<button/>").attr({'rec_id': data[count].id, id: `del_button_${count}`, class: 'btn btn-outline-danger bx bx-x mx-2', type: 'button', 'onclick': 'del_item(this);'}).appendTo(`#col_2_${count}_next`);
-                // $("<button/>").attr({'user': data[count].full_name, 'phone': data[count].phone, id: `add_button_${count}`, class: 'btn btn-outline-primary bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal`, 'onclick': 'update_modal(this);'}).appendTo(`#col_2_${count}_next`);
+                document.getElementById(`doctor_accordion_body_${count}_next`).textContent = `Врач: ${data['records']['next'][count].doctor_full_name}`;
+                document.getElementById(`date_accordion_body_${count}_next`).textContent = `Дата: ${data['records']['next'][count].date}`;
+                $("<button/>").attr({id: `not_came_button_${count}_next`, class: 'btn btn-outline-success bx bx-calendar-check mx-2', type: 'button'}).appendTo(`#col_2_${count}_next`);
+                $("<button/>").attr({id: `came_button_${count}_next`, class: 'btn btn-outline-danger bx bx-calendar-x', type: 'button'}).appendTo(`#col_2_${count}_next`);
             }
         }
         else {
