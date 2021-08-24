@@ -2,13 +2,14 @@ import datetime
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from app import db
 
 
 now = datetime.datetime.now()
 current_date = str(now.strftime('%Y-%m-%d'))
 current_time = str(now.strftime('%H:%M'))
 
-from app import db
+
 class User(UserMixin, db.Model):
     __tablename__ = 'personal'
  
@@ -107,6 +108,8 @@ class Record(db.Model):
     is_true = db.Column(db.Integer(), default=1)
     is_send = db.Column(db.String(255), index=True, default='0')
     is_interview = db.Column(db.Integer(), default=0)
+    is_go = db.Column(db.Boolean(), default=1)
+
 
 class Office(db.Model):
     __tablename__ = 'offices'

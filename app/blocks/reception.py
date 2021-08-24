@@ -34,23 +34,12 @@ def get_records(date):
         for record in Record.query.filter(and_(Record.isActive=='1', Record.date==true_date, Record.is_interview==0)):
             if record.patient_id and record.doctor_id:
                 if count == 0:
-                    records['today'].append({'date': record.date, 'time': record.time, 'patient_phone': record.patient_phone,\
+                    records['today'].append({'id': record.id, 'date': record.date, 'time': record.time, 'patient_phone': record.patient_phone,\
                                             'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office})
                 else:
-                    records['next'].append({'date': record.date,'time': record.time,'patient_phone': record.patient_phone,\
+                    records['next'].append({'id': record.id, 'date': record.date,'time': record.time,'patient_phone': record.patient_phone,\
                                             'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office})
         count += 1
-
-
-    # for record in Record.query.filter_by(isActive='1'):
-    #     rec_date = datetime.datetime.strptime(record.date, '%d.%m.%Y').date()
-    #     if record.patient_id and record.doctor_id:
-    #         if rec_date == obj_data:
-    #             records['today'].append({'date': record.date, 'time': record.time, 'patient_phone': record.patient_phone,\
-    #                                      'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office})
-    #         elif rec_date <= obj_data + datetime.timedelta(days=3):
-    #             records['next'].append({'date': record.date,'time': record.time,'patient_phone': record.patient_phone,\
-    #                                      'patient_full_name': record.patient.full_name, 'doctor_full_name': record.doctor.full_name, 'office': record.office})
     return records 
 
 
@@ -61,13 +50,23 @@ def get_records(date):
 @login_required
 def interview_post():
     records = get_records(request.form['date'])
-    print(records)
     if records['today'] or records['next']:
         return jsonify({'success': 'true', 'records': records})
     return jsonify({'success': 'false'})
 
 
-
+@bp_reception.post('/get_list/check')
+@login_required
+def check_interview():
+    try:
+        record = Record.query.get(request.form['id'])
+        record.is_go = request.form['is_go']
+        record.is_interview = request.form['is_interview']
+        db.session.commit()
+        return jsonify({'success':'true'})
+    except  Exception as e:
+        print(e)
+        return jsonify({'success':'false'})
 
 
 # Work
