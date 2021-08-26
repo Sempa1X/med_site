@@ -27,16 +27,20 @@
 }
 </style>
 <div class="container" id='cont'>
-    <div class="row mb-3">
-        <div class="col">
+    <div class="row mb-3 rounded">
+        <div class="col" style="background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+        box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);">
             <form id='searchFormtest'>
                 <div id="sandbox-container" class="d-flex justify-content-center"></div>
             </form>
         </div>
     </div>
-    <div class="row p-3 mb-2 bg-light rounded">
+    <div class="row p-3 mb-2 mt-5 rounded" style="background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+                                                    -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+                                                    box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);">
         <div class="col-sm-2 d-flex justify-content-center">
-            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" onclick="getCallList();" class="btn btn-outline-secondary">Список на обзвон</button>
+            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" onclick="getCallList();" class="btn btn-outline-dark">Обзвон</button>
         </div>
     </div>
       
@@ -337,10 +341,12 @@
     function createListCall(data) {
         delBlock2();
         $("<div/>").attr({id: 'data_place2'}).appendTo('#form_modal_3');
-        $("<div/>").attr({id: 'row_call', class: 'row'}).appendTo('#data_place2');
+        $("<div/>").attr({id: 'row_call', class: 'row rounded'}).appendTo('#data_place2');
         $("<div/>").attr({id: 'data_col_1', class: 'col-md-6 mb-3'}).appendTo('#row_call');
         $("<div/>").attr({id: 'data_col_2', class: 'col-md-6 mb-3'}).appendTo('#row_call');
         if (data['records']['today'].length) {
+            $("<h5/>").attr({id: 'h5_call_today', class: 'text-center'}).appendTo('#data_col_1');
+            document.getElementById(`h5_call_today`).textContent = `Записи на сегодня`;
             $("<div/>").attr({id: 'accordion_today', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 60vh'}).appendTo('#data_col_1');
             for (let count = 0; count < data['records']['today'].length; count++) {
                 $("<div/>").attr({id: `accordion_item_${count}_today`, class: 'accordion-item'}).appendTo(`#accordion_today`);
@@ -369,6 +375,8 @@
             document.getElementById(`h5_call_today`).textContent = `Нет записей на сегодня`;
         }
         if (data['records']['next'].length) {
+            $("<h5/>").attr({id: 'h5_call_next', class: 'text-center'}).appendTo('#data_col_2');
+            document.getElementById(`h5_call_next`).textContent = `Записи на ближайшие дни`;
             $("<div/>").attr({id: 'accordion_next', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 60vh'}).appendTo('#data_col_2');
             for (let count = 0; count < data['records']['next'].length; count++) {
                 $("<div/>").attr({id: `accordion_item_${count}_next`, class: 'accordion-item'}).appendTo(`#accordion_next`);
@@ -407,16 +415,16 @@
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row align-items-stretch'}).appendTo('#data_place');
         for (let count = 1; count < office_amount; count++) {
-            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer', style: 'min-height: 25vh;'}).appendTo(`#row`);
+            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer', style: 'min-height: 25vh; background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2); -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2); box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);"'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
-            $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
+            $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1 mt-2'}).appendTo(`#head_${count}`);
             document.getElementById(`head_fio_${count}`).textContent = data[count].doctor.doctor_full_name;
             $("<p/>").attr({id: `head_div_doc_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].name}`;
             if (data[count].records.length > 0) {
                 document.getElementById(`head_office_${count}`).textContent = `Кабинет №${count}`;
-                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 33vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
+                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto mb-5', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
                     if (data[count].records[item_count].is_active == 1) {
                         $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
