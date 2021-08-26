@@ -105,10 +105,9 @@ class Record(db.Model):
     isActive = db.Column(db.String(255), default='1')
     comment = db.Column(db.String(255))
     office = db.Column(db.Integer())
-    is_true = db.Column(db.Integer(), default=1)
     is_send = db.Column(db.String(255), index=True, default='0')
     is_interview = db.Column(db.Integer(), default=0)
-    is_go = db.Column(db.Boolean(), default=1)
+    is_go = db.Column(db.Integer(), default=2)
 
 
 class Office(db.Model):
