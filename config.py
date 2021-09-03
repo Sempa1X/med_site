@@ -14,6 +14,9 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     
+    # Email sending settings
+    IS_SENDER = False
+
     # GMAIL settings
     MAIL_USERNAME = 'iazanov471@gmail.com'
     MAIL_PASS = 'asdasdss228'
