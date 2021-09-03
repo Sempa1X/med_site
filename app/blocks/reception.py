@@ -49,10 +49,11 @@ def get_records(date):
 @bp_reception.post('/get_list')
 @login_required
 def interview_post():
-    records = get_records(request.form['date'])
-    if records['today'] or records['next']:
+    try:
+        records = get_records(request.form['date'])
         return jsonify({'success': 'true', 'records': records})
-    return jsonify({'success': 'false'})
+    except:
+        return jsonify({'success': 'false'})
 
 
 @bp_reception.post('/get_list/check')
@@ -60,7 +61,7 @@ def interview_post():
 def check_interview():
     try:
         record = Record.query.get(request.form['id'])
-        record.is_go = request.form['is_go']
+        record.is_go = True if request.form['is_go'] == '1' else False
         record.is_interview = request.form['is_interview']
         db.session.commit()
         return jsonify({'success':'true'})
@@ -109,7 +110,7 @@ def get_data():
         all_data[str(office.number)] = {'doctor': {}, 'records': [], 'name': office.name}
     for _ in Record.query.filter_by(date=request.form['date']):
         all_data[str(_.office)]['doctor'] = {'doctor_full_name': _.doctor_full_name, 'doc_id': _.doctor_id}
-        all_data[str(_.office)]['records'].append({'is_true': _.is_true, 'phone': _.patient_phone, 'rec_id': _.id, 'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'is_active': _.isActive, 'date': _.date})
+        all_data[str(_.office)]['records'].append({'is_go': _.is_go, 'is_interview': _.is_interview, 'phone': _.patient_phone, 'rec_id': _.id, 'doctor_full_name': _.doctor_full_name, 'doctor_id': _.doctor_id, 'patient_full_name':_.patient_full_name, 'patient_id':_.patient_id, 'time': _.time, 'is_active': _.isActive, 'date': _.date})
     return jsonify({'success': 'true', 'data': all_data, 'patients': all_patient, 'doctors': doctors, 'role': current_user.role})
 
 

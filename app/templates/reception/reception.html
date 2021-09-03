@@ -27,16 +27,20 @@
 }
 </style>
 <div class="container" id='cont'>
-    <div class="row mb-3">
-        <div class="col">
+    <div class="row mb-3 rounded">
+        <div class="col" style="background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+        box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);">
             <form id='searchFormtest'>
                 <div id="sandbox-container" class="d-flex justify-content-center"></div>
             </form>
         </div>
     </div>
-    <div class="row p-3 mb-2 bg-light rounded">
+    <div class="row p-3 mb-2 mt-5 rounded" style="background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+                                                    -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);
+                                                    box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);">
         <div class="col-sm-2 d-flex justify-content-center">
-            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" onclick="getCallList();" class="btn btn-outline-secondary">Список на обзвон</button>
+            <button data-bs-toggle="modal" data-bs-target="#modal_for_call" id='btn_call' type="button" onclick="getCallList();" class="btn btn-outline-dark">Обзвон</button>
         </div>
     </div>
       
@@ -45,27 +49,12 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal_label">Списочек  :)</h5>
+                    <h5 class="modal-title" id="modal_label">Список записей на обзвон</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="form_modal_3"">
-                        <!-- <div class="row" id='row_call'>
-                            <div class="col-md-6 mb-3">
-                                <button id='myBtn_accept1' type="submit" class="btn btn-outline-success col-md-12">
-                                    <i class="far fa-check-circle"></i>
-                                    Подтвердить
-                                </button>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <button type="button" data-bs-dismiss="modal" class="btn btn-outline-danger col-md-12">
-                                    <i class="far fa-window-close"></i>    
-                                    Отменить
-                                </button>
-                            </div>
-                        </div> -->
-                    </div>
-                </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -179,6 +168,7 @@
     var doctors = {};
     var patients = {};
     var trust = {}
+    var all_doc = false
 
     $("#myBtn").click(function(){
         $("#modal").modal('hide');
@@ -313,6 +303,25 @@
                 toastr["success"]("Успешно!");
                 console.log(data);
                 createListCall(data);
+                get_doctors(current_date);
+            }
+        });
+    };
+
+    function check_call(obj, is_go, is_interview) {
+
+        redc_id = document.getElementById(obj.id).getAttribute('rec_id');
+        url = '/reception/get_list/check';
+
+        var posting = $.post(url, {'id': redc_id, 'is_go': is_go, 'is_interview': is_interview});
+
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                toastr["success"]("Успешно!");
+                getCallList();
             }
         });
     };
@@ -332,10 +341,12 @@
     function createListCall(data) {
         delBlock2();
         $("<div/>").attr({id: 'data_place2'}).appendTo('#form_modal_3');
-        $("<div/>").attr({id: 'row_call', class: 'row'}).appendTo('#data_place2');
+        $("<div/>").attr({id: 'row_call', class: 'row rounded'}).appendTo('#data_place2');
         $("<div/>").attr({id: 'data_col_1', class: 'col-md-6 mb-3'}).appendTo('#row_call');
         $("<div/>").attr({id: 'data_col_2', class: 'col-md-6 mb-3'}).appendTo('#row_call');
         if (data['records']['today'].length) {
+            $("<h5/>").attr({id: 'h5_call_today', class: 'text-center'}).appendTo('#data_col_1');
+            document.getElementById(`h5_call_today`).textContent = `Записи на сегодня`;
             $("<div/>").attr({id: 'accordion_today', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 60vh'}).appendTo('#data_col_1');
             for (let count = 0; count < data['records']['today'].length; count++) {
                 $("<div/>").attr({id: `accordion_item_${count}_today`, class: 'accordion-item'}).appendTo(`#accordion_today`);
@@ -355,8 +366,8 @@
                 document.getElementById(`date_request_accordion_body_${count}_today`).textContent = `Время записи: ${data['records']['today'][count].time}`;
                 document.getElementById(`office_accordion_body_${count}_today`).textContent = `Кабинет: №${data['records']['today'][count].office}`;
                 document.getElementById(`doctor_accordion_body_${count}_today`).textContent = `Врач: ${data['records']['today'][count].doctor_full_name}`;
-                $("<button/>").attr({id: `not_came_button_${count}_today`, class: 'btn btn-outline-success bx bx-calendar-check mx-2', type: 'button'}).appendTo(`#col_2_${count}_today`);
-                $("<button/>").attr({id: `came_button_${count}_today`, class: 'btn btn-outline-danger bx bx-calendar-x', type: 'button'}).appendTo(`#col_2_${count}_today`);
+                $("<button/>").attr({rec_id: data['records']['today'][count].id, onclick: 'check_call(this, 1, 1);', id: `not_came_button_${count}_today`, class: 'btn btn-outline-success bx bx-calendar-check mx-2', type: 'button'}).appendTo(`#col_2_${count}_today`);
+                $("<button/>").attr({rec_id: data['records']['today'][count].id, onclick: 'check_call(this, 0, 1);', id: `came_button_${count}_today`, class: 'btn btn-outline-danger bx bx-calendar-x', type: 'button'}).appendTo(`#col_2_${count}_today`);
             }
         }
         else {
@@ -364,6 +375,8 @@
             document.getElementById(`h5_call_today`).textContent = `Нет записей на сегодня`;
         }
         if (data['records']['next'].length) {
+            $("<h5/>").attr({id: 'h5_call_next', class: 'text-center'}).appendTo('#data_col_2');
+            document.getElementById(`h5_call_next`).textContent = `Записи на ближайшие дни`;
             $("<div/>").attr({id: 'accordion_next', class: 'accordion accordion-flush overflow-auto', style: 'max-height: 60vh'}).appendTo('#data_col_2');
             for (let count = 0; count < data['records']['next'].length; count++) {
                 $("<div/>").attr({id: `accordion_item_${count}_next`, class: 'accordion-item'}).appendTo(`#accordion_next`);
@@ -385,8 +398,8 @@
                 document.getElementById(`office_accordion_body_${count}_next`).textContent = `Кабинет: №${data['records']['next'][count].office}`;
                 document.getElementById(`doctor_accordion_body_${count}_next`).textContent = `Врач: ${data['records']['next'][count].doctor_full_name}`;
                 document.getElementById(`date_accordion_body_${count}_next`).textContent = `Дата: ${data['records']['next'][count].date}`;
-                $("<button/>").attr({id: `not_came_button_${count}_next`, class: 'btn btn-outline-success bx bx-calendar-check mx-2', type: 'button'}).appendTo(`#col_2_${count}_next`);
-                $("<button/>").attr({id: `came_button_${count}_next`, class: 'btn btn-outline-danger bx bx-calendar-x', type: 'button'}).appendTo(`#col_2_${count}_next`);
+                $("<button/>").attr({rec_id: data['records']['next'][count].id, onclick: 'check_call(this, 1, 1);', id: `not_came_button_${count}_next`, class: 'btn btn-outline-success bx bx-calendar-check mx-2', type: 'button'}).appendTo(`#col_2_${count}_next`);
+                $("<button/>").attr({rec_id: data['records']['next'][count].id, onclick: 'check_call(this, 0, 1);', id: `came_button_${count}_next`, class: 'btn btn-outline-danger bx bx-calendar-x', type: 'button'}).appendTo(`#col_2_${count}_next`);
             }
         }
         else {
@@ -402,16 +415,16 @@
         $("<div/>").attr({id: 'data_place'}).appendTo('#cont');
         $("<div/>").attr({id: 'row', class: 'row align-items-stretch'}).appendTo('#data_place');
         for (let count = 1; count < office_amount; count++) {
-            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer', style: 'min-height: 25vh;'}).appendTo(`#row`);
+            $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer', style: 'min-height: 25vh; background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2); -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2); box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);"'}).appendTo(`#row`);
             $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
-            $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
+            $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1 mt-2'}).appendTo(`#head_${count}`);
             document.getElementById(`head_fio_${count}`).textContent = data[count].doctor.doctor_full_name;
             $("<p/>").attr({id: `head_div_doc_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
             document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].name}`;
             if (data[count].records.length > 0) {
                 document.getElementById(`head_office_${count}`).textContent = `Кабинет №${count}`;
-                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 33vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
+                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto mb-5', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
                     if (data[count].records[item_count].is_active == 1) {
                         $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
@@ -436,17 +449,19 @@
                             else {
                                 trust_factor_name = 'Не надежный'
                             }
-                            if (!trust[data[count].records[item_count].patient_full_name]) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                            $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                            if (data[count].records[item_count].is_interview == 1) {
+                                if (data[count].records[item_count].is_go == 1) {
+                                    $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: DarkGreen;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                                }
+                                else if (data[count].records[item_count].is_go == 0) {
+                                    $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: OrangeRed;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                                }
                             }
-                            if (data[count].records[item_count].is_true == 1) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
-                            }
-                            else if (data[count].records[item_count].is_true == 2) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: MediumSeaGreen;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
-                            }
-                            else if (data[count].records[item_count].is_true == 0) {
-                                $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: Orange;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                            else {
+                                if (!trust[data[count].records[item_count].patient_full_name]) {
+                                    $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                                }
                             }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
                             if (all_data['role'] == 'doctor') {        
@@ -476,11 +491,14 @@
                 document.getElementById(`not_record_button_${count}`).textContent = 'Добавить';
             }
         }
-        for (let doctor_count = 0; doctor_count < all_data.doctors.length; doctor_count++) {
-            if (all_data.doctors[doctor_count].name) {
-                $("<option/>").attr({value: all_data.doctors[doctor_count].id, id: `doc_${doctor_count}`}).appendTo(`#doctor`);
-                document.getElementById(`doc_${doctor_count}`).textContent = all_data.doctors[doctor_count].name;
+        if (!all_doc) {
+            for (let doctor_count = 0; doctor_count < all_data.doctors.length; doctor_count++) {
+                if (all_data.doctors[doctor_count].name) {
+                    $("<option/>").attr({value: all_data.doctors[doctor_count].id, id: `doc_${doctor_count}`}).appendTo(`#doctor`);
+                    document.getElementById(`doc_${doctor_count}`).textContent = all_data.doctors[doctor_count].name;
+                }
             }
+            all_doc = true;
         }
     }
     
