@@ -4,7 +4,7 @@ import os
 from docxtpl import DocxTemplate
 
 from app import application, db 
-from app.src.database import Document, Result
+from app.src.database import Document, Result, Patient
 
 
 now = datetime.datetime.now()
@@ -83,6 +83,7 @@ def create_doc(patient_full_name=None, age=None, diagnoz=None, \
         document = Document(date=current_date, path=filename)
         db.session.add(document)
         db.session.commit()
+        pat = Patient.query.filter_by(full_name=patient_full_name).first()
 
         res = Result(patient_full_name=patient_full_name,
         age = age,diagnoz = diagnoz,birthday = birthday,\
@@ -94,7 +95,7 @@ def create_doc(patient_full_name=None, age=None, diagnoz=None, \
         la_mm = la_mm,fb = fb,fbt = fbt,vmax = vmax,pmax = pmax,pmean = pmean,\
         ava = ava,regu = pegu,vmaxMV = vmaxMV,pmaxMV = pmaxMV,pmeanMV = pmeanMV,\
         mva = mva,regu2 = regu2,vmaxPV = vmaxPV,pmaxPV = pmaxPV,pmeanPV = pmeanPV,\
-        regu3 = regu3,vmaxTV = vmaxTV,pmaxTV = pmaxTV,pmeanTV = pmeanTV,regu4 = regu4)
+        regu3 = regu3,vmaxTV = vmaxTV,pmaxTV = pmaxTV,pmeanTV = pmeanTV,regu4 = regu4, patient_id=pat.id)
 
         db.session.add(res)
         db.session.commit()

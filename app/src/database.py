@@ -51,6 +51,7 @@ class User(UserMixin, db.Model):
 class Patient(db.Model):
     __tablename__ = 'patients'
     id = db.Column(db.Integer, primary_key=True)
+    results = db.relationship('Result', backref='patient_res', lazy='dynamic')
 
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
@@ -129,7 +130,7 @@ class List_expectation(db.Model):
 class Document(db.Model):
     __tablename__ = 'docs'
     id = db.Column(db.Integer, primary_key=True)  
-    path = db.Column(db.String(255), unique=True)
+    path = db.Column(db.String(255))
     date = db.Column(db.String(255))
     desc = db.Column(db.String(255), default='Нет описания')
 
@@ -137,6 +138,7 @@ class Document(db.Model):
 class Result(db.Model):
     __tablename__ = 'results'
     id = db.Column(db.Integer, primary_key=True)  
+    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
     patient_full_name=db.Column(db.String(255), default='None')
     age=db.Column(db.String(255), default='None')
     diagnoz=db.Column(db.String(255), default='None')
