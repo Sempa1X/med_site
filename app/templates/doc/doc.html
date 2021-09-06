@@ -350,13 +350,13 @@
             <h3 class="text-center mb-5 mt-5">Документы за сегодня</h3>
             <div class="list-group">
                 {% for doc in docs %}
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ doc.path }}</h5>
-                    <small>{{ doc.date }}</small>
-                  </div>
-                  <p class="mb-1">{{ doc.desc }}</p>
-                </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 id='path' class="mb-1">{{ doc.path }}</h5>
+                        <small>{{ doc.date }}</small>
+                    </div>
+                    <p class="mb-1">{{ doc.desc }}</p>
+                    </a>
                 {% endfor %}
               </div>
         </div>
@@ -366,9 +366,22 @@
     <script>
         $('.list-group-item').on('click', function(){
             if ( $("a").hasClass("active") ) {
-            $('a').removeClass('active');
+                $('a').removeClass('active');
+                $('a').removeAttr('href');
             }
             $(this).addClass('active');
+            
+            var filename = $('.active').find('#path').text();
+            var url = 'send_file/' + filename
+            var jqxhr = $.post(url, function(data) {
+                if(data.success == 'false'){
+                    alert('False');
+                }
+                // data.file_path - get path for file which, needed download for user
+                // this need create download 
+                $('.active').attr({'href': data.file_path}); 
+                
+            });
         });
 
     </script>

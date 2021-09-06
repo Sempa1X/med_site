@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
-from flask import Blueprint, render_template, send_file, request, redirect, url_for, flash
+from flask import (Blueprint, render_template,
+                    send_file, request, redirect,
+                    url_for, flash, jsonify)
 
 from app.src.document import create_doc
 from app.src.database import Document, Patient
@@ -43,4 +45,18 @@ def sender():
     else:
         filename = path.split('/')[-1]
         return send_file(path, attachment_filename=filename, as_attachment=True)
+
+
+@bp_doc.post('/send_file/<filename>')
+def send_files(filename):
+    try:
+        path = os.path.abspath(os.path.dirname('app')) + f"/app/static/documents/created/{filename}"
+        return jsonify({'success': 'true', 'file_path': path})
+    except Exception as e:
+        print(e)
+        return jsonify({'success': 'false'})
+
+
+
+
 
