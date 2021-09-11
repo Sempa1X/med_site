@@ -467,6 +467,7 @@
                 toastr["success"]("Успешно!");
                 user_role = data.patients[0].role;
                 uid = data.patients[0].id
+
                 get_doctors(moment().format('DD.MM.YYYY'));
                 load_user_info();
             }
@@ -610,7 +611,6 @@
             url = $form.attr( "action" );
         if (user_role == 'default') {
             var full_data = {
-                'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
@@ -633,12 +633,12 @@
                 'num_fetus': '',
                 'estimated_date': '',
                 'comment': $form.find( "#comment" ).val(),
-                'uid': uid
+                'uid': uid,
+                'type': user_role
             }
         }
         else if (user_role == 'pregnant') {
             var full_data = {
-                'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
@@ -661,12 +661,12 @@
                 'num_fetus': $form.find( "#num_fetus" ).val(),
                 'estimated_date': moment($form.find( "#estimated_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'comment': $form.find( "#comment" ).val(),
-                'uid': uid
+                'uid': uid,
+                'type': user_role
             }
         }
         else if (user_role == 'child') {
             var full_data = {
-                'type': $form.find( "#role" ).val(),
                 'surname': $form.find( "#surname" ).val(),
                 'name': $form.find( "#name" ).val(),
                 'middlename': $form.find( "#middlename" ).val(),
@@ -689,7 +689,8 @@
                 'num_fetus': '',
                 'estimated_date': '',
                 'comment': $form.find( "#comment" ).val(),
-                'uid': uid
+                'uid': uid,
+                'type': user_role
             }
         }
 
