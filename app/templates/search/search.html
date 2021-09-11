@@ -152,6 +152,7 @@
     var patients = {};
     var trust = {};
     var all_doc = false;
+    var uid = 0
 
     var user_role = '';
     var translate = {
@@ -465,6 +466,7 @@
                 console.log(data.patients);
                 toastr["success"]("Успешно!");
                 user_role = data.patients[0].role;
+                uid = data.patients[0].id
                 get_doctors(moment().format('DD.MM.YYYY'));
                 load_user_info();
             }
@@ -620,17 +622,18 @@
                 'card_number': $form.find( "#card_number" ).val(),
                 'email': $form.find( "#email" ).val(),
                 'out_of_town': $form.find( "#out_of_town" ).is(':checked'),
-                'lr_surname': false,
-                'lr_f_name': false,
-                'lr_l_name': false,
-                'lr_s': false,
+                'lr_surname': '',
+                'lr_f_name': '',
+                'lr_l_name': '',
+                'lr_s': '',
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
                 'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
-                'num_fetus': false,
-                'estimated_date': false,
-                'comment': $form.find( "#comment" ).val()
+                'num_fetus': '',
+                'estimated_date': '',
+                'comment': $form.find( "#comment" ).val(),
+                'uid': uid
             }
         }
         else if (user_role == 'pregnant') {
@@ -647,17 +650,18 @@
                 'card_number': $form.find( "#card_number" ).val(),
                 'email': $form.find( "#email" ).val(),
                 'out_of_town': $form.find( "#out_of_town" ).is(':checked'),
-                'lr_surname': false,
-                'lr_f_name': false,
-                'lr_l_name': false,
-                'lr_s': false,
+                'lr_surname': '',
+                'lr_f_name': '',
+                'lr_l_name': '',
+                'lr_s': '',
                 'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
                 'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
                 'num_fetus': $form.find( "#num_fetus" ).val(),
                 'estimated_date': moment($form.find( "#estimated_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
-                'comment': $form.find( "#comment" ).val()
+                'comment': $form.find( "#comment" ).val(),
+                'uid': uid
             }
         }
         else if (user_role == 'child') {
@@ -682,9 +686,10 @@
                 'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
                 'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
                 'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
-                'num_fetus': false,
-                'estimated_date': false,
-                'comment': $form.find( "#comment" ).val()
+                'num_fetus': '',
+                'estimated_date': '',
+                'comment': $form.find( "#comment" ).val(),
+                'uid': uid
             }
         }
 

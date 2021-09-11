@@ -46,36 +46,40 @@ def search_process():
 
 @bp_search.post('/edit_patient')
 def edit_patient():
+    data_replace = []
+    for i in request.form:
+        print(i, request.form[i])
+        data_replace.append([i, request.form[i]])
+    print(data_replace[2][1])
     try:
-        for patient in Patient.query.get(request.form['id']):
-            patient.patient_role = request.form['type']
-            patient.birthday = request.form['birthday']
-            # patient.trust_factor = request.form['trust']
-            patient.phone = request.form['phone']
-            patient.phone2 = request.form['phone2']
-            patient.first_name = request.form['first_name']
-            patient.last_name = request.form['middlename']
-            patient.surname = request.form['surname']
-            patient.full_name =  f"{request.form['surname']} {request.form['first_name']} {request.form['middlename']}"
-            patient.address = request.form['address']
-            patient.comment = request.form['comment']
-            patient.email = request.form['email']
-            # patient.card_number = request.form['card_number']
-            patient.out_to_town = request.form['out_to_town']
-            patient.lr_pass_serial = request.form['lr_pass_serial']
-            patient.lr_pass_num = request.form['lr_pass_num']
-            patient.lr_pass_date = request.form['lr_pass_date']
-            patient.lr_pass_issued = request.form['lr_pass_issued']
-            if request.form['type'] == 'pregnant':
-                patient.estimated_birthday = request.form['estimated_date']
-                patient.num_fetus = request.form['num_fetus']
-            elif request.form['type'] == 'child':
-                patient.lr_f_name = request.form['lr_f_name']
-                patient.lr_l_name = request.form['lr_l_name']
-                patient.lr_surname = request.form['lr_surname']
-                patient.lr_status = request.form['lr_status']
-            db.session.commit()
-            return jsonify({'success': 'true'})
+        full = f"{data_replace[1][1]} {data_replace[2][1]} {data_replace[3][1]}"
+        patient = Patient.query.get(data_replace[-1][1])
+        #patient.patient_role = data_replace[0][1]
+        patient.birthday = data_replace[21][1]
+        
+        patient.phone = data_replace[7][1]
+        patient.phone2 = data_replace[8][1]
+        patient.first_name = data_replace[2][1]
+        patient.last_name = data_replace[3][1]
+        patient.surname = data_replace[1][1]
+        patient.full_name =  full
+        patient.address = data_replace[6][1]
+        patient.comment = data_replace[22][1]
+        patient.email = data_replace[10][1]
+        patient.card_number = data_replace[9][1]
+        patient.out_to_town = data_replace[11][1]
+        patient.lr_pass_serial = data_replace[17][1]
+        patient.lr_pass_num = data_replace[16][1]
+        patient.lr_pass_date = data_replace[18][1]
+        patient.lr_pass_issued = data_replace[19][1]
+        patient.estimated_birthday = data_replace[21][1]
+        patient.num_fetus = data_replace[20][1]
+        patient.lr_f_name = data_replace[13][1]
+        patient.lr_l_name = data_replace[14][1]
+        patient.lr_surname = data_replace[12][1]
+        patient.lr_status = data_replace[15][1]
+        db.session.commit()
+        return jsonify({'success': 'true'})
     except Exception as e:
         print(e)
         return jsonify({'success': 'false'})
