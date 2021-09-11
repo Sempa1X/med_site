@@ -53,14 +53,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id='cont_update'>
-                    <form id="form" action="/list_expectation/added" onsubmit="add_user(); return false;">
-                        <select class="form-select" id="role" required>
-                            <option value="none" selected disabled>Выберите тип пациента</option>
-                            <option value="default">Обычный</option>
-                            <option value="child">Ребёнок</option>
-                            <option value="pregnant">Беременная</option>
-                        </select>
-                        <br>
+                    <form id="form2" action="/search/edit_patient" onsubmit="add_user(); return false;">
                         <label for="fio" class="form-label"><h4>Первичные данные</h4></label>
                         <div class="row" id="fio">
                             <div class="col">
@@ -116,6 +109,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label for="card_number" class="form-label">Номер карты</label>
+                                <div class="input-group mb-3">
+                                    <input id="card_number" type="text" class="form-control" aria-describedby="basic-addon1" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="email" class="form-label">Email</label>
+                                <div class="input-group mb-3">
+                                    <input id="email" type="text" class="form-control" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="col-sm-5 d-flex justify-content-center align-items-center">
+                                <div class="input-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name='out_of_town' type="checkbox" id="out_of_town">
+                                        <label class="form-check-label" for="out_of_town">Иногородний</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -132,11 +147,18 @@
     var doc_select = '';
     var office_select = '';
     var user_select = '';
-    var rec_id = ''
+    var rec_id = '';
     var doctors = {};
     var patients = {};
-    var trust = {}
-    var all_doc = false
+    var trust = {};
+    var all_doc = false;
+
+    var user_role = '';
+    var translate = {
+            'default': 'Обычный',
+            'child': 'Ребенок',
+            'pregnant': 'Беременная'
+        }
 
     $('#sandbox-container').datepicker({
         format: "dd.mm.yyyy",
@@ -293,6 +315,129 @@
     };
 
 
+    function delBlock3() {
+        if ($('#data_place3').length) {
+            $("#data_place3").empty();
+        }
+    }
+    function load_user_info() {
+        delBlock3()
+        row_id = "data"
+        $("<div/>").attr({id: 'data_place3'}).appendTo('#form2');
+        $("<br>").appendTo('#data_place3');
+        $("<hr>").appendTo('#data_place3');
+        $("<br>").appendTo('#data_place3');
+        $("<label/>").attr({class: 'form-label', for: row_id, id: 'data_label'}).appendTo('#data_place3');
+        $("<h4/>").attr({id: 'data_label_h4'}).appendTo('#data_label');
+        $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place3');
+        if (user_role == 'default' || user_role == 'pregnant') {
+            document.getElementById('data_label_h4').textContent = 'Данные';
+            counter = 0
+            row_counter = 1
+            if (user_role == 'default') {
+                var data_list = Object.entries({
+                    'lr_pass_num': 'Номер паспорта',
+                    'lr_pass_serial': 'Серия паспорта',
+                    'lr_pass_date': 'Дата получения паспорта',
+                    'lr_pass_issued': 'Место получения паспорта'
+                })
+            }
+            else {
+                var data_list = Object.entries({
+                    'lr_pass_num': 'Номер паспорта',
+                    'lr_pass_serial': 'Серия паспорта',
+                    'lr_pass_date': 'Дата получения паспорта',
+                    'lr_pass_issued': 'Место получения паспорта',
+                    'estimated_date': 'ПДР',
+                    'num_fetus': 'Кол-во плодов'
+                    
+                })
+            }
+            for (var i = 0; i < data_list.length; i++) {
+                if (counter == 2) {
+                    row_id = 'data' + row_counter
+                    $("<br>").appendTo('#data_place');
+                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place3');
+                    i -= 1
+                    counter = 0
+                    row_counter += 1
+                }
+                else {
+                    $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
+                    if (data_list[i][0].includes('date')) {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date', max: "3000-01-01"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    else {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    counter += 1
+                }
+            }
+        }
+        else if (user_role == 'child'){
+            document.getElementById('data_label_h4').textContent = 'Данные о сопровождающем';
+            counter = 0
+            row_counter = 1
+            var data_list = Object.entries({
+                'lr_surname': 'Фамилия представителя',
+                'lr_f_name': 'Имя представителя',
+                'lr_l_name': 'Отчество представителя',
+                'lr_select': 'Тип представителя',
+                'lr_pass_num': 'Номер паспорта представителя',
+                'lr_pass_serial': 'Серия паспорта представителя',
+                'lr_pass_date': 'Дата получения паспорта представителя',
+                'lr_pass_issued': 'Место получения паспорта представителя',
+            })
+            for (var i = 0; i < data_list.length; i++) {
+                if (counter == 3) {
+                    row_id = 'data' + row_counter
+                    $("<br>").appendTo('#data_place3');
+                    $("<div/>").attr({class: 'row', id: row_id}).appendTo('#data_place3');
+                    i -= 1
+                    counter = 0
+                    row_counter += 1
+                }
+                else {
+                    $("<div/>").attr({class: 'col', id: row_id + '_col_' + data_list[i][0]}).appendTo('#' + row_id);
+                    $("<label/>").attr({class: 'form-label', for: data_list[i][0], id: data_list[i][0] + '_label'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    document.getElementById(data_list[i][0]  + '_label').textContent = data_list[i][1];
+                    if (data_list[i][0].includes('date')) {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'date',  max: "3000-01-01"}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+                    else if (data_list[i][0].includes('select')) {
+                        $("<select/>").attr({class: 'form-select', id: 'lr_s'}).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                        var lr_select = ['Мать', 'Отец', 'Дед']
+                        let disabled_status = new Option('Выберите тип представителя', 0);
+                        disabled_status.disabled = true
+                        lr_s.append(disabled_status);
+                        for (let count = 0; count < lr_select.length; count++) {
+                            let new_status = new Option(lr_select[count], count + 1);
+                            lr_s.append(new_status);
+                        }
+                    }
+                    else {
+                        $("<input/>").attr({class: 'form-control', id: data_list[i][0], type: 'text', }).appendTo('#' + row_id + '_col_' + data_list[i][0]);
+                    }
+
+                    counter += 1
+                }
+            }
+        }
+        $("<br>").appendTo('#data_place3');
+        $("<label/>").attr({class: 'form-label', for: 'comment', id: 'comm'}).appendTo('#data_place3');
+        document.getElementById("comm").textContent = 'Комментарий';
+        $("<textarea/>").attr({class: 'form-control', id: 'comment', type: 'text'}).appendTo('#data_place3');
+        $("<br>").appendTo('#data_place3');
+        $("<div/>").attr({class: 'd-grid gap-2', id: 'btn'}).appendTo('#data_place3');
+        $("<button/>").attr({class: 'btn btn-outline-primary', id: 'answer', type: 'submit'}).appendTo('#btn');
+        document.getElementById("answer").textContent = 'Отправить';
+        $("<br>").appendTo('#data_place3');
+
+    };
+
+
 
     function delBlock2() {
         if ($('#data_place2').length) {
@@ -319,7 +464,9 @@
                 outputData(data.patients[0]);
                 console.log(data.patients);
                 toastr["success"]("Успешно!");
+                user_role = data.patients[0].role;
                 get_doctors(moment().format('DD.MM.YYYY'));
+                load_user_info();
             }
         });
     };
@@ -333,11 +480,6 @@
 
     function outputData(data) {
         delBlock();
-        translate = {
-            'default': 'Обычный',
-            'child': 'Ребенок',
-            'pregnant': 'Беременная'
-        }
         $("<div/>").attr({id: 'data_place'}).appendTo('#main');
         $("<div/>").attr({id: 'card_main', class: 'card border-primary mb-3'}).appendTo('#data_place');
         $("<div/>").attr({id: 'card_header', class: 'card-header bg-transparent border-primary text-center'}).appendTo('#card_main');
@@ -407,7 +549,7 @@
             $("<li/>").attr({id: 'card_text_lr_pass_issued', class: 'list-group-item'}).appendTo('#card_body_col_2');
             document.getElementById('card_text_lr_pass_issued').textContent = `Кем выдан: ${data.lr_pass_issued}`;
             $("<li/>").attr({id: 'card_text_lr_status', class: 'list-group-item'}).appendTo('#card_body_col_2');
-            document.getElementById('card_text_lr_status').textContent = `Тип представителя "${translate[data.role]}"`;
+            document.getElementById('card_text_lr_status').textContent = `Тип представителя: "${translate[data.role]}"`;
             $("<li/>").attr({id: 'card_text_lr_full_name', class: 'list-group-item'}).appendTo('#card_body_col_2');
             document.getElementById('card_text_lr_full_name').textContent = `ФИО: ${data.r_full_name}`;
         }
@@ -461,7 +603,102 @@
             document.getElementById('footer_btn').textContent = 'Добавить';
         }
     }
+    function add_user() {
+        var $form = $( '#form2' ),
+            url = $form.attr( "action" );
+        if (user_role == 'default') {
+            var full_data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'card_number': $form.find( "#card_number" ).val(),
+                'email': $form.find( "#email" ).val(),
+                'out_of_town': $form.find( "#out_of_town" ).is(':checked'),
+                'lr_surname': false,
+                'lr_f_name': false,
+                'lr_l_name': false,
+                'lr_s': false,
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': false,
+                'estimated_date': false,
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
+        else if (user_role == 'pregnant') {
+            var full_data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'card_number': $form.find( "#card_number" ).val(),
+                'email': $form.find( "#email" ).val(),
+                'out_of_town': $form.find( "#out_of_town" ).is(':checked'),
+                'lr_surname': false,
+                'lr_f_name': false,
+                'lr_l_name': false,
+                'lr_s': false,
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': $form.find( "#num_fetus" ).val(),
+                'estimated_date': moment($form.find( "#estimated_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
+        else if (user_role == 'child') {
+            var full_data = {
+                'type': $form.find( "#role" ).val(),
+                'surname': $form.find( "#surname" ).val(),
+                'name': $form.find( "#name" ).val(),
+                'middlename': $form.find( "#middlename" ).val(),
+                'birthday': moment($form.find( "#birthday" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'how_think': $form.find( "#how_think" ).val(),
+                'address': $form.find( "#address" ).val(),
+                'phone': '+7 ' + $form.find( "#phone" ).val(),
+                'phone2': '+7 ' + $form.find( "#phone2" ).val(),
+                'card_number': $form.find( "#card_number" ).val(),
+                'email': $form.find( "#email" ).val(),
+                'out_of_town': $form.find( "#out_of_town" ).is(':checked'),
+                'lr_surname': $form.find( "#lr_surname" ).val(),
+                'lr_f_name': $form.find( "#lr_f_name" ).val(),
+                'lr_l_name': $form.find( "#lr_l_name" ).val(),
+                'lr_s': $form.find( "#lr_s" ).val(),
+                'lr_pass_num': $form.find( "#lr_pass_num" ).val(),
+                'lr_pass_serial': $form.find( "#lr_pass_serial" ).val(),
+                'lr_pass_date': moment($form.find( "#lr_pass_date" ).val(), "YYYY-MM-DD").format('DD.MM.YYYY'),
+                'lr_pass_issued': $form.find( "#lr_pass_issued" ).val(),
+                'num_fetus': false,
+                'estimated_date': false,
+                'comment': $form.find( "#comment" ).val()
+            }
+        }
 
+        var posting = $.post( url, {data: full_data} );
+
+        posting.done(function( data ) {
+            if (data.success == "false") {
+                toastr["error"]("Что-то пошло не так, попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
+            }
+            else {
+                toastr["success"]("Пациент занесен в базу данных", "Успешно!");
+            }
+        });
+    };
 
     
 </script>

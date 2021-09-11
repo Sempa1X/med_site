@@ -50,26 +50,26 @@ def edit_patient():
         for patient in Patient.query.get(request.form['id']):
             patient.patient_role = request.form['type']
             patient.birthday = request.form['birthday']
-            patient.trust_factor = request.form['trust']
+            # patient.trust_factor = request.form['trust']
             patient.phone = request.form['phone']
             patient.phone2 = request.form['phone2']
             patient.first_name = request.form['first_name']
-            patient.last_name = request.form['last_name']
+            patient.last_name = request.form['middlename']
             patient.surname = request.form['surname']
-            patient.full_name = request.form['full_name']
+            patient.full_name =  f"{request.form['surname']} {request.form['first_name']} {request.form['middlename']}"
             patient.address = request.form['address']
             patient.comment = request.form['comment']
             patient.email = request.form['email']
-            patient.card_number = request.form['card_number']
+            # patient.card_number = request.form['card_number']
             patient.out_to_town = request.form['out_to_town']
             patient.lr_pass_serial = request.form['lr_pass_serial']
             patient.lr_pass_num = request.form['lr_pass_num']
             patient.lr_pass_date = request.form['lr_pass_date']
             patient.lr_pass_issued = request.form['lr_pass_issued']
-            if patient.patient_role == 'pregnant':
-                patient.estimated_birthday = request.form['estimated_birthday']
+            if request.form['type'] == 'pregnant':
+                patient.estimated_birthday = request.form['estimated_date']
                 patient.num_fetus = request.form['num_fetus']
-            elif patient.patient_role == 'child':
+            elif request.form['type'] == 'child':
                 patient.lr_f_name = request.form['lr_f_name']
                 patient.lr_l_name = request.form['lr_l_name']
                 patient.lr_surname = request.form['lr_surname']
@@ -77,5 +77,6 @@ def edit_patient():
             db.session.commit()
             return jsonify({'success': 'true'})
     except Exception as e:
+        print(e)
         return jsonify({'success': 'false'})
 
