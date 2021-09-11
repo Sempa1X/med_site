@@ -21,7 +21,7 @@
             </form>
 
             <div class="hide">
-                <form name="add" action="sender" method="post">
+                <form name="add" id='add' action="sender" method="post">
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="validationDefault01">ФИО</label>
@@ -385,11 +385,10 @@
             $('.hide').show();
             $('.search_btn').hide();
             document.add.fio.value = document.search.records.value.split(' | ')[1];
-            $('.add').append('<input class="rec_id form-control" type="text" name="rec_id" id="rec_id">');
-            alert('true');
-            document.add.rec_id.value = document.search.records.value.split(' | ')[1];
+            $('#add').append('<input class="rec_id form-control" type="text" name="rec_id" id="rec_id">');
+            document.add.rec_id.value = document.search.records.value.split(' | ')[2];
         }
-        // $('#rec_id').hide();
+        $('#rec_id').hide();
     });
 
         $('.list-group-item').on('click', function(){
