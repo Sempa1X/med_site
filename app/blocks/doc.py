@@ -64,6 +64,14 @@ def send_files(filename):
         return jsonify({'success': 'false'})
 
 
+@bp_doc.get('/<filename>')
+def send_file_get(filename):
+    try:
+        path = os.path.abspath(os.path.dirname('app')) + f"/app/static/documents/created/{filename}"
+        return send_file(path, attachment_filename=filename, as_attachment=True)
+    except Exception as e:
+        print(e)
+        return jsonify({'success': 'false'})
 
 
 

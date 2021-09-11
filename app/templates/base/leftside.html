@@ -58,6 +58,14 @@
                             <span class="nav_logo-name">Добавить пациента</span>
                         </a>
                     {% endif %}
+                    <a href="{{ url_for('doc.index') }}" class="nav_logo"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                        width="24" height="24"
+                        viewBox="0 0 172 172"
+                        style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M100.33333,14.33333h-71.66667v143.33333h114.66667v-100.33333zM114.66667,129h-57.33333v-14.33333h57.33333zM114.66667,100.33333h-57.33333v-14.33333h57.33333zM93.16667,64.5v-39.41667l39.41667,39.41667z"></path></g></g></svg>
+                        <span class="nav_logo-name">Документы</span>
+                    </a>
+                    
                 </div>
             </div> 
             <a href="{{ url_for('login.logout') }}" class="nav_link"> 

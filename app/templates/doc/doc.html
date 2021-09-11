@@ -49,7 +49,7 @@
                         <div class="col-md-4 mb-3">
 
                             <label for="validationDefault02">Дата рождения</label>
-                            <input type="text" name="birthday" class="form-control" id="validationDefault02" placeholder="Дата рождения" required>
+                            <input type="date" name="birthday" class="form-control" data-date-format="DD.MM.YYYY" id="validationDefault02" placeholder="Дата рождения" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
@@ -394,7 +394,6 @@
         $('.list-group-item').on('click', function(){
             if ( $("a").hasClass("active") ) {
                 $('a').removeClass('active');
-                $('a').removeAttr('href');
             }
             $(this).addClass('active');
             
