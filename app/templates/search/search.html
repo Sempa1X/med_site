@@ -45,6 +45,82 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_update" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_label">Изменение данных о пациенте</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id='cont_update'>
+                    <form id="form" action="/list_expectation/added" onsubmit="add_user(); return false;">
+                        <select class="form-select" id="role" required>
+                            <option value="none" selected disabled>Выберите тип пациента</option>
+                            <option value="default">Обычный</option>
+                            <option value="child">Ребёнок</option>
+                            <option value="pregnant">Беременная</option>
+                        </select>
+                        <br>
+                        <label for="fio" class="form-label"><h4>Первичные данные</h4></label>
+                        <div class="row" id="fio">
+                            <div class="col">
+                                <label for="surname" class="form-label">Фамилия</label>
+                                <input id="surname" type="text" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label for="name" class="form-label">Имя</label>
+                                <input id="name" type="text" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label for="middlename" class="form-label">Отчество</label>
+                                <input id="middlename" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <label for="info" class="form-label"><h4>Краткая информация</h4></label>
+                        <div class="row" id="info">
+                            <div class="col">
+                                <label for="birthday" class="form-label">День рождения</label>
+                                <input id="birthday" type="date" class="form-control" max="3000-01-01" required>
+                            </div>
+                            <div class="col">
+                                <label for="how_think" class="form-label">Как узнал?</label>
+                                <select class="form-select" id="how_think" required>
+                                    <option value="none" disabled>Выберите тип рекламы</option>
+                                    <option value="secret">Неизвестно</option>
+                                    <option value="sundress">Сарафан</option>
+                                    <option value="ad">Реклама</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="address" class="form-label">Адрес</label>
+                                <input id="address" type="text" class="form-control input" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="phone" class="form-label">Номер телефона</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">+7</span>
+                                    <input id="phone_m" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="phone2" class="form-label">Дополнительный номер телефона</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">+7</span>
+                                    <input id="phone2" type="text" class="form-control jmp__input_tel" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
  
 
@@ -52,11 +128,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script>  
 
 <script>
+    var current_date = moment().format('DD.MM.YYYY');
     var doc_select = '';
+    var office_select = '';
     var user_select = '';
+    var rec_id = ''
     var doctors = {};
     var patients = {};
-    var current_date = moment().format('DD.MM.YYYY');
+    var trust = {}
+    var all_doc = false
 
     $('#sandbox-container').datepicker({
         format: "dd.mm.yyyy",
@@ -70,7 +150,7 @@
 
 
     function get_doctors(date) {
-        url = '/reception/get_doctors'
+        url = '/reception/get_data'
         var posting = $.post( url, {'date': date});
 
         posting.done(function( data ) {
@@ -78,13 +158,14 @@
                 toastr["error"]("Произошла ошибка, пожалуйста попробуйте еще раз или обратитесь к администратору.", "Ошибка!");
             }
             else {
-                for (let count = 0; count < data['data'].length; count++) {
-                    doctors[data['data'][count].doc_id] = data['data'][count].doc_full_name;
+                for (let count = 0; count < data.doctors.length; count++) {
+                    doctors[data.doctors[count].id] = data.doctors[count].name;
                 }
                 for (let count = 0; count < data['patients'].length; count++) {
                     patients[data['patients'][count].patient_full_name] = data['patients'][count].patient_id;
+                    trust[data['patients'][count].patient_full_name] = data['patients'][count].trust_factor;
                 }
-                
+                console.log(data);
                 createForm(data);
             }
         });
@@ -92,21 +173,22 @@
 
 
     function createForm(all_data) {
-        data = all_data['data']
-        delBlock2()
+        data = all_data['data'];
+        office_amount = all_data.data.amount + 1;
+        delBlock2();
         $("<div/>").attr({id: 'data_place2'}).appendTo('#cont');
-        $("<div/>").attr({id: 'row2', class: 'row'}).appendTo('#data_place2');
-        for (let count = 0; count < data.length; count++) {
-            if (data[count].records.length > 0) {
-                $("<div/>").attr({id: `col_${count}`, class: 'col-sm-3 mt-5'}).appendTo(`#row2`);
+        $("<div/>").attr({id: 'row2', class: 'row align-items-stretch'}).appendTo('#data_place2');
+        for (let count = 1; count < office_amount; count++) {
+            if (data[count].records.length > 0) {    
+                $("<div/>").attr({id: `col_${count}`, class: 'col-sm-4 mt-5 outer', style: 'min-height: 25vh; background-color: #edf1f5; -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2); -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2); box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.2);"'}).appendTo(`#row2`);
                 $("<div/>").attr({id: `head_${count}`}).appendTo(`#col_${count}`);
-                $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1'}).appendTo(`#head_${count}`);
-                document.getElementById(`head_fio_${count}`).textContent = data[count].doc_full_name;
+                $("<p/>").attr({id: `head_fio_${count}`, class: 'text-center mb-1 mt-2'}).appendTo(`#head_${count}`);
+                document.getElementById(`head_fio_${count}`).textContent = data[count].doctor.doctor_full_name;
                 $("<p/>").attr({id: `head_div_doc_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
                 $("<p/>").attr({id: `head_office_${count}`, class: 'text-center'}).appendTo(`#head_${count}`);
-                document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].div_doc}`;
-                document.getElementById(`head_office_${count}`).textContent = `Кабинет №${data[count].records[0].office}`;
-                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
+                document.getElementById(`head_div_doc_${count}`).textContent = `${data[count].name}`;
+                document.getElementById(`head_office_${count}`).textContent = `Кабинет №${count}`;
+                $("<div/>").attr({id: `scroll_${count}`, class: 'overflow-auto mb-5', style: "max-height: 40vh; padding-right: 5px;"}).appendTo(`#col_${count}`);
                 for (let item_count = 0; item_count < data[count].records.length; item_count++) {
                     if (data[count].records[item_count].is_active == 1) {
                         $("<div/>").attr({id: `scroll_item_${count}_${item_count}`, class: 'input-group input-group-sm mb-2'}).appendTo(`#scroll_${count}`);
@@ -117,7 +199,7 @@
                             $("<span/>").attr({id: `scroll_item_span_${count}_${item_count}`, class: 'input-group-text btn-primary text-white'}).appendTo(`#scroll_item_${count}_${item_count}`);
                         }
                         document.getElementById(`scroll_item_span_${count}_${item_count}`).textContent = data[count].records[item_count].time;
-                        $("<input/>").attr({ list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': data[count].records[item_count].full_name}).appendTo(`#scroll_item_${count}_${item_count}`);
+                        $("<input/>").attr({list: `scroll_item_datalist_${count}_${item_count}`, 'rec_id': data[count].records[item_count].rec_id, id: `scroll_item_input_${count}_${item_count}`, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                         $("<datalist/>").attr({id: `scroll_item_datalist_${count}_${item_count}`}).appendTo(`#scroll_item_${count}_${item_count}`);
                         for (let patient_count = 0; patient_count < all_data['patients'].length; patient_count++) {
                             if (all_data['patients'][patient_count].patient_full_name) {
@@ -125,11 +207,38 @@
                             }
                         }
                         if (data[count].records[item_count].patient_full_name) {
-                            $(`#scroll_item_input_${count}_${item_count}`).attr('readonly', true);
+                            if (trust[data[count].records[item_count].patient_full_name]) {
+                                trust_factor_name = 'Надежный'
+                            } 
+                            else {
+                                trust_factor_name = 'Не надежный'
+                            }
+                            $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                            if (data[count].records[item_count].is_interview == 1) {
+                                if (data[count].records[item_count].is_go == 1) {
+                                    $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: DarkGreen;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                                }
+                                else if (data[count].records[item_count].is_go == 0) {
+                                    $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: OrangeRed;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                                }
+                            }
+                            else {
+                                if (!trust[data[count].records[item_count].patient_full_name]) {
+                                    $(`#scroll_item_input_${count}_${item_count}`).attr({'style': 'color: red;', 'readonly': true, 'data-bs-toggle': 'tooltip', 'title': `Номер: <em>${data[count].records[item_count].phone}</em> Статус: <em>${trust_factor_name}</em>`});
+                                }
+                            }
                             $(`#scroll_item_input_${count}_${item_count}`).val(data[count].records[item_count].patient_full_name);
+                            if (all_data['role'] == 'doctor') {        
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-warning bx bx-history', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_came`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                                $("<button/>").attr({'rec_id': data[count].records[item_count].rec_id, 'onclick': 'get_rec_id(this);', id: `scroll_item_button_edit_${count}_${item_count}`, class: 'btn btn-danger bx bx-calendar-edit', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_accept`}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            }
                         }
                         else {
-                            $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            if (moment() < moment(data[count].records[item_count].time, 'HH:mm')) {
+                                $("<button/>").attr({'onclick': 'addRecord(this);', 'input_id': `scroll_item_input_${count}_${item_count}`, id: `scroll_item_button_add_${count}_${item_count}`, class: 'btn btn-primary bx bx-calendar-plus', type: 'button'}).appendTo(`#scroll_item_${count}_${item_count}`);
+                            } else {
+                                $(`#scroll_item_input_${count}_${item_count}`).attr({'readonly': true, class: 'form-control', type: 'text', 'aria-describedby': `scroll_item_${count}_${item_count}`});
+                            }
                         }
                     }
                 }
@@ -137,10 +246,11 @@
         }
     }
 
+
     function showTestDate() {
         current_date = $('#sandbox-container').datepicker('getFormattedDate');
         console.log(current_date)
-        url = '/reception/get_doctors';
+        url = '/reception/get_data';
 
         var posting = $.post(url, { date: current_date} );
         
@@ -150,6 +260,13 @@
             }
             else {
                 toastr["success"]("Успешно!");
+                for (let count = 0; count < data.doctors.length; count++) {
+                    doctors[data.doctors[count].id] = data.doctors[count].name;
+                }
+                for (let count = 0; count < data['patients'].length; count++) {
+                    patients[data['patients'][count].patient_full_name] = data['patients'][count].patient_id;
+                    trust[data['patients'][count].patient_full_name] = data['patients'][count].trust_factor;
+                }
                 createForm(data);
             }
         });
@@ -174,11 +291,6 @@
             }
         });
     };
-
-
-
-
-
 
 
 
@@ -251,7 +363,7 @@
         document.getElementById('card_text_phone2').textContent = `Дополнительный номер телефона: ${data.phone2}`;
         $("<li/>").attr({id: 'card_text_address', class: 'list-group-item'}).appendTo('#card_body_col_1');
         document.getElementById('card_text_address').textContent = `Адрес: ${data.address}`;
-        $("<li/>").attr({id: 'card_text_comment', class: 'list-group-item'}).appendTo('#card_body_col_1');
+        $("<li/>").attr({id: 'card_text_comment', class: 'list-group-item my-3'}).appendTo('#card_body');
         document.getElementById('card_text_comment').textContent = `${data.comment}`;
         
         $("<h3/>").attr({id: 'data_info', class: 'text-center lead'}).appendTo('#card_body_col_2');
@@ -299,6 +411,8 @@
             $("<li/>").attr({id: 'card_text_lr_full_name', class: 'list-group-item'}).appendTo('#card_body_col_2');
             document.getElementById('card_text_lr_full_name').textContent = `ФИО: ${data.r_full_name}`;
         }
+        $("<button/>").attr({id: 'card_btn', class: 'btn btn-outline-primary w-100 mb-3', type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': `#modal_update` }).appendTo('#card_body');
+        document.getElementById('card_btn').textContent = `Изменить данные о пациенте`;
         $("<div/>").attr({id: 'card_footer', class: 'card-footer bg-transparent border-primary'}).appendTo('#card_main');
         $("<div/>").attr({id: 'row', class: 'row'}).appendTo('#card_footer');
         if (data.lost_records.length > 0 || data.future_records.length > 0) {
