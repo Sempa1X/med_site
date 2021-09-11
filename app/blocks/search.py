@@ -48,8 +48,8 @@ def search_process():
 def edit_patient():
     data_replace = []
     for i in request.form:
-        
         data_replace.append([i, request.form[i]])
+    
     try:
         full = f"{data_replace[0][1]} {data_replace[1][1]} {data_replace[2][1]}"
         data = f"""
@@ -77,7 +77,7 @@ def edit_patient():
         estimated_birthday : {data_replace[20][1]}
         comment : {data_replace[21][1]}
         """
-        print(data)
+        print(request.form)
 
         patient = Patient.query.get(data_replace[-1][1])
         patient.surname = data_replace[0][1]
