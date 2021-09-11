@@ -48,36 +48,61 @@ def search_process():
 def edit_patient():
     data_replace = []
     for i in request.form:
-        print(i, request.form[i])
-        data_replace.append([i, request.form[i]])
-    print(data_replace[2][1])
-    try:
-        full = f"{data_replace[1][1]} {data_replace[2][1]} {data_replace[3][1]}"
-        patient = Patient.query.get(data_replace[-1][1])
-        #patient.patient_role = data_replace[0][1]
-        patient.birthday = data_replace[21][1]
         
-        patient.phone = data_replace[7][1]
-        patient.phone2 = data_replace[8][1]
-        patient.first_name = data_replace[2][1]
-        patient.last_name = data_replace[3][1]
-        patient.surname = data_replace[1][1]
+        data_replace.append([i, request.form[i]])
+    try:
+        full = f"{data_replace[0][1]} {data_replace[1][1]} {data_replace[2][1]}"
+        data = f"""
+        surname : {data_replace[0][1]}
+        first_name : {data_replace[1][1]}
+        last_name : {data_replace[2][1]}
+        full_name : {full}
+            
+        birthday : {data_replace[3][1]}
+        address : {data_replace[5][1]}
+        phone : {data_replace[6][1]}
+        phone2 : {data_replace[7][1]}
+        card_number : {data_replace[8][1]}
+        email : {data_replace[9][1]}
+        out_to_town : {data_replace[10][1]}
+        lr_surname : {data_replace[11][1]}
+        lr_f_name : {data_replace[12][1]}
+        lr_l_name : {data_replace[13][1]}
+        lr_status : {data_replace[14][1]}
+        lr_pass_num : {data_replace[15][1]}
+        lr_pass_serial : {data_replace[16][1]}
+        lr_pass_date : {data_replace[17][1]}
+        lr_pass_issued : {data_replace[18][1]}
+        num_fetus : {data_replace[19][1]}
+        estimated_birthday : {data_replace[20][1]}
+        comment : {data_replace[21][1]}
+        """
+        print(data)
+
+        patient = Patient.query.get(data_replace[-1][1])
+        patient.surname = data_replace[0][1]
+        patient.first_name = data_replace[1][1]
+        patient.last_name = data_replace[2][1]
         patient.full_name =  full
-        patient.address = data_replace[6][1]
-        patient.comment = data_replace[22][1]
-        patient.email = data_replace[10][1]
-        patient.card_number = data_replace[9][1]
-        patient.out_to_town = data_replace[11][1]
-        patient.lr_pass_serial = data_replace[17][1]
-        patient.lr_pass_num = data_replace[16][1]
-        patient.lr_pass_date = data_replace[18][1]
-        patient.lr_pass_issued = data_replace[19][1]
-        patient.estimated_birthday = data_replace[21][1]
-        patient.num_fetus = data_replace[20][1]
-        patient.lr_f_name = data_replace[13][1]
-        patient.lr_l_name = data_replace[14][1]
-        patient.lr_surname = data_replace[12][1]
-        patient.lr_status = data_replace[15][1]
+        patient.birthday = data_replace[3][1]
+        patient.address = data_replace[5][1]
+        patient.phone = data_replace[6][1]
+        patient.phone2 = data_replace[7][1]
+        patient.card_number = data_replace[8][1]
+        patient.email = data_replace[9][1]
+        patient.out_to_town = data_replace[10][1]
+        patient.lr_surname = data_replace[11][1]
+        patient.lr_f_name = data_replace[12][1]
+        patient.lr_l_name = data_replace[13][1]
+        patient.lr_status = data_replace[14][1]
+        patient.lr_pass_num = data_replace[15][1]
+        patient.lr_pass_serial = data_replace[16][1]
+        patient.lr_pass_date = data_replace[17][1]
+        patient.lr_pass_issued = data_replace[18][1]
+        patient.num_fetus = data_replace[19][1]
+        patient.estimated_birthday = data_replace[20][1]
+        patient.comment = data_replace[21][1]
+        #patient.patient_role = data_replace[0][1]
         db.session.commit()
         return jsonify({'success': 'true'})
     except Exception as e:
