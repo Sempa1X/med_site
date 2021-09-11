@@ -49,7 +49,7 @@
                         <div class="col-md-4 mb-3">
 
                             <label for="validationDefault02">Дата рождения</label>
-                            <input type="date" name="birthday" class="form-control" data-date-format="DD.MM.YYYY" id="validationDefault02" placeholder="Дата рождения" required>
+                            <input type="date" name="birthday" id="birthday" class="form-control" max="3000-01-01" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
@@ -375,6 +375,7 @@
 
     <script>
     $( document ).ready(function() {
+        $form = $('#add');
         $('.hide').hide();
     });
 
@@ -384,6 +385,7 @@
         } else {
             $('.hide').show();
             $('.search_btn').hide();
+            moment($form.find( "#birthday" ).val(), "DD.MM.YYYY").format('DD.MM.YYYY');
             document.add.fio.value = document.search.records.value.split(' | ')[1];
             $('#add').append('<input class="rec_id form-control" type="text" name="rec_id" id="rec_id">');
             document.add.rec_id.value = document.search.records.value.split(' | ')[2];
