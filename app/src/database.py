@@ -51,7 +51,7 @@ class User(UserMixin, db.Model):
 class Patient(db.Model):
     __tablename__ = 'patients'
     id = db.Column(db.Integer, primary_key=True)
-    results = db.relationship('Result', backref='patient_res', lazy='dynamic')
+    
 
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
@@ -93,6 +93,7 @@ class Patient(db.Model):
 class Record(db.Model):
     __tablename__ = 'records'
     id = db.Column(db.Integer, primary_key=True)
+    results_id = db.relationship('Result', backref='rec')
 
     doctor_full_name = db.Column(db.String(255))
     doctor_id = db.Column(db.Integer, db.ForeignKey('personal.id'))
@@ -138,7 +139,7 @@ class Document(db.Model):
 class Result(db.Model):
     __tablename__ = 'results'
     id = db.Column(db.Integer, primary_key=True)  
-    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
+    record_id = db.Column(db.Integer, db.ForeignKey('records.id'))
     patient_full_name=db.Column(db.String(255), default='None')
     age=db.Column(db.String(255), default='None')
     diagnoz=db.Column(db.String(255), default='None')

@@ -3,9 +3,10 @@ from datetime import datetime
 from flask import (Blueprint, render_template,
                     send_file, request, redirect,
                     url_for, flash, jsonify)
+from sqlalchemy import and_
 
 from app.src.document import create_doc
-from app.src.database import Document, Patient
+from app.src.database import Document, Patient, Record
 from app import application
 
 
@@ -16,13 +17,19 @@ current_date = str(now.strftime('%d.%m.%Y'))
 
 @bp_doc.route('/')
 def index():
-    docs = []
-    patients = []
+    docs = []; patients = []; records = []
+
+    for record in Record.query.filter(and_(Record.date==current_date, Record.patient_id)):
+        print(record)
+        records.append(record)
+
     for i in Document.query.filter(Document.date.endswith(current_date)):
         docs.append(i)
+    
     for i in Patient.query.all():
         patients.append(i.full_name)
-    return render_template('doc/doc.html', docs=docs, patients=patients)
+    
+    return render_template('doc/doc.html', docs=docs, patients=patients, records=records)
 
 
 @bp_doc.post('/sender')
@@ -39,7 +46,7 @@ def sender():
         request.form['ava'], request.form['pegu'], request.form['vmaxMV'], request.form['pmaxMV'],\
         request.form['pmeanMV'], request.form['mva'], request.form['regu2'], request.form['vmaxPV'],\
         request.form['pmaxPV'], request.form['pmeanPV'], request.form['regu3'], request.form['vmaxTV'],\
-        request.form['pmaxTV'], request.form['pmeanTV'], request.form['regu4'])
+        request.form['pmaxTV'], request.form['pmeanTV'], request.form['regu4'], request.form['rec_id'])
     if path == 'Не удалось сохранить файл':
         return redirect(url_for('doc.index'))
     else:

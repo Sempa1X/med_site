@@ -4,7 +4,7 @@ import os
 from docxtpl import DocxTemplate
 
 from app import application, db 
-from app.src.database import Document, Result, Patient
+from app.src.database import Document, Result, Record
 
 
 now = datetime.datetime.now()
@@ -18,7 +18,7 @@ def create_doc(patient_full_name=None, age=None, diagnoz=None, \
     kdo_index=None, pp=None, pz=None, npv=None, mzp=None, zs=None, imm=None, la=None,\
     la_mm=None, fb=None, fbt=None, vmax=None, pmax=None, pmean=None, ava=None, pegu=None,\
     vmaxMV=None, pmaxMV=None, pmeanMV=None, mva=None, regu2=None, vmaxPV=None, pmaxPV=None,\
-    pmeanPV=None, regu3=None, vmaxTV=None, pmaxTV=None, pmeanTV=None, regu4=None
+    pmeanPV=None, regu3=None, vmaxTV=None, pmaxTV=None, pmeanTV=None, regu4=None, rec_id=None
     ):
     
     doc = DocxTemplate(os.path.abspath(os.path.dirname('app')) + "/app/static/documents/doc/base.docx")
@@ -75,7 +75,7 @@ def create_doc(patient_full_name=None, age=None, diagnoz=None, \
                 }
     doc.render(context)
     base_path = os.path.abspath(os.path.dirname('app')) + f"/app/static/documents/created/"
-    filename = f'{current_date}-{patient_full_name}.docx'
+    filename = f'{current_date}-{rec_id}.docx'
     path = base_path + filename
     
     try:
@@ -83,7 +83,7 @@ def create_doc(patient_full_name=None, age=None, diagnoz=None, \
         document = Document(date=current_date, path=filename)
         db.session.add(document)
         db.session.commit()
-        pat = Patient.query.filter_by(full_name=patient_full_name).first()
+        rec = Record.query.filter_by(patient_full_name=patient_full_name).first()
 
         res = Result(patient_full_name=patient_full_name,
         age = age,diagnoz = diagnoz,birthday = birthday,\
@@ -95,7 +95,7 @@ def create_doc(patient_full_name=None, age=None, diagnoz=None, \
         la_mm = la_mm,fb = fb,fbt = fbt,vmax = vmax,pmax = pmax,pmean = pmean,\
         ava = ava,regu = pegu,vmaxMV = vmaxMV,pmaxMV = pmaxMV,pmeanMV = pmeanMV,\
         mva = mva,regu2 = regu2,vmaxPV = vmaxPV,pmaxPV = pmaxPV,pmeanPV = pmeanPV,\
-        regu3 = regu3,vmaxTV = vmaxTV,pmaxTV = pmaxTV,pmeanTV = pmeanTV,regu4 = regu4, patient_id=pat.id)
+        regu3 = regu3,vmaxTV = vmaxTV,pmaxTV = pmaxTV,pmeanTV = pmeanTV,regu4 = regu4, record_id=rec.id)
 
         db.session.add(res)
         db.session.commit()

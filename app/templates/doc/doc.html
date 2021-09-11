@@ -10,360 +10,388 @@
         <div class="col-sm-8">
             <h3 class="mb-5">Создать документ</h3>
             <h2 class='text-center my-5'>Основное</h2>
-            
-            <form action="sender" method="post">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="validationDefault01">ФИО</label>
-                        <input type="text"  name='fio' list="patients"  class="form-control" id="validationDefault01" placeholder="ФИО" required>
-                        <datalist id="patients">
-                            {% for patient in patients %}
-                            <option value="{{ patient }}">
-                            {% endfor %}
-                        </datalist>
-                    </div>
-                
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Возраст</label>
-                        <input type="text" name="age" class="form-control" id="validationDefault02" placeholder="Возраст" required>
-                    </div>
-
-                     <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Аппарат</label>
-                        <input type="text" name="apparate" class="form-control" id="validationDefault02" placeholder="Аппарат" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Диагноз</label>
-                        <input type="text" name="diagnoz" class="form-control" id="validationDefault02" placeholder="Диагноз" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Дата рождения</label>
-                        <input type="text" name="birthday" class="form-control" id="validationDefault02" placeholder="Дата рождения" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Результат осмотра</label>
-                        <input type="text" name="osmotr" class="form-control" id="validationDefault02" placeholder="Результат осмотра" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Заключение</label>
-                        <input type="text" name="end" class="form-control" id="validationDefault02" placeholder="Заключение" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Описание</label>
-                        <input type="text" name="desc" class="form-control" id="validationDefault02" placeholder="Описание" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ФИО Доктора</label>
-                        <input type="text" name="doctor_full_name" class="form-control" id="validationDefault02" placeholder="ФИО Доктора" required>
-                    </div>
-
-                    <h2 class='text-center my-5'>Размеры и объемы</h2>
-                    
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ЛП мм</label>
-                        <input type="text" name="lp" class="form-control" id="validationDefault02" placeholder="ЛП мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Объем ЛП мл</label>
-                        <input type="text" name="lp_full" class="form-control" id="validationDefault02" placeholder="Объем ЛП мл" >
-                    </div>
-                    
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Индекс об. ЛП</label>
-                        <input type="text" name="lp_index" class="form-control" id="validationDefault02" placeholder="Индекс об. ЛП" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ЛЖд (М) мм</label>
-                        <input type="text" name="lzd" class="form-control" id="validationDefault02" placeholder="ЛЖд (М) мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ЛЖс (М) мм</label>
-                        <input type="text" name="lzs" class="form-control" id="validationDefault02" placeholder="ЛЖс (М) мм" >
-                    </div>
-
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Индекс ЛЖд</label>
-                        <input type="text" name="lzd_index" class="form-control" id="validationDefault02" placeholder="Индекс ЛЖд" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Ао Вальс. мм</label>
-                        <input type="text" name="vals" class="form-control" id="validationDefault02" placeholder="Ао Вальс. мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Ао син-туб мм </label>
-                        <input type="text" name="sin" class="form-control" id="validationDefault02" placeholder="Ао син-туб мм " >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Ао восх  мм</label>
-                        <input type="text" name="vos" class="form-control" id="validationDefault02" placeholder="Ао восх  мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Ао дуга  мм</label>
-                        <input type="text" name="duga" class="form-control" id="validationDefault02" placeholder="Ао дуга  мм" >
-                    </div>
-                    
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">КДОлж(2D) мл Доктора</label>
-                        <input type="text" name="kdo" class="form-control" id="validationDefault02" placeholder="КДОлж(2D) мл" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">КСОлж(2D) мл</label>
-                        <input type="text" name="kso" class="form-control" id="validationDefault02" placeholder="КСОлж(2D) мл" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Индекс КДО</label>
-                        <input type="text" name="kdo_index" class="form-control" id="validationDefault02" placeholder="Индекс КДО" >
-                    </div>
-
-
-
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ПП (2D) мм </label>
-                        <input type="text" name="pp" class="form-control" id="validationDefault02" placeholder="ПП (2D) мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ПЖ (2D) мм</label>
-                        <input type="text" name="pz" class="form-control" id="validationDefault02" placeholder="ПЖ (2D) мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">МЖП мм</label>
-                        <input type="text" name="mzp" class="form-control" id="validationDefault02" placeholder="МЖП мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">НПВ мм</label>
-                        <input type="text" name="npv" class="form-control" id="validationDefault02" placeholder="НПВ мм" >
-                    </div>
-                    
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ЗС мм</label>
-                        <input type="text" name="zs" class="form-control" id="validationDefault02" placeholder="ЗС мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">КСОлж(2D) мл</label>
-                        <input type="text" name="kso" class="form-control" id="validationDefault02" placeholder="КСОлж(2D) мл" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ИММ ЛЖ г/м2 (2D-режим)</label>
-                        <input type="text" name="imm" class="form-control" id="validationDefault02" placeholder="ММ ЛЖ г/м2 (2D-режим)" >
-                    </div>
-
-
-
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ЛА мм</label>
-                        <input type="text" name="la" class="form-control" id="validationDefault02" placeholder="ЛА мм" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Сист. давление в ЛА мм рт ст</label>
-                        <input type="text" name="la_mm" class="form-control" id="validationDefault02" placeholder="Сист. давление в ЛА мм рт ст" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ФВ Simpson %</label>
-                        <input type="text" name="fb" class="form-control" id="validationDefault02" placeholder="ФВ Simpson %" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">ФВ Teich. %</label>
-                        <input type="text" name="fbt" class="form-control" id="validationDefault02" placeholder="ФВ Teich. %" >
-                    </div>
-
-                    <h2 class='text-center my-5'>Аортальный клапан</h2>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">V max AV м/с</label>
-                        <input type="text" name="vmax" class="form-control" id="validationDefault02" placeholder="V max AV м/с" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmax AV</label>
-                        <input type="text" name="pmax" class="form-control" id="validationDefault02" placeholder="∆Pmax AV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmean AV</label>
-                        <input type="text" name="pmean" class="form-control" id="validationDefault02" placeholder="∆Pmean AV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">AVA см2 </label>
-                        <input type="text" name="ava" class="form-control" id="validationDefault02" placeholder="AVA см2" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Регургитация</label>
-                        <input type="text" name="pegu" class="form-control" id="validationDefault02" placeholder="Регургитация" >
-                    </div>
-
-                    <h2 class='text-center my-5'>Митральный клапан</h2>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">VmaxMV м/с</label>
-                        <input type="text" name="vmaxMV" class="form-control" id="validationDefault02" placeholder="VmaxMV м/с" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmax MV</label>
-                        <input type="text" name="pmaxMV" class="form-control" id="validationDefault02" placeholder="∆Pmax MV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmean MV</label>
-                        <input type="text" name="pmeanMV" class="form-control" id="validationDefault02" placeholder="∆Pmean MV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">MVA (T1/2) см2</label>
-                        <input type="text" name="mva" class="form-control" id="validationDefault02" placeholder="MVA (T1/2) см2" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Регургит.</label>
-                        <input type="text" name="regu2" class="form-control" id="validationDefault02" placeholder="Регургит." >
-                    </div>
-
-                    <h2 class='text-center my-5'>Пульм. клапан</h2>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">V max PV</label>
-                        <input type="text" name="vmaxPV" class="form-control" id="validationDefault02" placeholder="V max PV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmax PV</label>
-                        <input type="text" name="pmaxPV" class="form-control" id="validationDefault02" placeholder="∆Pmax MV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmean MV</label>
-                        <input type="text" name="pmeanPV" class="form-control" id="validationDefault02" placeholder="∆Pmean MV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Регургит.</label>
-                        <input type="text" name="regu3" class="form-control" id="validationDefault02" placeholder="Регургит." >
-                    </div>
-
-                    <h2 class='text-center my-5'>Трикусп. клапан</h2>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">V max TV м/с</label>
-                        <input type="text" name="vmaxTV" class="form-control" id="validationDefault02" placeholder="V max TV м/с" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmax TV</label>
-                        <input type="text" name="pmaxTV" class="form-control" id="validationDefault02" placeholder="∆Pmax TV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">∆Pmean TV</label>
-                        <input type="text" name="pmeanTV" class="form-control" id="validationDefault02" placeholder="∆Pmean TV" >
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <label for="validationDefault02">Регургитация</label>
-                        <input type="text" name="regu4" class="form-control" id="validationDefault02" placeholder="Регургитация" >
-                    </div>
-
-                </div>
-                <button class="btn btn-primary btn-lg btn-block w-100 mb-5" type="submit">Создать</button>
-                </div>
+            <form name="search" action="" method="post">
+                <input type="text" class='form-control my-5' name="records" id="records" list="recorded">
+                <datalist id="recorded">
+                    {% for record in records %}
+                        <option value="{{ record.time }} | {{ record.patient.full_name }} | {{ record.id }}">
+                    {% endfor %}
+                   </datalist>
+                <button class="search_btn btn btn-primary btn-lg btn-block w-100 mb-5" type="button">Найти</button>
             </form>
-        
+
+            <div class="hide">
+                <form name="add" action="sender" method="post">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="validationDefault01">ФИО</label>
+                            <input type="text"  name='fio' class="form-control" id="fio" placeholder="ФИО" required>
+                        </div>
+                    
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Возраст</label>
+                            <input type="text" name="age" class="form-control" id="validationDefault02" placeholder="Возраст" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Аппарат</label>
+                            <input type="text" name="apparate" class="form-control" id="validationDefault02" placeholder="Аппарат" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Диагноз</label>
+                            <input type="text" name="diagnoz" class="form-control" id="validationDefault02" placeholder="Диагноз" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Дата рождения</label>
+                            <input type="text" name="birthday" class="form-control" id="validationDefault02" placeholder="Дата рождения" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Результат осмотра</label>
+                            <input type="text" name="osmotr" class="form-control" id="validationDefault02" placeholder="Результат осмотра" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Заключение</label>
+                            <input type="text" name="end" class="form-control" id="validationDefault02" placeholder="Заключение" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Описание</label>
+                            <input type="text" name="desc" class="form-control" id="validationDefault02" placeholder="Описание" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ФИО Доктора</label>
+                            <input type="text" name="doctor_full_name" class="form-control" id="validationDefault02" placeholder="ФИО Доктора" required>
+                        </div>
+
+                        <h2 class='text-center my-5'>Размеры и объемы</h2>
+                        
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ЛП мм</label>
+                            <input type="text" name="lp" class="form-control" id="validationDefault02" placeholder="ЛП мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Объем ЛП мл</label>
+                            <input type="text" name="lp_full" class="form-control" id="validationDefault02" placeholder="Объем ЛП мл" >
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Индекс об. ЛП</label>
+                            <input type="text" name="lp_index" class="form-control" id="validationDefault02" placeholder="Индекс об. ЛП" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ЛЖд (М) мм</label>
+                            <input type="text" name="lzd" class="form-control" id="validationDefault02" placeholder="ЛЖд (М) мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ЛЖс (М) мм</label>
+                            <input type="text" name="lzs" class="form-control" id="validationDefault02" placeholder="ЛЖс (М) мм" >
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Индекс ЛЖд</label>
+                            <input type="text" name="lzd_index" class="form-control" id="validationDefault02" placeholder="Индекс ЛЖд" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Ао Вальс. мм</label>
+                            <input type="text" name="vals" class="form-control" id="validationDefault02" placeholder="Ао Вальс. мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Ао син-туб мм </label>
+                            <input type="text" name="sin" class="form-control" id="validationDefault02" placeholder="Ао син-туб мм " >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Ао восх  мм</label>
+                            <input type="text" name="vos" class="form-control" id="validationDefault02" placeholder="Ао восх  мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Ао дуга  мм</label>
+                            <input type="text" name="duga" class="form-control" id="validationDefault02" placeholder="Ао дуга  мм" >
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">КДОлж(2D) мл Доктора</label>
+                            <input type="text" name="kdo" class="form-control" id="validationDefault02" placeholder="КДОлж(2D) мл" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">КСОлж(2D) мл</label>
+                            <input type="text" name="kso" class="form-control" id="validationDefault02" placeholder="КСОлж(2D) мл" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Индекс КДО</label>
+                            <input type="text" name="kdo_index" class="form-control" id="validationDefault02" placeholder="Индекс КДО" >
+                        </div>
+
+
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ПП (2D) мм </label>
+                            <input type="text" name="pp" class="form-control" id="validationDefault02" placeholder="ПП (2D) мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ПЖ (2D) мм</label>
+                            <input type="text" name="pz" class="form-control" id="validationDefault02" placeholder="ПЖ (2D) мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">МЖП мм</label>
+                            <input type="text" name="mzp" class="form-control" id="validationDefault02" placeholder="МЖП мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">НПВ мм</label>
+                            <input type="text" name="npv" class="form-control" id="validationDefault02" placeholder="НПВ мм" >
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ЗС мм</label>
+                            <input type="text" name="zs" class="form-control" id="validationDefault02" placeholder="ЗС мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">КСОлж(2D) мл</label>
+                            <input type="text" name="kso" class="form-control" id="validationDefault02" placeholder="КСОлж(2D) мл" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ИММ ЛЖ г/м2 (2D-режим)</label>
+                            <input type="text" name="imm" class="form-control" id="validationDefault02" placeholder="ММ ЛЖ г/м2 (2D-режим)" >
+                        </div>
+
+
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ЛА мм</label>
+                            <input type="text" name="la" class="form-control" id="validationDefault02" placeholder="ЛА мм" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Сист. давление в ЛА мм рт ст</label>
+                            <input type="text" name="la_mm" class="form-control" id="validationDefault02" placeholder="Сист. давление в ЛА мм рт ст" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ФВ Simpson %</label>
+                            <input type="text" name="fb" class="form-control" id="validationDefault02" placeholder="ФВ Simpson %" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">ФВ Teich. %</label>
+                            <input type="text" name="fbt" class="form-control" id="validationDefault02" placeholder="ФВ Teich. %" >
+                        </div>
+
+                        <h2 class='text-center my-5'>Аортальный клапан</h2>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">V max AV м/с</label>
+                            <input type="text" name="vmax" class="form-control" id="validationDefault02" placeholder="V max AV м/с" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmax AV</label>
+                            <input type="text" name="pmax" class="form-control" id="validationDefault02" placeholder="∆Pmax AV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmean AV</label>
+                            <input type="text" name="pmean" class="form-control" id="validationDefault02" placeholder="∆Pmean AV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">AVA см2 </label>
+                            <input type="text" name="ava" class="form-control" id="validationDefault02" placeholder="AVA см2" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Регургитация</label>
+                            <input type="text" name="pegu" class="form-control" id="validationDefault02" placeholder="Регургитация" >
+                        </div>
+
+                        <h2 class='text-center my-5'>Митральный клапан</h2>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">VmaxMV м/с</label>
+                            <input type="text" name="vmaxMV" class="form-control" id="validationDefault02" placeholder="VmaxMV м/с" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmax MV</label>
+                            <input type="text" name="pmaxMV" class="form-control" id="validationDefault02" placeholder="∆Pmax MV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmean MV</label>
+                            <input type="text" name="pmeanMV" class="form-control" id="validationDefault02" placeholder="∆Pmean MV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">MVA (T1/2) см2</label>
+                            <input type="text" name="mva" class="form-control" id="validationDefault02" placeholder="MVA (T1/2) см2" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Регургит.</label>
+                            <input type="text" name="regu2" class="form-control" id="validationDefault02" placeholder="Регургит." >
+                        </div>
+
+                        <h2 class='text-center my-5'>Пульм. клапан</h2>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">V max PV</label>
+                            <input type="text" name="vmaxPV" class="form-control" id="validationDefault02" placeholder="V max PV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmax PV</label>
+                            <input type="text" name="pmaxPV" class="form-control" id="validationDefault02" placeholder="∆Pmax MV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmean MV</label>
+                            <input type="text" name="pmeanPV" class="form-control" id="validationDefault02" placeholder="∆Pmean MV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Регургит.</label>
+                            <input type="text" name="regu3" class="form-control" id="validationDefault02" placeholder="Регургит." >
+                        </div>
+
+                        <h2 class='text-center my-5'>Трикусп. клапан</h2>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">V max TV м/с</label>
+                            <input type="text" name="vmaxTV" class="form-control" id="validationDefault02" placeholder="V max TV м/с" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmax TV</label>
+                            <input type="text" name="pmaxTV" class="form-control" id="validationDefault02" placeholder="∆Pmax TV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">∆Pmean TV</label>
+                            <input type="text" name="pmeanTV" class="form-control" id="validationDefault02" placeholder="∆Pmean TV" >
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationDefault02">Регургитация</label>
+                            <input type="text" name="regu4" class="form-control" id="validationDefault02" placeholder="Регургитация" >
+                        </div>
+
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-block w-100 mb-5" type="submit">Создать</button>
+                    </div>
+                </form>
+            </div>
 
         <div class="col-sm-4 mt-5">
             <h3 class="text-center mb-5 mt-5">Документы за сегодня</h3>
-            <div class="list-group">
-                {% for doc in docs %}
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 id='path' class="mb-1">{{ doc.path }}</h5>
-                        <small>{{ doc.date }}</small>
-                    </div>
-                    <p class="mb-1">{{ doc.desc }}</p>
-                    </a>
-                {% endfor %}
-              </div>
+            {% if docs %}
+                <div class="list-group">
+                    {% for doc in docs %}
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 id='path' class="mb-1">{{ doc.path }}</h5>
+                            <small>{{ doc.date }}</small>
+                        </div>
+                        <p class="mb-1">{{ doc.desc }}</p>
+                        </a>
+                    {% endfor %}
+                    
+                </div>
+            {% else %}
+                <h2 class="text-center">Нет документов</h2>
+            {% endif %}
         </div>
     </div>
     </div>
 
     <script>
+    $( document ).ready(function() {
+        $('.hide').hide();
+    });
+
+    $( '.search_btn' ).on('click', function(){
+        if (document.search.records.value == ''){
+            toastr['warning']('Вы не выбрали запись!', 'Предупреждение!');
+        } else {
+            $('.hide').show();
+            $('.search_btn').hide();
+            document.add.fio.value = document.search.records.value.split(' | ')[1];
+            $('.add').append('<input class="rec_id form-control" type="text" name="rec_id" id="rec_id">');
+            alert('true');
+            document.add.rec_id.value = document.search.records.value.split(' | ')[1];
+        }
+        // $('#rec_id').hide();
+    });
+
         $('.list-group-item').on('click', function(){
             if ( $("a").hasClass("active") ) {
                 $('a').removeClass('active');
@@ -377,8 +405,8 @@
                 if(data.success == 'false'){
                     alert('False');
                 }
-                // data.file_path - get path for file which, needed download for user
-                // this need create download 
+                w = window.open(data.file_path);
+                w.print();
                 $('.active').attr({'href': data.file_path}); 
                 
             });
